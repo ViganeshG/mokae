@@ -1,0 +1,155 @@
+<div class="brogel-signup-section">
+  <div class="bs-inner">
+    <div class="bs-media">
+      <img
+        loading="lazy"
+        src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/Lab.jpg?v=1754294069"
+      >
+    </div>
+    <div class="bs-content">
+      <div class="bs-title">
+        <h2>BROW DOWN TO PERFORMANCE.</h2>
+      </div>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when '@app' %}
+            {% render block %}
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  body.template-product-upcoming .brogel-signup-section {
+    padding: 10vw 7vw;
+  }
+  body.template-product-upcoming .bs-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  body.template-product-upcoming .bs-media {
+    width: 52%;
+  }
+  body.template-product-upcoming .bs-media img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  body.template-product-upcoming .bs-content {
+    width: 40.7%;
+  }
+  body.template-product-upcoming .bs-content h2 {
+    font-weight: 600;
+    font-size: 47.5px;
+    text-transform: uppercase;
+    margin: 0;
+    padding-bottom: 9vw;
+  }
+  body.template-product-upcoming .bs-content p {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 150%;
+    margin: 0;
+    padding: 0;
+  }
+  @media (max-width: 900px) {
+    body.template-product-upcoming .bs-inner {
+      display: block;
+    }
+    body.template-product-upcoming .bs-content {
+      width: 100%;
+      text-align: center;
+    }
+    body.template-product-upcoming .bs-media {
+      width: 100%;
+    }
+    body.template-product-upcoming .brogel-signup-section {
+      padding: 20vw 10vw;
+    }
+    body.template-product-upcoming .bs-content h2 {
+      font-weight: 600;
+      font-size: 35px;
+      text-transform: uppercase;
+      margin: 0;
+      padding-bottom: 5vw;
+      padding-top: 10vw;
+    }
+    body.template-product-upcoming .bs-content p {
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 150%;
+      max-width: 80%;
+      margin: 0;
+      padding: 0;
+      margin: auto;
+    }
+  } 
+
+  #mini-vac-embedded-form {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+#mini-vac-embedded-form #mini-vac-notify-embed-message {
+  max-width: 30ch !important;
+  margin-bottom: 3.2vw !important;
+}
+#mini-vac-embedded-form input[type=email] {
+  flex: 0 0 75%;
+  margin-right: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  padding-inline: 0 !important;
+  padding-block: 10px !important;
+}
+#mini-vac-embedded-form #mini-vac-embed-input-email-container {
+  flex-direction: row !important;
+  justify-content: space-between;
+  border-bottom: 1px solid white;
+}
+#mini-vac-embedded-form #mini-vac-embed-input-email-container > div > div {
+  margin-top: 0 !important;
+}
+#mini-vac-embedded-form input[type=email]::-moz-placeholder {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: white !important;
+}
+#mini-vac-embedded-form input[type=email],
+#mini-vac-embedded-form #mini-vac-embed-input-email-container > div,
+#mini-vac-embedded-form input[type=email]::placeholder,
+#mini-vac-embedded-form #mini-vac-embed-input-email-container > div > div,
+#mini-vac-embedded-form #mini-vac-notify-embed-submit-button {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: white !important;
+}
+#mini-vac-embedded-form input[type=email]:focus {
+  outline: none;
+}
+#mini-vac-embedded-form input:-webkit-autofill,
+#mini-vac-embedded-form input:-webkit-autofill:hover,
+#mini-vac-embedded-form input:-webkit-autofill:focus,
+#mini-vac-embedded-form input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: white !important;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+  background-clip: content-box !important;
+  border: 1px solid white;
+}/*# sourceMappingURL=waitlist.css.map */
+</style>
+
+{% schema %}
+{
+  "name": "Upcoming product",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

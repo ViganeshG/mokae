@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "pages": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "banner_with_text_8aWk8E": {
+      "type": "banner-with-text",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "light",
+        "image": "shopify://shop_images/Mokae_HolisticBeauty-01.png",
+        "image_size": "large",
+        "title": "",
+        "content_text": "",
+        "text_alignment": "left",
+        "content_width": "max",
+        "overlay_enable": false,
+        "overlay_opacity": 20,
+        "button_link": "",
+        "button_label": "",
+        "button_style": "primary",
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    },
+    "image_with_text_qRX9Pq": {
+      "type": "image-with-text",
+      "custom_css": [],
+      "settings": {
+        "row-reverse": "row",
+        "image": "shopify://shop_images/Screenshot_2024-12-17_at_6.13.57_PM.png",
+        "image_size": "small",
+        "show_frame": false,
+        "color_scheme": "background-1",
+        "frame-text": "",
+        "frame-text-right": "",
+        "color_scheme_2": "background-2",
+        "heading": "",
+        "subheading": "<p>The Shopify Dawn theme does not natively support separate images for desktop and mobile in the slideshow section. However, you can customize the theme code to add this functionality. Here's how you can do it:The Shopify Dawn theme does not natively support separate images for desktop and mobile in the slideshow section. However, you can customize the theme code to add this functionality. Here's how you can do it:The Shopify Dawn theme does not natively support separate images for desktop and mobile in the slideshow section. However, you can customize the theme code to add this functionality. Here's how you can do it:The Shopify Dawn theme does not natively support separate images for desktop and mobile in the slideshow section. However, you can customize the theme code to add this functionality. Here's how you can do it:</p>",
+        "subheading_left_top": "",
+        "subheading_left_bottom": "",
+        "subheading_right_top": "",
+        "subheading_right_bottom": "",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "pages",
+    "banner_with_text_8aWk8E",
+    "image_with_text_qRX9Pq"
+  ]
+}

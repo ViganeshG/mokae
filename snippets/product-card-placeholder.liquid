@@ -1,0 +1,39 @@
+{% comment %}
+		Renders a product card placeholder
+		Usage:
+	{% render 'product-card-placeholder' %}
+{% endcomment %}
+
+<div class="card-wrapper">
+	<div class="card card--product" tabindex="-1">
+		<div class="card__inner">
+			<div
+				class="media media--transparent media--hover-effect"
+				{%- if media_size == 'landscape' -%}
+					style="padding-bottom: 70%;"
+				{%- endif -%}
+				{%- if media_size == 'portrait' -%}
+					style="padding-bottom: 130%;"
+				{%- endif -%}
+				{%- if media_size == 'square' -%}
+					style="padding-bottom: 100%;"
+				{%- endif -%}
+			>
+				{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+			</div>
+		</div>
+	</div>
+
+	<div class="card-information">
+		<div class="card-information__wrapper">
+			<span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+			{% comment %}<div class="caption-with-letter-spacing subtitle light">{{ 'products.product.vendor' | t }}</div>{% endcomment %}
+			<div class="card-title_info">
+				<p class="card__title">
+					{{ 'products.product.product_heading' | t }}
+				</p>
+				{% render 'price' %}
+			</div>
+		</div>
+	</div>
+</div>

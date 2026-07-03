@@ -1,0 +1,219 @@
+<div class="main-content">
+  <div class="keep-in-mind">
+    <div class="sec-title">
+      <h2>THINGS TO REMEMBER</h2>
+    </div>
+    <div class="rules">
+      <div class="column">
+        <div>
+          <h3 style="text-transform:uppercase">The Mokae Pro Code</h3>
+          <ul>
+            <li>Use your Pro discount for your kit—and yes, to treat yourself too.</li>
+
+            <li>We’d love to see your artistry, reviews, and behind-the-scenes shared with the Mokae community.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="column">
+        <div>
+          <h3 style="text-transform:uppercase">Code of Conduct</h3>
+          <ul>
+            <li>
+              Mokae Pro discounts are intended for personal professional use only—not for resale or bulk purchasing.
+            </li>
+            <li>
+              Please don’t share your Pro code publicly or with non-members. Misuse may lead to removal from the
+              program.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="cta">
+      <h4 style="text-transform:uppercase">Apply for the Mokae Pro Circle</h4>
+      <p>
+        Join a growing collective of artists shaping the future of beauty. If you’re ready to step in, we’re ready to
+        welcome you.
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .main-content {
+    background: #fff;
+    color: #111;
+  }
+
+  .sec-title h2 {
+    font-size: 5rem;
+    font-weight: 600;
+  }
+
+  .keep-in-mind {
+    text-align: center;
+    padding: 5rem 2rem;
+  }
+
+  .keep-in-mind h2 {
+    margin-bottom: 3rem;
+    line-height: 1.2;
+  }
+
+  .rules {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: min(100%, 720px);
+    max-width: none;
+    margin: 0 auto 4rem;
+    border-top: 1px solid transparent;
+  }
+
+  @media (min-width: 768px) {
+    .rules {
+      flex-direction: row;
+    }
+
+    .rules .column {
+      flex: 1;
+      padding: 2rem 3rem 0;
+      padding-bottom: 0rem;
+      border-right: 1px solid rgba(0, 0, 0, 0.15);
+      box-sizing: border-box;
+    }
+
+    .rules .column:first-child {
+      border-left: none;
+    }
+
+    .rules .column:last-child {
+      border-right: none;
+    }
+  }
+
+  .rules h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .rules ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .rules ul li {
+    font-weight: 600;
+    margin-bottom: 1vw;
+  }
+
+  .cta h4 {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 0rem;
+    line-height: 1.5;
+  }
+
+  .cta p {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4rem;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 20px) and (max-width: 600px) {
+    .cta * {
+      text-align: left !important;
+    }
+
+    .sec-title h2 {
+      font-size: 4.5rem;
+      font-weight: 400;
+    }
+
+    .keep-in-mind {
+      text-align: left;
+      padding: 5rem 4rem;
+    }
+
+    .keep-in-mind h2 {
+      font-size: 4rem;
+    }
+
+    .rules {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto 4rem;
+      margin-bottom: 2vw;
+      border-top: 1px solid transparent;
+    }
+
+    .rules h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+
+    .rules ul li {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 5vw;
+    }
+
+    .rules ul li br {
+      display: none;
+    }
+
+    .column:first-child {
+      margin-bottom: 8vw;
+      padding-bottom: 8vw;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .cta h4 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .cta p {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 4rem;
+      line-height: 1.4;
+    }
+
+    .cta p br {
+      display: none;
+    }
+
+    .cta {
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Mokae Pro Invite Remember",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Mokae Pro Invite Remember"
+    }
+  ]
+}
+{% endschema %}

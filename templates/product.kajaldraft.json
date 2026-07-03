@@ -1,0 +1,254 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_ghU3CP": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "custom_liquid_94Dqbz": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"ga-pro-desc\">\n{{ product.description }}\n</div>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          }
+        },
+        "about_1": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Key Features",
+            "about_heading_content": "<p>{{ product.metafields.gax.key_features | metafield_tag }}</p>"
+          }
+        },
+        "about_wcfJai": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Product Claims",
+            "about_heading_content": "{{ product.metafields.gax.p_claims | metafield_tag }}"
+          }
+        },
+        "about_RNxaUd": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "How to Apply",
+            "about_heading_content": "{{ product.metafields.gax.how_to_apply | metafield_tag }}"
+          }
+        },
+        "about_LnPVpB": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Finish",
+            "about_heading_content": "{{ product.metafields.gax.finish | metafield_tag }}"
+          }
+        },
+        "about_GinJVE": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Cinical Claims",
+            "about_heading_content": "{{ product.metafields.gax.clinical_cliams | metafield_tag }}"
+          }
+        },
+        "about_NhpdPX": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Ingredients",
+            "about_heading_content": "{{ product.metafields.gax.ingredients | metafield_tag }}"
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "judge_me_reviews_preview_badge_ghU3CP",
+        "custom_liquid_94Dqbz",
+        "variant_picker",
+        "buy_buttons",
+        "about_1",
+        "about_wcfJai",
+        "about_RNxaUd",
+        "about_LnPVpB",
+        "about_GinJVE",
+        "about_NhpdPX"
+      ],
+      "settings": {
+        "image_gallery_collage": "thumbnail_carousel",
+        "desktop_alignment": "right",
+        "mobile_alignment": "after",
+        "image_fit": "cover",
+        "show_share_facebook": false,
+        "show_share_twitter": false,
+        "show_share_pinterest": false,
+        "show_share_copy": false
+      }
+    },
+    "video_d9FbYe": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "height": "adapt",
+        "video_fit": "contain",
+        "subheading": "",
+        "heading": "How to Apply",
+        "cover_image": "shopify://shop_images/insta-bg-pichi.jpg",
+        "opacity_overlay": 0.5,
+        "video": "shopify://files/videos/3971845-hd_1920_1080_25fps.mp4",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "video_autoplay": true,
+        "video_loop": true,
+        "video_muted": true,
+        "video_controls": false,
+        "description": "",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "ga_how_two_apply_nhtxGx": {
+      "type": "ga-how-two-apply",
+      "custom_css": [
+        ".htu-wrap .htu-media video {width: 100%; height: 500px;}",
+        ".htu-media {height: 500px;}"
+      ],
+      "settings": {
+        "desc": "",
+        "video": ""
+      }
+    },
+    "featured_product_X9YJHE": {
+      "type": "featured-product",
+      "blocks": {
+        "price_Erp6Nx": {
+          "type": "price",
+          "settings": {}
+        },
+        "product_description_hgGJpN": {
+          "type": "product-description",
+          "settings": {}
+        },
+        "share_qPU4Dm": {
+          "type": "share",
+          "disabled": true,
+          "settings": {}
+        },
+        "variant_picker_7tXGEg": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown"
+          }
+        },
+        "buy_buttons_QKxJT9": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "button_link_RiDpaE": {
+          "type": "button_link",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "price_Erp6Nx",
+        "product_description_hgGJpN",
+        "share_qPU4Dm",
+        "variant_picker_7tXGEg",
+        "buy_buttons_QKxJT9",
+        "button_link_RiDpaE"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "product_item": "{{ product.metafields.custom.related_product.value }}",
+        "desktop_alignment": "right",
+        "mobile_alignment": "after",
+        "image_fit": "cover",
+        "show_share_facebook": true,
+        "show_share_twitter": true,
+        "show_share_pinterest": true,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    },
+    "17289737870fd35ed8": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_jtBmQX": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_jtBmQX"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "<p>You May Also Like</p>",
+        "link": "Explore",
+        "button_link": "",
+        "products_limit": 4,
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_desc": false,
+        "show_sku": false,
+        "quickview_show": false,
+        "show_link": true,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    },
+    "1739782213e64a2393": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "video_d9FbYe",
+    "ga_how_two_apply_nhtxGx",
+    "featured_product_X9YJHE",
+    "1739782213e64a2393",
+    "17289737870fd35ed8",
+    "product-recommendations"
+  ]
+}

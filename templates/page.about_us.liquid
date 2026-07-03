@@ -1,0 +1,53 @@
+<div id="ga-about-us-page-alt" class="">
+    <div class="ga-banner-one">
+        <picture>
+          <source
+            media="(min-width: 750px)"
+            srcset="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/About_Us_White_Desktop.png?v=1775284638"
+          >
+          <img
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/About_Us_White_Mobile.png?v=1775284636"
+            alt=""
+            loading="eager"
+            fetchpriority="high"
+            height="auto"
+            width="auto"
+          >
+        </picture>
+        <div class="ga-overlay-two">
+            <p>{{  page.metafields.gax.about_us_banner_title }}</p>
+        </div>
+    </div>
+    {% comment %} <div class="ga-banner-one">
+        <img src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/Screenshot_2024-10-03_at_10.50.55_AM-pichi_29457239-df16-43dd-afea-3c84e073cab6.jpg?v=1727932972" alt="">
+    </div> {% endcomment %}
+    <div class="ga-about-v-alt ct_page_width_class">
+        {{  page.metafields.gax.about_desc_one | metafield_tag  }}
+    </div>
+    <div class="ga-founder-block ct_page_width_class">
+        <h2 class="ga-only-m">{{page.metafields.custom.about_header_one}}</h2>
+        <div class="ga-founder-media">
+            <img src="{{  page.metafields.gax.founder_image | image_url }}" alt="">
+        </div>
+        <div class="ga-founder-desc">
+            <h2 class="ga-only-d">{{page.metafields.custom.about_header_one}}</h2>
+            {{  page.metafields.gax.about_desc_two | metafield_tag  }}
+        </div>
+    </div>
+
+  
+  
+   {%  if page.metafields.gax.founder_description_two != blank %}
+    <div class="ga-founder-block is-alt ct_page_width_class">
+        <h2 class="ga-only-m">{{ page.metafields.gax.founder_two_title }}</h2>
+        <div class="ga-founder-media">
+            <img src="{{  page.metafields.gax.founder_image_two | image_url }}" alt="">
+        </div>
+        <div class="ga-founder-desc">
+            <h2 class="ga-only-d">{{ page.metafields.gax.founder_two_title }}</h2>
+            {{  page.metafields.gax.founder_description_two | metafield_tag  }}
+        </div>
+    </div>
+    {%  endif %}
+</div>
+   

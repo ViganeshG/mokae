@@ -1,0 +1,98 @@
+{{ 'component-collection-card.css' | asset_url | stylesheet_tag }}
+
+{% liquid
+	case media_size
+		when 'landscape'
+			assign section_size = '56.25%'
+		when 'portrait'
+			assign section_size = '134.54%'
+		when 'square'
+			assign section_size = '100%'
+		else
+			assign section_size = '100%'
+	endcase
+%}
+
+{% style %}
+	#shopify-section-{{ section.id }} .collection-grid__image-block::before {
+		padding-bottom: {{ section_size }};
+	}
+{% endstyle %}
+
+<a
+	class="card-wrapper__link--overlay collection-grid__link"
+	{% if block_collection != blank %}
+		href="{{ url }}"
+	{% endif %}
+></a>
+<div class="collection-grid__item">
+	<div class="collection-grid__image-wrapper">
+		<div class="collection-grid__image-block">
+			{% comment %}
+				{% if block_collection_name_show %}
+					<p class="collection-name">{{ 'products.product.back' | t }}</p>
+				{% endif %}
+			{% endcomment %}
+
+			<h4 class="collection-grid__title {% if per_row >= 4 %}h5 collection-grid__small-pad{% endif %}">
+				<a
+					class="full-unstyled-link"
+					{% if block_collection != blank %}
+						href="{{ url }}"
+					{% endif %}
+				>
+					{% if block_collection != blank %}
+						{{ collection_title }}
+					{% else %}
+						{{- 'general.card.collection_name' | t -}}
+					{% endif %}
+				</a>
+			</h4>
+
+			<div class="collection-grid__image-item">
+				{% if block_image != blank or collection_image != blank %}
+					{% liquid
+						if block_image != blank
+							assign collectionImg = block_image
+						elsif collection_image != blank
+							assign collectionImg = collection_image
+						endif
+						assign image_height = collectionImg.width | divided_by: collectionImg.aspect_ratio
+						assign image_width = collectionImg.width
+						assign sizes = '100vw'
+					%}
+					{% assign image_style = 'object-fit: cover;' %}
+					{{
+						collectionImg
+						| image_url: width: 3840
+						| image_tag:
+							loading: 'lazy',
+							width: image_width,
+							height: image_height,
+							sizes: sizes,
+							widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+							style: image_style
+					}}
+				{%- else -%}
+					{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+				{% endif %}
+
+				{%- if section.settings.overlay_enable -%}
+					<span
+						class="collection-card__overlay"
+						style="background-color: rgba(var(--color-overlay), {{ section.settings.overlay_opacity }}%);"
+					>
+					</span>
+				{% endif %}
+
+				{%- if overlay_enable -%}
+					<span
+						class="collection-card__overlay"
+						style="background-color: rgba(var(--color-overlay), {{ section.settings.overlay_opacity }}20%);"
+					>
+					</span>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

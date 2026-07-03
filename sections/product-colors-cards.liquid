@@ -1,0 +1,168 @@
+{% comment %} <div class="color-card-wrapper">
+    <div class="color-card">
+        <div class="color-card__image-wrapper">
+          <!-- Model Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/3.png?v=1764929519" 
+            alt="Model Image" 
+            class="color-card__image color-card__image--model"
+          >
+      
+          <!-- Product Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/1_74521628-16ab-4061-b532-565d85551e03.png?v=1764930666" 
+            alt="Product Image" 
+            class="color-card__image color-card__image--product"
+          >
+        </div>
+        <p class="color-card__title">Light Brown</p>
+        <p class="color-card__subtitle">A Cool Toned Brown</p>
+    </div>
+    <div class="color-card">
+        <div class="color-card__image-wrapper">
+          <!-- Model Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/4_9adf6c29-7e1a-464d-b424-02e332b7991f.png?v=1764930667" 
+            alt="Model Image" 
+            class="color-card__image color-card__image--model"
+          >
+      
+          <!-- Product Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/1_74521628-16ab-4061-b532-565d85551e03.png?v=1764930666" 
+            alt="Product Image" 
+            class="color-card__image color-card__image--product"
+          >
+        </div>
+        <p class="color-card__title">Light Brown</p>
+        <p class="color-card__subtitle">A Cool Toned Brown</p>
+    </div>
+    <div class="color-card">
+        <div class="color-card__image-wrapper">
+          <!-- Model Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/3_8b5b97b5-b8da-42ab-af1f-243d16f4bd76.png?v=1764930667" 
+            alt="Model Image" 
+            class="color-card__image color-card__image--model"
+          >
+      
+          <!-- Product Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/1_74521628-16ab-4061-b532-565d85551e03.png?v=1764930666" 
+            alt="Product Image" 
+            class="color-card__image color-card__image--product"
+          >
+        </div>
+        <p class="color-card__title">Light Brown</p>
+        <p class="color-card__subtitle">A Cool Toned Brown</p>
+    </div>
+    <div class="color-card">
+        <div class="color-card__image-wrapper">
+          <!-- Model Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/2_8f7ae9ed-b769-489b-a5fe-beefadd54e5e.png?v=1764930667" 
+            alt="Model Image" 
+            class="color-card__image color-card__image--model"
+          >
+      
+          <!-- Product Image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/1_74521628-16ab-4061-b532-565d85551e03.png?v=1764930666" 
+            alt="Product Image" 
+            class="color-card__image color-card__image--product"
+          >
+        </div>
+        <p class="color-card__title">Light Brown</p>
+        <p class="color-card__subtitle">A Cool Toned Brown</p>
+    </div>
+</div>
+
+{% schema %}
+{
+	"name": "Product color cards",
+	"presets": [
+		{
+			"name": "Product color cards"
+		}
+	],
+}
+{%  endschema %} {% endcomment %}
+<div class="color-card-setion">
+  <h3> {{ section.settings.title }} </h3>
+  <div class="color-card-wrapper">
+    {% for block in section.blocks %}
+      <div class="color-card" {{ block.shopify_attributes }}>
+        <div class="color-card__image-wrapper">
+
+          {% if block.settings.model_image %}
+            <img 
+              src="{{ block.settings.model_image | img_url: '600x' }}" 
+              alt="{{ block.settings.shade_name }}"
+              class="color-card__image color-card__image--model"
+            >
+          {% endif %}
+
+          {% if block.settings.product_image %}
+            <img 
+              src="{{ block.settings.product_image | img_url: '300x' }}" 
+              alt="{{ block.settings.shade_name }}"
+              class="color-card__image color-card__image--product"
+            >
+          {% endif %}
+        </div>
+        {% if block.settings.shade_name %}
+          <p class="color-card__title">{{ block.settings.shade_name }}</p>
+        {% endif %}
+        {% if block.settings.shade_sub_text %}
+          <p class="color-card__subtitle">{{ block.settings.shade_sub_text }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+	"name": "Product color cards",
+	"presets": [
+		{
+			"name": "Product color cards"
+		}
+	],
+  "settings": [
+    {
+    "type": "text",
+    "label": "Title",
+    "id": "title"
+     }
+  ],
+	"blocks": [
+		{
+			"type": "color-card",
+			"name": "Color Card",
+			"settings": [
+				{
+					"type": "text",
+					"id": "shade_name",
+					"label": "Shade Name"
+				},
+				{
+					"type": "text",
+					"id": "shade_sub_text",
+					"label": "Shade Subtitle"
+				},
+				{
+					"type": "image_picker",
+					"id": "model_image",
+					"label": "Model Image"
+				},
+				{
+					"type": "image_picker",
+					"id": "product_image",
+					"label": "Product Image"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,187 @@
+{{ 'section-mokae-product-details.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign how_to_use_content = product.metafields.gax.how_to_use
+  if how_to_use_content == blank
+    assign how_to_use_content = product.metafields.gax.how_to_apply
+  endif
+
+  assign howto_image = product.metafields.custom.howtoimage
+  assign legacy_hta_img = product.metafields.gax.hta_img
+  assign howto_video_url = ''
+
+  capture howto_video_candidate
+    render 'mokae-metafield-video-url', field: product.metafields.gax.how_to_apply_video
+  endcapture
+  assign howto_video_url = howto_video_candidate | strip
+
+  if howto_video_url == blank
+    capture howto_video_candidate
+      render 'mokae-metafield-video-url', field: product.metafields.gax.hta
+    endcapture
+    assign howto_video_url = howto_video_candidate | strip
+  endif
+
+  if howto_video_url == blank
+    capture howto_video_candidate
+      render 'mokae-metafield-video-url', field: product.metafields.custom.how_to_apply_video
+    endcapture
+    assign howto_video_url = howto_video_candidate | strip
+  endif
+
+  if howto_video_url == blank and section.settings.video != blank
+    assign howto_video_url = section.settings.video
+  endif
+
+  assign care_content = product.metafields.custom.care
+  assign care_image = product.metafields.custom.care_image
+
+  assign show_how_to_use = false
+  if how_to_use_content != blank or howto_image != blank or legacy_hta_img != blank or howto_video_url != blank
+    assign show_how_to_use = true
+  endif
+
+  assign show_care = false
+  if care_content != blank or care_image != blank
+    assign show_care = true
+  endif
+
+  assign howto_has_side_image = false
+  if howto_image != blank or legacy_hta_img != blank
+    assign howto_has_side_image = true
+  endif
+-%}
+
+{%- if show_how_to_use or show_care -%}
+  <section class="mokae-product-detail-panels" data-id="shopify-section-{{ section.id }}">
+    {%- if show_how_to_use -%}
+      <div class="ga-how-to-apply-seciton-2 mokae-detail-panel">
+        <div class="fullscreen-container">
+          {%- if howto_video_url != blank -%}
+            <div class="htu-wrap mokae-detail-panel__row mokae-detail-panel__row--split-video">
+              <div class="htu-desc mokae-detail-panel__desc mokae-detail-panel__split-col">
+                <div class="htu-desc-inner">
+                  <h3>How to use</h3>
+                  {%- if how_to_use_content != blank -%}
+                    <div class="mokae-detail-panel__content rte">
+                      {{ how_to_use_content | metafield_tag }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              <div class="htu-media mokae-detail-panel__media mokae-detail-panel__split-col mokae-detail-panel__video-col">
+                <video
+                  class="mokae-detail-panel__video"
+                  src="{{ howto_video_url }}"
+                  controls
+                  loop
+                  autoplay
+                  muted
+                  playsinline
+                ></video>
+              </div>
+            </div>
+          {%- else -%}
+            <div class="htu-wrap mokae-detail-panel__row{% if howto_has_side_image %} mokae-detail-panel__row--with-image{% else %} mokae-detail-panel__row--stacked{% endif %}">
+              {%- if howto_has_side_image -%}
+                <div class="htu-media mokae-detail-panel__media">
+                  {%- if howto_image != blank -%}
+                    {% render 'mokae-metafield-image',
+                      field: howto_image,
+                      alt: product.title,
+                      class: 'mokae-detail-panel__image',
+                      width: 1000
+                    %}
+                  {%- elsif legacy_hta_img != blank -%}
+                    {%- liquid
+                      assign legacy_hta_img_src = legacy_hta_img | image_url: width: 1000
+                      assign legacy_hta_img_raw = legacy_hta_img.value | default: legacy_hta_img
+                      if legacy_hta_img_raw contains 'http' or legacy_hta_img_raw contains '//' or legacy_hta_img_raw contains 'cdn.shopify.com'
+                        assign legacy_hta_img_src = legacy_hta_img_raw
+                      endif
+                    -%}
+                    <img
+                      src="{{ legacy_hta_img_src }}"
+                      alt="{{ product.title | escape }}"
+                      class="mokae-detail-panel__image"
+                      loading="lazy"
+                      width="1000"
+                      height="auto"
+                    >
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <div class="htu-desc mokae-detail-panel__desc">
+                <div class="htu-desc-inner">
+                  <h3>How to use</h3>
+                  {%- if how_to_use_content != blank -%}
+                    <div class="mokae-detail-panel__content rte">
+                      {{ how_to_use_content | metafield_tag }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if show_care -%}
+      <div class="ga-how-to-apply-seciton-2 mokae-detail-panel">
+        <div class="fullscreen-container">
+          <div class="htu-wrap mokae-detail-panel__row">
+            {%- if care_image != blank -%}
+              <div class="htu-media mokae-detail-panel__media">
+                {% render 'mokae-metafield-image',
+                  field: care_image,
+                  alt: product.title,
+                  class: 'mokae-detail-panel__image',
+                  width: 1000
+                %}
+              </div>
+            {%- endif -%}
+
+            <div class="htu-desc mokae-detail-panel__desc">
+              <div class="htu-desc-inner">
+                <h3>Care</h3>
+                {%- if care_content != blank -%}
+                  <div class="mokae-detail-panel__content rte">
+                    {{ care_content | metafield_tag }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "GA How to Apply",
+  "tag": "section",
+  "class": "ga-slideshow-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "desc",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "video",
+      "label": "Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "GA How to Apply"
+    }
+  ]
+}
+{% endschema %}

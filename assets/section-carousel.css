@@ -1,0 +1,284 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Quattrocento:wght@400;700&family=Syne:wght@400;500;600;700&display=block");
+/**
+* Converts SVG into data url so that this SVG could be used as a
+* background image
+*
+* @example
+*	background-image: svgtodataurl("<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">...</svg>");
+*/
+[data-slider-hover-autoplay-stop=true] .about__carousel:hover + .swiper-pagination .swiper-pagination-bullet-active svg circle:last-child {
+  display: none;
+}
+
+.empty-image-about-carcass {
+  width: 100%;
+  height: auto !important;
+}
+
+body[data-scheme=dark] .about__item-empty-svg {
+  fill: rgba(255, 255, 255, 0.5);
+}
+body[data-scheme=dark] .about .circle-button__svg circle:last-child {
+  stroke: rgb(255, 255, 255);
+}
+
+.about {
+  border-radius: 6px;
+  padding-top: clamp(7.4rem, 9.6103896104vw, 14.92rem);
+  padding-bottom: 14.7rem;
+  padding-left: clamp(7.5rem, 9.7402597403vw, 15rem);
+  display: flex;
+  width: 100%;
+}
+.about *,
+.about *:after,
+.about *:before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.about .text-carousel {
+  width: 80%;
+  display: block;
+}
+@media screen and (max-width: 990px) {
+  .about .text-carousel {
+    width: 100%;
+  }
+}
+@media screen and (max-width: 990px) {
+  .about {
+    padding-top: 3rem;
+    padding-bottom: 11rem;
+  }
+}
+.about .swiper-pagination {
+  display: flex;
+  justify-content: flex-start;
+  gap: unset;
+  position: absolute;
+  left: 0.1rem;
+  margin-bottom: calc(clamp(59px, 6.3636363636vw, 98px) * -1);
+}
+.about .swiper-pagination .swiper-pagination-bullet {
+  margin: 0 0.1rem !important;
+}
+@media screen and (max-width: 1200px) {
+  .about .about__left {
+    padding-top: 0;
+  }
+}
+@media screen and (max-width: 990px) {
+  .about {
+    display: block;
+    padding-right: clamp(3.7rem, 7.8125vw, 7.5rem);
+    padding-left: clamp(3.7rem, 7.8125vw, 7.5rem);
+  }
+  .about .about__left,
+  .about .about__right {
+    width: 100%;
+  }
+  .about .about__section-title {
+    min-width: 100%;
+    line-height: 120%;
+  }
+  .about .about__left {
+    padding-right: 0;
+  }
+  .about .about__right {
+    padding-top: clamp(2.5rem, 5.2083333333vw, 5rem);
+  }
+}
+.about__left {
+  width: 45.7%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding-top: clamp(5.3rem, 6.8831168831vw, 10.6rem);
+  padding-right: clamp(4.5rem, 3.4415584416vw, 5.3rem);
+}
+.about__right {
+  width: 54.3%;
+}
+.about__cat-tag {
+  display: block;
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight);
+  color: rgb(var(--color-secondary-text));
+  line-height: 100%;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+.about__section-title {
+  line-height: 100%;
+  font-family: "Quattrocento";
+  font-weight: 400;
+  font-size: clamp(3rem, 2.9220779221vw, 4.5rem);
+  letter-spacing: -0.18rem;
+  color: rgb(var(--color-base-text));
+  padding-top: 1rem;
+  max-width: 64rem;
+}
+.about__section-caption {
+  font-family: var(--font-body-family);
+  font-weight: var(--font-body-weight);
+  color: rgb(var(--color-base-text));
+  font-size: 1.8rem;
+  line-height: 150%;
+  letter-spacing: -0.03rem;
+  padding-top: clamp(2.5rem, 2.5324675325vw, 3.9rem);
+  max-width: 45rem;
+}
+.about__carousel-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.about__carousel-cell {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+.about__carousel-cell .about__item-empty-img {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto !important;
+  display: block;
+  object-fit: cover;
+  border-radius: 6px;
+  z-index: 1;
+}
+.about__carousel-cell .about__carousel {
+  width: 100%;
+  height: calc(100% - 8px);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+.about__carousel {
+  position: relative;
+  top: 0;
+  left: 0;
+  border-radius: 6px;
+}
+.about__carousel .swiper-slide {
+  width: calc(100% - 150px);
+  background-color: rgba(var(--color-base-background-1), 0.2);
+  border-radius: 6px;
+  height: 100% !important;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+@media screen and (max-width: 1760px) {
+  .about__carousel .swiper-slide {
+    width: calc(100% - 100px);
+  }
+}
+@media screen and (max-width: 1560px) {
+  .about__carousel .swiper-slide {
+    width: calc(100% - 80px);
+  }
+}
+@media screen and (max-width: 1360px) {
+  .about__carousel .swiper-slide {
+    width: calc(100% - 60px);
+  }
+}
+@media screen and (max-width: 990px) {
+  .about__carousel .swiper-slide {
+    width: 100%;
+  }
+}
+.about__carousel .swiper-slide:last-child {
+  padding-right: 60px;
+  width: 100%;
+}
+@media screen and (max-width: 990px) {
+  .about__carousel .swiper-slide:last-child {
+    padding-right: 0;
+  }
+}
+.about__carousel .swiper-slide img {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  object-fit: cover !important;
+  border-radius: 6px;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+}
+.about__carousel .about__item-empty-svg {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+@keyframes circle-progress-carousel {
+  0% {
+    stroke-dashoffset: var(--circle-button--circumference-length);
+  }
+  100% {
+    stroke-dashoffset: calc(var(--circle-button--circumference-length) * 2);
+  }
+}
+.about .circle-animate {
+  animation-duration: var(--circle-button--progress-animation-duration);
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-name: circle-progress-carousel;
+}
+.about .circle-button {
+  --circle-button--stroke-color: rgba(0, 0, 0);
+  --circle-button--fill-color: rgba(255 255 255 / 1);
+  --circle-button--size: 62px;
+  --circle-button--size-min: 50px;
+  --circle-button--stroke-width: 7px;
+  --circle-button--text-color: rgba(0 0 0 / 1);
+  --circle-button--text-size: 12px;
+  --circle-button--text-size-min: 12px;
+  --circle-button--space-between-stroke-and-fill: 12px;
+  --circle-button--track-bg-color: rgba(255 255 255 / 1);
+  --circle-button--track-bg-opacity: 0.6;
+  --circle-button--circumference-length: calc(
+  	3.14159 * var(--circle-button--size)
+  );
+  /* 		@include project-circle-button.circle-button($this, $bullet); */
+  width: 4rem;
+  height: 4rem;
+  font-weight: 700;
+}
+.about .circle-button:after {
+  opacity: 1 !important;
+}
+@media screen and (max-width: 990px) {
+  .about .circle-button {
+    width: 3rem;
+    height: 3rem;
+    --circle-button--text-size: 11px;
+    --circle-button--text-size-min: 11px;
+    --circle-button--space-between-stroke-and-fill: 8px;
+  }
+}
+@media screen and (max-width: 750px) {
+  .about .circle-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.8 !important;
+  }
+}

@@ -1,0 +1,97 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-order",
+      "settings": {}
+    },
+    "dbcd6159-f5b2-4c9c-a9ab-ccdb3ab60ba0": {
+      "type": "product-carousel",
+      "disabled": true,
+      "settings": {
+        "heading": "<p>Some heading</p>",
+        "product_list": [],
+        "products_count": 4,
+        "product-center": true,
+        "link": "Link label",
+        "button_link": "",
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_desc": true,
+        "show_sku": false,
+        "quickview_show": false,
+        "show_link_carousel": false,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    },
+    "938bcb9c-dd9f-4e86-bc22-898dcecaef49": {
+      "type": "instagram-collage",
+      "blocks": {
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-0": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-1": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-2": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-3": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Some additional information</p>",
+            "heading_size": "medium",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-0",
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-1",
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-2",
+        "template--17224267006265__938bcb9c-dd9f-4e86-bc22-898dcecaef49-1683117952d5777dd3-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "background-3",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "overlay_enable": false,
+        "overlay_opacity": 10,
+        "button_text": "link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 160,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "dbcd6159-f5b2-4c9c-a9ab-ccdb3ab60ba0",
+    "938bcb9c-dd9f-4e86-bc22-898dcecaef49"
+  ]
+}

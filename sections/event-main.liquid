@@ -1,0 +1,2325 @@
+{%- liquid
+  assign host = product.metafields.gax.event_host.value | default: product.metafields.custom.event_host.value | default: product.metafields.gax.event_host | default: product.metafields.custom.event_host
+  assign event_summary = product.metafields.gax.event_summary.value | default: product.metafields.custom.event_summary.value | default: product.metafields.gax.event_summary | default: product.metafields.custom.event_summary
+  assign event_images = product.metafields.gax.event_images.value | default: product.metafields.custom.event_images.value
+  assign join_event_label = product.metafields.gax.join_event_label | default: 'book now'
+  assign pdt_price = product.price | money_with_currency
+  assign event_details_raw = product.metafields.gax.event_details.value | default: product.metafields.custom.event_details.value | default: product.metafields.gax.event_details | default: product.metafields.custom.event_details
+  assign event_details = event_details_raw | replace_first: '$price', pdt_price | newline_to_br
+  assign is_past_event = false
+  assign event_date = product.metafields.gax.event_date.value | default: product.metafields.custom.event_date.value | default: product.metafields.gax.event_date | default: product.metafields.custom.event_date
+  assign event_timings = product.metafields.custom.event_timings.value | default: product.metafields.custom.event_timings
+  assign tbc_event = false
+  assign event_time = event_details | split: '<br />' | first
+  assign event_checkout_mode = product.metafields.custom.event_checkout_mode.value | default: '' | strip | downcase
+  assign is_event_template = false
+  if template.suffix == 'event'
+    assign is_event_template = true
+  endif
+  assign event_row_show_timings_price = false
+  if event_timings != blank
+    assign event_row_show_timings_price = true
+  endif
+  assign is_waitlist_event = false
+  if product.tags contains 'waitlist' or product.tags contains 'event-waitlist'
+    assign is_waitlist_event = true
+  endif
+  if event_date == blank and event_timings == blank
+    assign tbc_event = true
+  endif
+
+  if event_date != blank
+    assign input_date = event_date | date: '%s'
+    assign current_date = 'now' | date: '%s'
+
+    if input_date < current_date
+      assign is_past_event = true
+    endif
+  endif
+
+  assign event_hero = product.featured_image
+  if event_hero == blank and event_images != blank
+    assign event_hero = event_images | first
+  endif
+
+  assign event_gallery = product.images
+  if event_gallery.size == 0 and event_images != blank
+    assign event_gallery = event_images
+  endif
+
+  assign payment_link = section.settings.cta_button_link | strip
+  assign payment_label = section.settings.cta_button_text | default: join_event_label
+  assign event_variant = product.selected_or_first_available_variant
+  if event_variant == blank and product.variants.size > 0
+    assign event_variant = product.variants.first
+  endif
+  assign use_shopify_checkout = false
+  if event_checkout_mode == 'shopify_checkout' or event_checkout_mode == 'online'
+    assign use_shopify_checkout = true
+  endif
+  assign use_payment_link = false
+  if payment_link != blank
+    if event_checkout_mode == 'razorpay' or event_checkout_mode == 'payment_link' or event_checkout_mode == 'offline'
+      assign use_payment_link = true
+    endif
+  endif
+  if use_shopify_checkout
+    assign use_payment_link = false
+  endif
+  if use_payment_link and payment_link == blank
+    assign use_payment_link = false
+  endif
+  assign show_waitlist_cta = is_waitlist_event
+  assign show_book_cta = false
+  unless is_waitlist_event
+    assign show_book_cta = true
+  endunless
+  assign sticky_cta_label = join_event_label
+  if show_waitlist_cta
+    assign sticky_cta_label = 'Join the Waitlist'
+  elsif use_payment_link
+    assign sticky_cta_label = payment_label
+  endif
+
+  assign any_variant_timings = false
+  for v in product.variants
+    if v.metafields.custom.event_timings != blank
+      assign any_variant_timings = true
+      break
+    endif
+  endfor
+  assign show_timings_tile = false
+  if event_timings != blank or any_variant_timings
+    assign show_timings_tile = true
+  endif
+  assign current_variant_date = event_variant.metafields.custom.event_date.value | default: event_variant.metafields.custom.event_date | default: event_date
+  assign current_variant_time = event_variant.metafields.custom.event_timings.value | default: event_variant.metafields.custom.event_timings | default: event_timings
+  assign current_variant_wte = event_variant.metafields.custom.what_to_expect
+  if current_variant_wte == blank
+    assign current_variant_wte = product.metafields.custom.what_to_expect
+  endif
+
+  assign has_other_accordion = false
+  if product.metafields.custom.beauty_bar_experience != blank or product.metafields.custom.who_is_this_for != blank or product.metafields.custom.event_flow != blank
+    assign has_other_accordion = true
+  endif
+
+-%}
+{% if is_past_event != true %}
+  <div class="pdt-details-wr">
+    <div class="pd-inner ga-section-container pd-inner--{% if event_hero != blank %}has-image{% else %}no-image{% endif %}">
+      {%- if event_hero != blank -%}
+        <div class="pd-media-column">
+          <div class="pd-image-wr">
+            {%- if event_gallery.size > 1 -%}
+              <div class="pd-carousel" data-pd-carousel>
+                <div class="pd-carousel__viewport" data-pd-carousel-viewport>
+                  {%- for image in event_gallery -%}
+                    <div class="pd-carousel__slide">
+                      {%- if forloop.first -%}
+                        {{ image | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '400, 600, 800, 1000, 1200, 1600', sizes: '(min-width: 990px) 44vw, 100vw', class: 'pd-carousel__img' }}
+                      {%- else -%}
+                        {{ image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000, 1200, 1600', sizes: '(min-width: 990px) 44vw, 100vw', class: 'pd-carousel__img' }}
+                      {%- endif -%}
+                    </div>
+                  {%- endfor -%}
+                </div>
+                <button type="button" class="pd-carousel__arrow pd-carousel__arrow--prev" data-pd-carousel-prev aria-label="Previous image">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </button>
+                <button type="button" class="pd-carousel__arrow pd-carousel__arrow--next" data-pd-carousel-next aria-label="Next image">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </button>
+                <div class="pd-carousel__dots" data-pd-carousel-dots>
+                  {%- for image in event_gallery -%}
+                    <button type="button" class="pd-carousel__dot{% if forloop.first %} is-active{% endif %}" data-pd-carousel-dot aria-label="Go to image {{ forloop.index }}"></button>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- else -%}
+              {{
+                event_hero
+                | image_url: width: 2000
+                | image_tag:
+                  loading: 'eager',
+                  fetchpriority: 'high',
+                  widths: '750, 1100, 1500, 2000',
+                  sizes: '(min-width: 990px) 44vw, 100vw',
+                  class: 'pd-image'
+              }}
+            {%- endif -%}
+          </div>
+          <div class="pd-event-actions" data-event-actions data-event-booking-anchor>
+      {%- else -%}
+        <div class="pd-content-head">
+          <h1 class="pd-title">{{ product.title }}</h1>
+          {% if host != blank %}
+            <div class="pd-event-host">{{ host }}</div>
+          {% endif %}
+          {% if product.metafields.custom.event_tagline != blank %}
+            <h3 class="pd-event-tagline">{{ product.metafields.custom.event_tagline }}</h3>
+          {% endif %}
+        </div>
+        <div class="pd-event-actions" data-event-actions data-event-booking-anchor>
+      {%- endif -%}
+          {% if current_variant_date != blank
+            or show_timings_tile
+            or product.metafields.custom.event_location != blank
+          %}
+            <div class="pd-event-details-grid">
+              <h3 class="pd-event-details-heading">EVENT DETAILS</h3>
+              {% if current_variant_date != blank %}
+                <div class="pd-event-tile pd-event-tile--date">
+                  <span class="pd-event-tile__label">Date</span>
+                  <span class="pd-event-tile__value" data-event-date-value>{{ current_variant_date | date: '%d %B %Y' }}</span>
+                </div>
+              {% endif %}
+              {% if product.metafields.custom.event_location != blank
+                or show_timings_tile
+              %}
+                <div
+                  class="pd-event-details-location-row{% if product.metafields.custom.event_location == blank %} pd-event-details-location-row--no-location{% elsif event_row_show_timings_price == false %} pd-event-details-location-row--location-only{% endif %}"
+                >
+                  {% if product.metafields.custom.event_location != blank %}
+                    <div class="pd-event-tile pd-event-tile--location">
+                      <span class="pd-event-tile__label">Location</span>
+                      <span class="pd-event-tile__value">{{ product.metafields.custom.event_location }}</span>
+                    </div>
+                  {% endif %}
+                  {% if show_timings_tile %}
+                    <div class="pd-event-tile pd-event-tile--timings" data-event-timings-tile{% if current_variant_time == blank %} hidden{% endif %}>
+                      <span class="pd-event-tile__label">Timings</span>
+                      <span class="pd-event-tile__value" data-event-timings-value>{{ current_variant_time }}</span>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          {% if show_book_cta %}
+            <div class="pd-event-primary-cta" data-event-primary-cta>
+              {% if product.variants.size > 1 %}
+                <div class="pd-event-variant-picker" data-event-variant-picker role="group" aria-label="Select your ticket">
+                  {% for variant in product.variants %}
+                    <button
+                      type="button"
+                      class="pd-event-variant-btn{% if variant.id == event_variant.id %} is-selected{% endif %}"
+                      data-variant-select
+                      data-variant-id="{{ variant.id }}"
+                      data-available="{{ variant.available }}"
+                      aria-pressed="{% if variant.id == event_variant.id %}true{% else %}false{% endif %}"
+                    >
+                      <span class="pd-event-variant-btn__title">{{ variant.title }}</span>
+                      <span class="pd-event-variant-btn__price">{{ variant.price | money_without_trailing_zeros | strip_html }}{% unless variant.available %} · Sold out{% endunless %}</span>
+                    </button>
+                  {% endfor %}
+                </div>
+                <div class="pd-event-variant-select-wrap">
+                  <label class="pd-event-variant-select-label" for="EventVariantSelect">Select your ticket</label>
+                  <div class="pd-event-variant-select-control">
+                    <select id="EventVariantSelect" class="pd-event-variant-select" data-event-variant-dropdown aria-label="Select your ticket">
+                      {% for variant in product.variants %}
+                        <option value="{{ variant.id }}"{% if variant.id == event_variant.id %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ variant.title }} — {{ variant.price | money_without_trailing_zeros | strip_html }}{% unless variant.available %} (Sold out){% endunless %}</option>
+                      {% endfor %}
+                    </select>
+                    <span class="pd-event-variant-select-arrow" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+                {% if current_variant_wte != blank %}
+                  <div class="event-accordion event-accordion--mobile-wte" data-event-mobile-wte>
+                    <div class="event-accordion-item event-accordion-item--static">
+                      <div class="event-accordion-static-heading">WHAT TO EXPECT</div>
+                      <div class="event-accordion-panel" data-what-to-expect-panel>
+                        {{ current_variant_wte | metafield_tag }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+              {% unless is_waitlist_event %}
+                {% if product.selected_or_first_available_variant.price != blank %}
+                  <p class="pd-event-price-per-seat">
+                    <span class="pd-event-price-per-seat__amount">{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros | strip_html }}</span><span class="pd-event-price-per-seat__unit"> / per person</span>
+                  </p>
+                {% endif %}
+              {% endunless %}
+              <p class="pd-scarcity-line">Strictly Limited Capacity</p>
+              {% if event_variant.available %}
+                {% if use_payment_link %}
+                  <a
+                    href="{{ payment_link }}"
+                    class="button button--primary pd-secure-seat-btn pd-cta-button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-event-book-now
+                  >
+                    {{- payment_label -}}
+                  </a>
+                {% elsif use_shopify_checkout %}
+                  <form
+                    method="post"
+                    action="{{ routes.cart_add_url }}"
+                    class="pd-event-booking-form"
+                    data-event-booking-form
+                    data-variant-id="{{ event_variant.id }}"
+                  >
+                    <input type="hidden" name="id" value="{{ event_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="return_to" value="{{ routes.root_url }}checkout">
+                    <div class="event-checkout-attendee-fields">
+                      <input
+                        type="text"
+                        name="properties[Attendee name]"
+                        class="event-checkout-input"
+                        placeholder="Name"
+                        autocomplete="name"
+                        required
+                      >
+                      <input
+                        type="email"
+                        name="properties[Email]"
+                        class="event-checkout-input"
+                        placeholder="Email"
+                        autocomplete="email"
+                        required
+                      >
+                      <input
+                        type="tel"
+                        name="properties[Phone]"
+                        class="event-checkout-input"
+                        placeholder="Phone"
+                        autocomplete="tel"
+                        required
+                      >
+                    </div>
+                    <p class="pd-qty-locked-hint">1 ticket per order</p>
+                    <button type="submit" class="button button--primary pd-secure-seat-btn" data-event-book-now>
+                      {{ join_event_label }}
+                    </button>
+                  </form>
+                {% else %}
+                  <form
+                    method="post"
+                    action="{{ routes.cart_add_url }}"
+                    class="pd-event-booking-form"
+                    data-event-booking-form
+                    data-variant-id="{{ event_variant.id }}"
+                  >
+                    <input type="hidden" name="id" value="{{ event_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="hidden" name="return_to" value="{{ routes.root_url }}checkout">
+                    <button type="submit" class="button button--primary pd-secure-seat-btn" data-event-book-now>
+                      {{ join_event_label }}
+                    </button>
+                  </form>
+                {% endif %}
+              {% else %}
+                <button type="button" class="button button--primary pd-secure-seat-btn" disabled>
+                  Sold Out
+                </button>
+              {% endif %}
+            </div>
+          {% endif %}
+
+          <div class="pd-event-variant-payloads" data-event-variant-payloads hidden>
+            {% for variant in product.variants %}
+              {%- liquid
+                assign p_date = variant.metafields.custom.event_date.value | default: variant.metafields.custom.event_date | default: event_date
+                assign p_time = variant.metafields.custom.event_timings.value | default: variant.metafields.custom.event_timings | default: event_timings
+              -%}
+              <template
+                data-variant-payload
+                data-variant-id="{{ variant.id }}"
+                data-price="{{ variant.price | money_without_trailing_zeros | strip_html }}"
+                data-available="{{ variant.available }}"
+                data-date="{% if p_date != blank %}{{ p_date | date: '%d %B %Y' }}{% endif %}"
+                data-time="{{ p_time }}"
+              >{% if variant.metafields.custom.what_to_expect != blank %}{{ variant.metafields.custom.what_to_expect | metafield_tag }}{% elsif product.metafields.custom.what_to_expect != blank %}{{ product.metafields.custom.what_to_expect | metafield_tag }}{% endif %}</template>
+            {% endfor %}
+          </div>
+
+          {% if show_waitlist_cta %}
+            <div
+              class="event-waitlist-wr event-waitlist-wr--customer-lead"
+              data-event-waitlist-anchor
+            >
+              <p class="pd-scarcity-line">Strictly Limited Capacity</p>
+              {%- form 'customer', id: 'EventWaitlistOnlyForm', return_to: product.url -%}
+                <input
+                  type="hidden"
+                  name="contact[tags]"
+                  value="Event, event-waitlist, waitlist-{{ product.handle }}"
+                >
+                {%- if form.posted_successfully? -%}
+                  <p class="waitlist-message success waitlist-message--success-standalone">
+                    Thank you. You have been added to the waitlist.
+                  </p>
+                {%- else -%}
+                  <div class="waitlist-form-fields">
+                    <input
+                      type="text"
+                      name="contact[first_name]"
+                      class="waitlist-input"
+                      placeholder="Name"
+                      autocomplete="given-name"
+                      required
+                      id="EventWaitlistOnly-first-name"
+                      value="{% if form.first_name %}{{ form.first_name }}{% endif %}"
+                    >
+                    <input
+                      type="email"
+                      name="contact[email]"
+                      class="waitlist-input"
+                      placeholder="Email"
+                      required
+                      autocapitalize="off"
+                      autocomplete="email"
+                      id="EventWaitlistOnly-email"
+                      value="{% if form.email %}{{ form.email }}{% endif %}"
+                    >
+                    <input
+                      type="tel"
+                      name="contact[phone]"
+                      class="waitlist-input"
+                      placeholder="Phone"
+                      required
+                      autocomplete="tel"
+                      id="EventWaitlistOnly-phone"
+                    >
+                    <input
+                      type="text"
+                      name="contact[waitlist_city]"
+                      class="waitlist-input"
+                      placeholder="City"
+                      required
+                      id="EventWaitlistOnly-city"
+                    >
+                    <button type="submit" class="button button--primary waitlist-submit-btn waitlist-submit-btn--primary">
+                      Join the Waitlist
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <p class="waitlist-message error">{{ form.errors | default_errors }}</p>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+          {% endif %}
+          {% if product.metafields.custom.event_phone != blank
+            or product.metafields.custom.event_email != blank
+            or product.metafields.custom.event_notice != blank
+          %}
+            <div class="pd-event-contact-below-cta">
+              {% if product.metafields.custom.event_phone != blank %}
+                <p class="pd-event-contact-line"><strong>Contact Us:</strong> {{ product.metafields.custom.event_phone }}</p>
+              {% endif %}
+              {% if product.metafields.custom.event_email != blank %}
+                <p class="pd-event-contact-line"><strong>Email:</strong> {{ product.metafields.custom.event_email }}</p>
+              {% endif %}
+              {% if product.metafields.custom.event_notice != blank %}
+                <p class="pd-event-contact-line"><strong>Contact Us:</strong> +91 8767790356</p>
+                <p class="pd-event-contact-line pd-event-contact-line--notice">
+                  <strong>{{ product.metafields.custom.event_notice }}</strong>
+                </p>
+              {% endif %}
+            </div>
+          {% endif %}
+      </div>
+
+      {%- if event_hero != blank -%}
+        </div>
+        <div class="pd-content-column">
+          <div class="pd-content-head">
+            <h1 class="pd-title">{{ product.title }}</h1>
+            {% if host != blank %}
+              <div class="pd-event-host">{{ host }}</div>
+            {% endif %}
+            {% if product.metafields.custom.event_tagline != blank %}
+              <h3 class="pd-event-tagline">{{ product.metafields.custom.event_tagline }}</h3>
+            {% endif %}
+          </div>
+          <div class="pd-content-body">
+            {% if product.description != blank %}
+              <div class="pd-desc rte">
+                {{ product.description }}
+              </div>
+            {% endif %}
+
+            {% if current_variant_wte != blank
+              or product.metafields.custom.beauty_bar_experience != blank
+              or product.metafields.custom.who_is_this_for != blank
+              or product.metafields.custom.event_flow != blank
+            %}
+              <div class="event-accordion{% if product.variants.size > 1 and current_variant_wte != blank %}{% if has_other_accordion %} event-accordion--wte-mobile-hidden{% else %} event-accordion--has-mobile-copy{% endif %}{% endif %}">
+                {% if current_variant_wte != blank %}
+                  <div class="event-accordion-item event-accordion-item--static">
+                    <div class="event-accordion-static-heading">WHAT TO EXPECT</div>
+                    <div class="event-accordion-panel" data-what-to-expect-panel>
+                      {{ current_variant_wte | metafield_tag }}
+                    </div>
+                  </div>
+                {% endif %}
+                {% if product.metafields.custom.beauty_bar_experience != blank %}
+                  <details class="event-accordion-item">
+                    <summary>
+                      <span>BEAUTY BAR EXPERIENCE</span>
+                      <span class="event-accordion-icon" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="event-accordion-panel">
+                      {{ product.metafields.custom.beauty_bar_experience | metafield_tag }}
+                    </div>
+                  </details>
+                {% endif %}
+                {% if product.metafields.custom.who_is_this_for != blank %}
+                  <details class="event-accordion-item">
+                    <summary>
+                      <span>WHO IS THIS FOR</span>
+                      <span class="event-accordion-icon" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="event-accordion-panel">
+                      {{ product.metafields.custom.who_is_this_for | metafield_tag }}
+                    </div>
+                  </details>
+                {% endif %}
+                {% if product.metafields.custom.event_flow != blank %}
+                  <details class="event-accordion-item">
+                    <summary>
+                      <span>EVENT FLOW</span>
+                      <span class="event-accordion-icon" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="event-accordion-panel">
+                      {{ product.metafields.custom.event_flow | metafield_tag }}
+                    </div>
+                  </details>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if event_hero == blank -%}
+        <div class="pd-content-body">
+          {% if product.description != blank %}
+            <div class="pd-desc rte">
+              {{ product.description }}
+            </div>
+          {% endif %}
+
+          {% if current_variant_wte != blank
+            or product.metafields.custom.beauty_bar_experience != blank
+            or product.metafields.custom.who_is_this_for != blank
+            or product.metafields.custom.event_flow != blank
+          %}
+            <div class="event-accordion{% if product.variants.size > 1 and current_variant_wte != blank %}{% if has_other_accordion %} event-accordion--wte-mobile-hidden{% else %} event-accordion--has-mobile-copy{% endif %}{% endif %}">
+              {% if current_variant_wte != blank %}
+                <div class="event-accordion-item event-accordion-item--static">
+                  <div class="event-accordion-static-heading">WHAT TO EXPECT</div>
+                  <div class="event-accordion-panel" data-what-to-expect-panel>
+                    {{ current_variant_wte | metafield_tag }}
+                  </div>
+                </div>
+              {% endif %}
+              {% if product.metafields.custom.beauty_bar_experience != blank %}
+                <details class="event-accordion-item">
+                  <summary>
+                    <span>BEAUTY BAR EXPERIENCE</span>
+                    <span class="event-accordion-icon" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div class="event-accordion-panel">
+                    {{ product.metafields.custom.beauty_bar_experience | metafield_tag }}
+                  </div>
+                </details>
+              {% endif %}
+              {% if product.metafields.custom.who_is_this_for != blank %}
+                <details class="event-accordion-item">
+                  <summary>
+                    <span>WHO IS THIS FOR</span>
+                    <span class="event-accordion-icon" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div class="event-accordion-panel">
+                    {{ product.metafields.custom.who_is_this_for | metafield_tag }}
+                  </div>
+                </details>
+              {% endif %}
+              {% if product.metafields.custom.event_flow != blank %}
+                <details class="event-accordion-item">
+                  <summary>
+                    <span>EVENT FLOW</span>
+                    <span class="event-accordion-icon" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div class="event-accordion-panel">
+                    {{ product.metafields.custom.event_flow | metafield_tag }}
+                  </div>
+                </details>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {% if is_event_template %}
+      {% if show_book_cta or show_waitlist_cta %}
+        <div class="pd-event-sticky-cta" data-event-sticky-cta>
+          <button
+            type="button"
+            class="button button--primary pd-secure-seat-btn pd-event-sticky-cta__btn"
+            data-event-sticky-btn
+          >
+            {{ sticky_cta_label }}
+          </button>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+{% else %}
+  <div class="past-event-details-wr">
+    <div class="ped-inner ga-section-container">
+      <div class="ped-header">
+        <div class="ped-title">{{ product.title }}</div>
+        <div class="ped-subtitle">
+          {% if host %}
+            <div class="ped-host">{{ host }}</div>
+          {% endif %}
+          <div class="ped-date">{{ event_date | date: '%a, %d %b' -}}</div>
+          <div class="ped-time">{{ event_time }}</div>
+        </div>
+        <div class="ped-summary">
+          {{ event_summary }}
+        </div>
+      </div>
+      {% if event_images != empty %}
+        <div class="ped-gallery-wr">
+          <ul class="ped-gallery">
+            {% for image in event_images %}
+              <li class="ped-gallery-image-wr">
+                {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', class: 'pred-gallery-image' }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const accordionItems = document.querySelectorAll('.event-accordion-item');
+
+    accordionItems.forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+
+        accordionItems.forEach((other) => {
+          if (other !== item) {
+            other.open = false;
+          }
+        });
+      });
+    });
+
+    // ---- Event image carousel ----
+    document.querySelectorAll('[data-pd-carousel]').forEach(function (carousel) {
+      const viewport = carousel.querySelector('[data-pd-carousel-viewport]');
+      const slides = carousel.querySelectorAll('.pd-carousel__slide');
+      const prevBtn = carousel.querySelector('[data-pd-carousel-prev]');
+      const nextBtn = carousel.querySelector('[data-pd-carousel-next]');
+      const dots = carousel.querySelectorAll('[data-pd-carousel-dot]');
+      if (!viewport || slides.length < 2) return;
+
+      let index = 0;
+
+      function updateDots() {
+        dots.forEach(function (dot, di) {
+          dot.classList.toggle('is-active', di === index);
+        });
+      }
+
+      function goTo(i) {
+        index = Math.max(0, Math.min(slides.length - 1, i));
+        viewport.scrollTo({ left: viewport.clientWidth * index, behavior: 'smooth' });
+        updateDots();
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function () { goTo(index - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', function () { goTo(index + 1); });
+      dots.forEach(function (dot, di) {
+        dot.addEventListener('click', function () { goTo(di); });
+      });
+
+      let scrollTimer;
+      viewport.addEventListener('scroll', function () {
+        window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(function () {
+          index = Math.round(viewport.scrollLeft / viewport.clientWidth);
+          updateDots();
+        }, 90);
+      });
+    });
+
+    const checkoutUrl = {{ routes.root_url | append: 'checkout' | json }};
+    const cartAddUrl = {{ routes.cart_add_url | json }};
+    const eventSheetWebhook = {{ section.settings.waitlist_sheet_webhook | strip | json }};
+    const eventSheetTitle = {{ product.title | json }};
+    const eventSheetHandle = {{ product.handle | json }};
+    const eventCheckoutMode = {{ event_checkout_mode | json }};
+    let eventSheetAmount = {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros | strip_html | json }};
+    const eventVariantId = {{ event_variant.id | json }};
+
+    // ---- Event ticket variant switching ----
+    (function () {
+      const payloadsRoot = document.querySelector('[data-event-variant-payloads]');
+      if (!payloadsRoot) return;
+
+      const picker = document.querySelector('[data-event-variant-picker]');
+      const dropdown = document.querySelector('[data-event-variant-dropdown]');
+      const priceAmountEl = document.querySelector('.pd-event-price-per-seat__amount');
+      const dateValueEl = document.querySelector('[data-event-date-value]');
+      const timingsTile = document.querySelector('[data-event-timings-tile]');
+      const timingsValueEl = document.querySelector('[data-event-timings-value]');
+      const wtePanels = document.querySelectorAll('[data-what-to-expect-panel]');
+      const bookingForm = document.querySelector('[data-event-booking-form]');
+      const idInput = bookingForm ? bookingForm.querySelector('input[name="id"]') : null;
+      const submitBtn = bookingForm ? bookingForm.querySelector('[type="submit"]') : null;
+      const defaultSubmitLabel = submitBtn ? submitBtn.textContent.trim() : '';
+
+      function applyVariant(variantId) {
+        const tpl = payloadsRoot.querySelector('template[data-variant-id="' + variantId + '"]');
+        if (!tpl) return;
+
+        eventSheetAmount = tpl.dataset.price || eventSheetAmount;
+
+        if (priceAmountEl && tpl.dataset.price) {
+          priceAmountEl.textContent = tpl.dataset.price;
+        }
+        if (dateValueEl && tpl.dataset.date) {
+          dateValueEl.textContent = tpl.dataset.date;
+        }
+        if (timingsTile) {
+          const time = (tpl.dataset.time || '').trim();
+          if (time) {
+            if (timingsValueEl) timingsValueEl.textContent = time;
+            timingsTile.hidden = false;
+          } else {
+            timingsTile.hidden = true;
+          }
+        }
+        wtePanels.forEach(function (panel) {
+          panel.innerHTML = tpl.innerHTML;
+        });
+        if (bookingForm) bookingForm.dataset.variantId = variantId;
+        if (idInput) idInput.value = variantId;
+
+        const available = tpl.dataset.available === 'true';
+        if (submitBtn) {
+          submitBtn.disabled = !available;
+          submitBtn.textContent = available ? defaultSubmitLabel : 'Sold Out';
+        }
+      }
+
+      function syncControls(variantId) {
+        if (picker) {
+          picker.querySelectorAll('[data-variant-select]').forEach(function (btn) {
+            const selected = btn.dataset.variantId === variantId;
+            btn.classList.toggle('is-selected', selected);
+            btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+          });
+        }
+        if (dropdown && dropdown.value !== variantId) {
+          dropdown.value = variantId;
+        }
+      }
+
+      function selectVariant(variantId) {
+        syncControls(variantId);
+        applyVariant(variantId);
+      }
+
+      if (picker) {
+        picker.querySelectorAll('[data-variant-select]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            selectVariant(btn.dataset.variantId);
+          });
+        });
+      }
+
+      if (dropdown) {
+        dropdown.addEventListener('change', function () {
+          selectVariant(dropdown.value);
+
+          if (window.matchMedia('(max-width: 749px)').matches) {
+            const scrollTarget =
+              document.querySelector('.event-accordion-static-heading') ||
+              bookingForm ||
+              document.querySelector('[data-event-primary-cta] [data-event-book-now]');
+            if (scrollTarget) {
+              scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      }
+    })();
+
+    function postEventSheet(payload) {
+      if (!eventSheetWebhook) return Promise.resolve({ skipped: true });
+      var url = new URL(eventSheetWebhook);
+      Object.keys(payload).forEach(function (key) {
+        var value = payload[key];
+        if (value !== undefined && value !== null && String(value).length) {
+          url.searchParams.set(key, String(value));
+        }
+      });
+      return fetch(url.toString(), { method: 'GET', credentials: 'omit' })
+        .then(function (res) {
+          return res.json().catch(function () {
+            return {};
+          });
+        });
+    }
+
+    document.querySelectorAll('[data-event-booking-form]').forEach(function (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const variantId = parseInt(form.dataset.variantId || form.querySelector('[name="id"]')?.value, 10);
+        if (!variantId || Number.isNaN(variantId)) {
+          window.alert('This event is not available for booking right now. Please refresh or contact us.');
+          return;
+        }
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.setAttribute('aria-busy', 'true');
+        }
+
+        const formData = new FormData(form);
+        const properties = {};
+        formData.forEach(function (value, key) {
+          const match = key.match(/^properties\[(.+)\]$/);
+          if (match) properties[match[1]] = value;
+        });
+
+        const item = { id: variantId, quantity: 1 };
+        if (Object.keys(properties).length) item.properties = properties;
+
+        postEventSheet({
+          sheet: eventSheetTitle,
+          event_title: eventSheetTitle,
+          event_handle: eventSheetHandle,
+          name: properties['Attendee name'] || properties['Name'] || '',
+          email: properties['Email'] || '',
+          phone: properties['Phone'] || '',
+          status: 'checkout_started',
+          checkout_mode: eventCheckoutMode || 'shopify_checkout',
+          variant_id: String(variantId),
+          amount: eventSheetAmount,
+          page_url: window.location.href
+        }).catch(function () {});
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ items: [item] })
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              if (!res.ok) throw data;
+              return data;
+            });
+          })
+          .then(function () {
+            window.location.href = checkoutUrl;
+          })
+          .catch(function () {
+            form.action = cartAddUrl;
+            if (!form.querySelector('[name="return_to"]')) {
+              const returnInput = document.createElement('input');
+              returnInput.type = 'hidden';
+              returnInput.name = 'return_to';
+              returnInput.value = checkoutUrl;
+              form.appendChild(returnInput);
+            }
+            form.submit();
+          });
+      });
+    });
+
+    const waitlistForm = document.getElementById('EventWaitlistOnlyForm');
+    if (waitlistForm) {
+      const waitlistProductHandle = {{ product.handle | json }};
+
+      waitlistForm.addEventListener('submit', function(e) {
+        if (waitlistForm.dataset.submitting === 'true') return;
+        e.preventDefault();
+
+        const nameInput = document.getElementById('EventWaitlistOnly-first-name');
+        const emailInput = document.getElementById('EventWaitlistOnly-email');
+        const phoneInput = document.getElementById('EventWaitlistOnly-phone');
+        const cityInput = document.getElementById('EventWaitlistOnly-city');
+        const tagsInput = waitlistForm.querySelector('input[name="contact[tags]"]');
+        const submitBtn = waitlistForm.querySelector('.waitlist-submit-btn');
+
+        if (
+          !nameInput ||
+          !emailInput ||
+          !phoneInput ||
+          !cityInput ||
+          !nameInput.value.trim() ||
+          !emailInput.value.trim() ||
+          !phoneInput.value.trim() ||
+          !cityInput.value.trim()
+        ) {
+          return;
+        }
+
+        const citySlug = cityInput.value.trim().toLowerCase().replace(/\s+/g, '-');
+        const phoneTag = phoneInput.value.trim().replace(/[^\d+]/g, '');
+
+        if (tagsInput) {
+          tagsInput.value = 'event-waitlist, ' + waitlistProductHandle + ', city-' + citySlug + ', phone-' + phoneTag;
+        }
+
+        waitlistForm.dataset.submitting = 'true';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SUBMITTING...';
+
+        const sheetPayload = {
+          sheet: eventSheetTitle,
+          event_title: eventSheetTitle,
+          event_handle: eventSheetHandle,
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          phone: phoneInput.value.trim(),
+          city: cityInput.value.trim(),
+          status: 'waitlist',
+          checkout_mode: 'waitlist',
+          amount: eventSheetAmount,
+          page_url: window.location.href,
+          shopify_customer: 'yes'
+        };
+
+        postEventSheet(sheetPayload)
+          .catch(function () {})
+          .finally(function () {
+            waitlistForm.submit();
+          });
+      });
+    }
+
+    document.querySelectorAll('[data-event-book-now].pd-cta-button').forEach(function (link) {
+      link.addEventListener('click', function () {
+        postEventSheet({
+          sheet: eventSheetTitle,
+          event_title: eventSheetTitle,
+          event_handle: eventSheetHandle,
+          status: 'payment_link',
+          checkout_mode: eventCheckoutMode || 'payment_link',
+          amount: eventSheetAmount,
+          page_url: window.location.href,
+          notes: 'Payment link opened'
+        }).catch(function () {});
+      });
+    });
+
+    const eventRoot = document.body;
+    if (
+      eventRoot.classList.contains('template-product-event') &&
+      eventRoot.dataset.eventStickyInit !== 'true'
+    ) {
+      eventRoot.dataset.eventStickyInit = 'true';
+
+      const stickyCta = eventRoot.querySelector('[data-event-sticky-cta]');
+      const stickyBtn = eventRoot.querySelector('[data-event-sticky-btn]');
+      const mobileMq = window.matchMedia('(max-width: 749px)');
+      let stickyObserver = null;
+
+      const getStickyWatchTarget = () =>
+        eventRoot.querySelector('[data-event-booking-form] [type="submit"]:not([disabled])') ||
+        eventRoot.querySelector('#EventWaitlistOnlyForm [type="submit"]') ||
+        eventRoot.querySelector('[data-event-primary-cta] [data-event-book-now]');
+
+      if (stickyCta && stickyBtn) {
+        const setCtaInView = (inView) => {
+          if (inView) {
+            eventRoot.classList.add('is-event-cta-in-view');
+          } else {
+            eventRoot.classList.remove('is-event-cta-in-view');
+          }
+        };
+
+        const connectStickyObserver = () => {
+          if (stickyObserver) stickyObserver.disconnect();
+          if (!mobileMq.matches) {
+            eventRoot.classList.remove('is-event-cta-in-view');
+            return;
+          }
+
+          const watchTarget = getStickyWatchTarget();
+          if (!watchTarget) {
+            eventRoot.classList.remove('is-event-cta-in-view');
+            return;
+          }
+
+          const barPx =
+            parseInt(getComputedStyle(eventRoot).getPropertyValue('--pd-event-sticky-bar'), 10) || 72;
+
+          stickyObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => setCtaInView(entry.isIntersecting));
+            },
+            {
+              root: null,
+              threshold: 0,
+              rootMargin: '0px 0px -' + barPx + 'px 0px'
+            }
+          );
+
+          stickyObserver.observe(watchTarget);
+        };
+
+        stickyBtn.addEventListener('click', () => {
+          const watchTarget = getStickyWatchTarget();
+          if (!watchTarget) return;
+          watchTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          window.setTimeout(() => watchTarget.focus(), 400);
+        });
+
+        mobileMq.addEventListener('change', connectStickyObserver);
+        connectStickyObserver();
+      }
+    }
+  });
+</script>
+
+<style>
+  .template-product-event {
+    --pd-event-sticky-bar: 72px;
+  }
+
+  /* Force Sharp Sans (ss) for all event product detail text — the global body font is Poppins */
+  .pdt-details-wr,
+  .past-event-details-wr {
+    --font-body-family: 'ss';
+  }
+
+  .pd-content-head,
+  .pd-content-head .pd-title,
+  .pd-content-head .pd-event-host,
+  .pd-content-column,
+  .pd-media-column,
+  .pd-content-body,
+  .pd-content-body .pd-desc {
+    color: #000000;
+  }
+
+  .pd-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4vw;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .pd-inner--has-image {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+  }
+
+  .pd-content-head {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .pd-inner--no-image > .pd-content-head {
+    flex: 0 0 46%;
+    max-width: 46%;
+    order: 1;
+  }
+
+  .pd-content-head .pd-title {
+    margin: 0;
+  }
+
+  .pd-content-head .pd-event-host {
+    margin: 0;
+  }
+
+  .pd-event-tagline {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-body-family);
+    font-size: clamp(1.25rem, 1.6vw, 1.4rem);
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: #000000;
+  }
+
+  .pd-image-wr {
+    flex: 0 0 44%;
+    max-width: 44%;
+    order: 2;
+    margin-left: auto;
+  }
+
+  .pd-inner--no-image .pd-event-actions {
+    flex: 0 0 44%;
+    max-width: 44%;
+    order: 2;
+    margin-left: auto;
+  }
+
+  /* Has image: split screen — image + booking left, title + copy right */
+  .pd-inner--has-image .pd-media-column {
+    flex: 0 0 44%;
+    max-width: 44%;
+    order: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-self: flex-start;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pd-inner--has-image .pd-media-column .pd-image-wr,
+    .pd-inner--has-image .pd-media-column .pd-event-actions {
+      flex: none;
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      order: unset;
+    }
+
+    .pd-inner--has-image .pd-content-column .pd-content-head,
+    .pd-inner--has-image .pd-content-column .pd-content-body {
+      flex: none;
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      order: unset;
+    }
+  }
+
+  .pd-inner--has-image .pd-content-column {
+    flex: 0 0 46%;
+    max-width: 46%;
+    order: 2;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-self: flex-start;
+  }
+
+  .pd-inner--has-image .pd-content-column .pd-content-head {
+    gap: 1.75rem;
+  }
+
+  .pd-inner--has-image .pd-content-column .pd-content-body {
+    margin-top: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pd-inner--has-image .pd-content-head .pd-event-host {
+      font-size: 1.5rem;
+    }
+
+    .pd-inner--has-image .pd-desc.rte h2 {
+      font-size: 2rem;
+    }
+
+    .pd-inner--has-image .pd-desc.rte h4 {
+      font-size: 1.55rem;
+    }
+  }
+
+  .pd-inner--no-image .pd-content-body {
+    flex: 0 0 100%;
+    max-width: 100%;
+    order: 4;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .pd-content-body {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+    order: 4;
+    margin-top: 8px;
+  }
+
+  .pd-event-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .pd-event-actions .pd-event-details-grid {
+    margin-top: 0;
+  }
+
+  .pd-desc.rte {
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    color: #000000;
+  }
+
+  .pd-desc.rte h1 {
+    font-family: var(--font-body-family);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.8rem;
+    text-transform: none;
+  }
+
+  .pd-desc.rte h2 {
+    font-family: var(--font-body-family);
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1.4rem 0 0.6rem;
+    text-transform: none;
+  }
+
+  .pd-desc.rte h3 {
+    font-family: var(--font-body-family);
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 1.2rem 0 0.5rem;
+    text-transform: none;
+  }
+
+  .pd-desc.rte h4,
+  .pd-desc.rte h5,
+  .pd-desc.rte h6 {
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 1rem 0 0.4rem;
+    text-transform: none;
+  }
+
+  .pd-desc.rte p {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0;
+    margin: 0 0 0.8rem;
+  }
+
+  .pd-desc.rte p:last-child {
+    margin-bottom: 0;
+  }
+
+  .pd-desc.rte ul,
+  .pd-desc.rte ol {
+    margin: 0 0 0.8rem 1.6rem;
+    padding: 0;
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .pd-desc.rte li {
+    margin-bottom: 0.3rem;
+  }
+
+  .pd-desc.rte strong {
+    font-weight: 700;
+  }
+
+  .pd-desc.rte em {
+    font-style: italic;
+  }
+
+  .pd-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Event image carousel */
+  .pd-carousel {
+    position: relative;
+    width: 100%;
+  }
+
+  .pd-carousel__viewport {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: #f4f4f4;
+  }
+
+  .pd-carousel__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pd-carousel__slide {
+    position: relative;
+    flex: 0 0 100%;
+    width: 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 1 / 1;
+  }
+
+  .pd-carousel__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pd-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: none;
+    background: rgba(255, 255, 255, 0.85);
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .pd-carousel__arrow:hover {
+    background: #ffffff;
+  }
+
+  .pd-carousel__arrow--prev {
+    left: 10px;
+  }
+
+  .pd-carousel__arrow--next {
+    right: 10px;
+  }
+
+  .pd-carousel__dots {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 12px;
+  }
+
+  .pd-carousel__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .pd-carousel__dot.is-active {
+    background: #000000;
+  }
+
+  .pd-scarcity-line {
+    margin: 0 0 12px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #444;
+  }
+
+  .pd-event-price-per-seat {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: 600;
+    font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: rgb(var(--color-foreground));
+  }
+
+  .pd-event-price-per-seat__amount,
+  .pd-event-price-per-seat__unit {
+    font: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+
+  .pd-event-primary-cta {
+    position: relative;
+    z-index: 3;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .pd-event-primary-cta .pd-scarcity-line {
+    margin-bottom: 12px;
+  }
+
+  .pd-event-variant-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 20px;
+  }
+
+  .pd-event-variant-btn {
+    flex: 1 1 0;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 16px;
+    background: #ffffff;
+    color: rgb(var(--color-foreground));
+    border: 1px solid #b8b8b8;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .pd-event-variant-btn:hover {
+    border-color: #000000;
+  }
+
+  .pd-event-variant-btn.is-selected {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+  }
+
+  .pd-event-variant-btn__title {
+    font-family: var(--font-body-family);
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    text-transform: uppercase;
+  }
+
+  .pd-event-variant-btn__price {
+    font-family: var(--font-body-family);
+    font-size: 1.2rem;
+    letter-spacing: 0.02em;
+    opacity: 0.85;
+  }
+
+  /* Tablet + mobile: replace buttons with an elegant dropdown */
+  .pd-event-variant-select-wrap {
+    display: none;
+    margin: 0 0 20px;
+  }
+
+  .pd-event-variant-select-label {
+    display: block;
+    margin: 0 0 8px;
+    font-family: var(--font-body-family);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.55);
+  }
+
+  .pd-event-variant-select-control {
+    position: relative;
+  }
+
+  .pd-event-variant-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 44px 15px 16px;
+    font-family: var(--font-body-family);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    color: rgb(var(--color-foreground));
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .pd-event-variant-select:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 0 1px #000000;
+  }
+
+  .pd-event-variant-select-arrow {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    display: flex;
+    pointer-events: none;
+    color: rgb(var(--color-foreground));
+  }
+
+  /* WHAT TO EXPECT copy that sits under the dropdown on tablet + mobile */
+  .event-accordion--mobile-wte {
+    display: none;
+    margin-top: 0 !important;
+    margin-bottom: 20px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .pd-event-variant-picker {
+      display: none;
+    }
+
+    .pd-event-variant-select-wrap {
+      display: block;
+    }
+
+    .event-accordion--mobile-wte {
+      display: block;
+    }
+
+    .event-accordion--has-mobile-copy {
+      display: none;
+    }
+
+    .event-accordion--wte-mobile-hidden .event-accordion-item--static {
+      display: none;
+    }
+  }
+
+  .pd-event-booking-form {
+    margin: 0;
+  }
+
+  .pd-event-details-grid {
+    position: relative;
+    z-index: 1;
+    margin-top: 32px;
+    margin-bottom: 0;
+    padding: 1.5rem 2rem 1.75rem;
+    background-color: #ffffff;
+    color: rgb(var(--color-foreground));
+    border: 1px solid #e8e8e8;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-size: 1.6rem;
+    font-weight: var(--font-body-weight);
+    line-height: var(--font-body-line-height);
+  }
+
+  .pd-event-details-heading {
+    margin: 0 0 1.5rem;
+    padding: 0;
+    font-family: var(--font-body-family);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground));
+  }
+
+  .pd-event-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 16px;
+  }
+
+  .pd-event-tile[hidden] {
+    display: none !important;
+  }
+
+  .pd-event-tile--date {
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .pd-event-details-location-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+    align-items: start;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .pd-event-details-location-row .pd-event-tile {
+    padding-bottom: 0;
+  }
+
+  .pd-event-details-location-row--no-location,
+  .pd-event-details-location-row--location-only {
+    grid-template-columns: 1fr;
+  }
+
+
+  .pd-event-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pd-event-sticky-cta {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .pd-inner--no-image {
+      gap: 1.25rem;
+    }
+
+    .pd-inner--no-image .pd-content-head,
+    .pd-inner--no-image .pd-event-actions,
+    .pd-inner--no-image .pd-content-body {
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-left: 0;
+    }
+
+    .pd-inner--no-image .pd-event-actions {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    .pd-inner--no-image .pd-event-actions .pd-event-details-grid {
+      margin-top: 0;
+    }
+
+    .pd-inner--no-image .pd-event-primary-cta {
+      margin-top: 1rem;
+    }
+
+    .pd-inner--no-image > .pd-content-head {
+      order: 1 !important;
+      gap: 1rem;
+    }
+
+    /* Mobile: image → title → form → limited seats → details → body */
+    body.template-product-event .pd-inner--has-image,
+    body.template-product-event .pd-inner--no-image {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      flex-direction: column !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-media-column,
+    body.template-product-event .pd-inner--has-image .pd-content-column,
+    body.template-product-event .pd-inner--has-image .pd-event-actions,
+    body.template-product-event .pd-inner--no-image .pd-event-actions,
+    body.template-product-event .pd-inner--has-image .pd-event-primary-cta,
+    body.template-product-event .pd-inner--has-image .event-waitlist-wr,
+    body.template-product-event .pd-inner--no-image .pd-event-primary-cta,
+    body.template-product-event .pd-inner--no-image .event-waitlist-wr {
+      display: contents !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-content-head,
+    body.template-product-event .pd-inner--has-image .pd-image-wr,
+    body.template-product-event .pd-inner--has-image .pd-event-price-per-seat,
+    body.template-product-event .pd-inner--has-image .pd-event-details-grid,
+    body.template-product-event .pd-inner--has-image .pd-content-body,
+    body.template-product-event .pd-inner--has-image .pd-event-booking-form,
+    body.template-product-event .pd-inner--has-image .pd-event-primary-cta > .pd-cta-button,
+    body.template-product-event .pd-inner--has-image .pd-event-primary-cta > .button.pd-secure-seat-btn,
+    body.template-product-event .pd-inner--has-image .event-waitlist-wr form,
+    body.template-product-event .pd-inner--has-image .event-waitlist-wr .waitlist-message--success-standalone,
+    body.template-product-event .pd-inner--has-image .pd-scarcity-line,
+    body.template-product-event .pd-inner--has-image .pd-event-contact-below-cta,
+    body.template-product-event .pd-inner--no-image .pd-content-head,
+    body.template-product-event .pd-inner--no-image .pd-event-price-per-seat,
+    body.template-product-event .pd-inner--no-image .pd-event-details-grid,
+    body.template-product-event .pd-inner--no-image .pd-content-body,
+    body.template-product-event .pd-inner--no-image .pd-event-booking-form,
+    body.template-product-event .pd-inner--no-image .pd-event-primary-cta > .pd-cta-button,
+    body.template-product-event .pd-inner--no-image .pd-event-primary-cta > .button.pd-secure-seat-btn,
+    body.template-product-event .pd-inner--no-image .event-waitlist-wr form,
+    body.template-product-event .pd-inner--no-image .event-waitlist-wr .waitlist-message--success-standalone,
+    body.template-product-event .pd-inner--no-image .pd-scarcity-line,
+    body.template-product-event .pd-inner--no-image .pd-event-contact-below-cta {
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      margin-left: 0 !important;
+      width: 100% !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-media-column .pd-image-wr,
+    body.template-product-event .pd-inner--has-image .pd-image-wr {
+      order: 1 !important;
+      margin-top: 0 !important;
+    }
+
+    body.template-product-event .pd-carousel__arrow {
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      color: #ffffff;
+    }
+
+    body.template-product-event .pd-carousel__arrow:hover {
+      background: transparent;
+    }
+
+    body.template-product-event .pd-carousel__arrow svg {
+      width: 24px;
+      height: 24px;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+    }
+
+    body.template-product-event .pd-carousel__arrow svg path {
+      stroke-width: 2.8;
+    }
+
+    body.template-product-event .pd-carousel__dots {
+      display: none;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-content-column .pd-content-head,
+    body.template-product-event .pd-inner--has-image .pd-content-head {
+      order: 2 !important;
+      margin-top: 24px !important;
+    }
+
+    body.template-product-event .pd-inner--no-image > .pd-content-head,
+    body.template-product-event .pd-inner--no-image .pd-content-head {
+      order: 1 !important;
+    }
+
+    body.template-product-event .pd-event-variant-select-wrap {
+      order: 3 !important;
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    body.template-product-event .event-accordion--mobile-wte {
+      order: 3 !important;
+      flex: 0 0 100% !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    body.template-product-event .pd-event-price-per-seat {
+      font-size: clamp(1.5rem, 5vw, 1.65rem) !important;
+      line-height: 1.3 !important;
+      margin-bottom: 1rem !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-event-price-per-seat,
+    body.template-product-event .pd-inner--no-image .pd-event-price-per-seat {
+      order: 3 !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-event-booking-form,
+    body.template-product-event .pd-inner--has-image .pd-event-primary-cta > .pd-cta-button,
+    body.template-product-event .pd-inner--has-image .pd-event-primary-cta > .button.pd-secure-seat-btn,
+    body.template-product-event .pd-inner--has-image .event-waitlist-wr form,
+    body.template-product-event .pd-inner--has-image .event-waitlist-wr .waitlist-message--success-standalone,
+    body.template-product-event .pd-inner--no-image .pd-event-booking-form,
+    body.template-product-event .pd-inner--no-image .pd-event-primary-cta > .pd-cta-button,
+    body.template-product-event .pd-inner--no-image .pd-event-primary-cta > .button.pd-secure-seat-btn,
+    body.template-product-event .pd-inner--no-image .event-waitlist-wr form,
+    body.template-product-event .pd-inner--no-image .event-waitlist-wr .waitlist-message--success-standalone {
+      order: 3 !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-scarcity-line,
+    body.template-product-event .pd-inner--no-image .pd-scarcity-line {
+      order: 4 !important;
+      margin-top: 0.75rem !important;
+      margin-bottom: 0 !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-event-details-grid,
+    body.template-product-event .pd-inner--no-image .pd-event-details-grid {
+      order: 5 !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-content-column .pd-content-body,
+    body.template-product-event .pd-inner--has-image .pd-content-body,
+    body.template-product-event .pd-inner--no-image .pd-content-body {
+      order: 6 !important;
+    }
+
+    .pd-inner--has-image .pd-content-head {
+      gap: 1.1rem;
+    }
+
+    .pd-inner--has-image .pd-content-head .pd-event-host {
+      font-size: 14px;
+    }
+
+    .pd-inner--has-image .pd-desc.rte h2 {
+      font-size: 1.8rem;
+    }
+
+    .pd-inner--has-image .pd-desc.rte h4 {
+      font-size: 1.5rem;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-content-body {
+      margin-top: 1rem !important;
+    }
+
+    body.template-product-event .pd-inner--no-image .pd-content-body {
+      margin-top: 1.25rem !important;
+    }
+
+    body.template-product-event .pd-inner--has-image .pd-event-contact-below-cta,
+    body.template-product-event .pd-inner--no-image .pd-event-contact-below-cta {
+      order: 7 !important;
+    }
+
+    .pd-inner--no-image .pd-event-details-grid {
+      margin-top: 0;
+    }
+
+    .pd-inner--no-image .pd-event-primary-cta {
+      margin-top: 0;
+    }
+
+    body.template-product-event .pdt-details-wr {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    body.template-product-event .pd-event-booking-form,
+    body.template-product-event .pd-event-primary-cta > .pd-cta-button,
+    body.template-product-event .event-accordion-static-heading {
+      scroll-margin-top: 90px;
+    }
+
+    body.template-product-event .pd-event-sticky-cta {
+      display: none;
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 50;
+      padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+      background: #ffffff;
+      border-top: 1px solid #e5e5e5;
+      box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.08);
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease,
+        visibility 0.3s ease;
+    }
+
+    body.template-product-event.is-event-cta-in-view .pd-event-sticky-cta {
+      transform: translateY(100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    body.template-product-event .pd-event-sticky-cta__btn {
+      width: 100%;
+      max-width: 22rem;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .pd-event-details-location-row {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pd-event-tile__label {
+    display: block;
+    font-family: var(--font-body-family);
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(var(--color-foreground), 0.55);
+  }
+
+  .pd-event-tile__value {
+    display: block;
+    font-family: var(--font-body-family);
+    font-size: 1.6rem;
+    font-style: var(--font-body-style);
+    font-weight: 500;
+    line-height: var(--font-body-line-height);
+    color: rgb(var(--color-foreground));
+  }
+
+
+  .pd-qty-locked-hint {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-body-family);
+    font-size: 1.3rem;
+    color: rgba(var(--color-foreground), 0.7);
+  }
+
+  .pd-event-contact-below-cta {
+    margin-top: 28px;
+    padding: 20px 0 0;
+    border-top: 1px solid #e8e8e8;
+  }
+
+  .pd-event-contact-below-cta .pd-event-contact-line {
+    margin: 0 0 10px;
+    font-family: var(--font-body-family);
+    font-size: 1.6rem;
+    line-height: var(--font-body-line-height);
+    color: rgb(var(--color-foreground));
+  }
+
+  .pd-event-contact-below-cta .pd-event-contact-line:last-child {
+    margin-bottom: 0;
+  }
+
+  .pd-event-contact-below-cta .pd-event-contact-line--notice {
+    margin-top: 8px;
+  }
+
+  .event-accordion {
+    position: relative;
+    z-index: 2;
+    margin-top: 32px;
+    padding: 0 2px;
+    background: #ffffff;
+    color: #000000;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .event-accordion-item {
+    border-top: 1px solid #ddd;
+  }
+
+  .event-accordion-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    cursor: pointer;
+    list-style: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: #000000;
+    font-family: var(--font-body-family);
+  }
+
+  .event-accordion-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .event-accordion-icon svg {
+    transition: transform 0.2s ease;
+  }
+
+  .event-accordion-item[open] .event-accordion-icon svg {
+    transform: rotate(180deg);
+  }
+
+  .event-accordion-static-heading {
+    padding: 16px 0;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    color: #000000;
+    font-family: var(--font-body-family);
+  }
+
+  .event-accordion-panel {
+    padding: 0 0 18px;
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .event-accordion-panel > *:first-child {
+    margin-top: 0;
+  }
+
+  .event-accordion-panel > *:last-child {
+    margin-bottom: 0;
+  }
+
+  .event-accordion-panel p {
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0 0 0.7rem;
+    color: #000000;
+  }
+
+  .event-accordion-panel h1,
+  .event-accordion-panel h2,
+  .event-accordion-panel h3,
+  .event-accordion-panel h4,
+  .event-accordion-panel h5,
+  .event-accordion-panel h6 {
+    font-family: var(--font-body-family);
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #000000;
+    margin: 1.4rem 0 0.5rem;
+  }
+
+  .event-accordion-panel h1 {
+    font-size: 1.9rem;
+  }
+
+  .event-accordion-panel h2 {
+    font-size: 1.7rem;
+  }
+
+  .event-accordion-panel h3 {
+    font-size: 1.55rem;
+  }
+
+  .event-accordion-panel h4,
+  .event-accordion-panel h5 {
+    font-size: clamp(13px, 0.97vw, 16px);
+  }
+
+  .event-accordion-panel h6 {
+    font-size: 12px;
+    color: #777777;
+  }
+
+  .event-accordion-panel .metafield-rich_text_field h6 {
+    font-family: var(--font-body-family) !important;
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    line-height: 1.45 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #777777 !important;
+  }
+
+  .event-accordion-panel .metafield-rich_text_field h6 strong {
+    font-weight: 600 !important;
+    color: inherit !important;
+  }
+
+  .event-accordion-panel ul,
+  .event-accordion-panel ol {
+    margin: 0 0 0.7rem;
+    padding-left: 1.6rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .event-accordion-panel li {
+    margin-bottom: 0.3rem;
+    font-family: var(--font-body-family);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #000000;
+  }
+
+  .event-accordion-panel .metafield-rich_text_field,
+  .event-accordion-panel .metafield-rich_text_field p,
+  .event-accordion-panel .metafield-rich_text_field ul,
+  .event-accordion-panel .metafield-rich_text_field ol,
+  .event-accordion-panel .metafield-rich_text_field li {
+    font-family: var(--font-body-family) !important;
+    font-size: 1.5rem !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    color: #000000;
+  }
+
+  .event-accordion-panel li:last-child {
+    margin-bottom: 0;
+  }
+
+  .event-accordion-panel strong {
+    font-weight: 700;
+  }
+
+  .event-accordion-panel em {
+    font-style: italic;
+  }
+
+  .event-accordion-panel a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+
+  .qty-label {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+
+  .book-form-wr {
+    color: #000000;
+  }
+
+  .event-checkout-attendee-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .event-checkout-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #b8b8b8;
+  }
+
+  .event-checkout-input::placeholder {
+    color: #666;
+  }
+
+  .event-checkout-input:focus {
+    outline: none;
+    border-color: #000000;
+  }
+
+  .product-form__buttons--event-cta {
+    margin-top: 8px;
+  }
+
+  .pd-secure-seat-btn {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #000000;
+    cursor: pointer;
+  }
+
+  .pd-secure-seat-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .waitlist-submit-btn--primary {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 16px 20px;
+  }
+
+  /* Waitlist: use theme primary button colors so :hover / :focus stay visible (overrides .waitlist-submit-btn) */
+  .event-waitlist-wr--customer-lead .waitlist-submit-btn.button--primary {
+    background-color: rgba(var(--color-button)) !important;
+    color: rgb(var(--color-button-text)) !important;
+    border: 1px solid rgba(var(--color-button)) !important;
+  }
+  .event-waitlist-wr--customer-lead .waitlist-submit-btn.button--primary:hover,
+  .event-waitlist-wr--customer-lead .waitlist-submit-btn.button--primary:focus,
+  .event-waitlist-wr--customer-lead .waitlist-submit-btn.button--primary:focus-visible {
+    background-color: rgba(var(--color-base-button-background-hover)) !important;
+    color: rgb(var(--color-base-button-labels-hover)) !important;
+    border-color: rgba(var(--color-base-button-background-hover)) !important;
+  }
+  .event-waitlist-wr--customer-lead .waitlist-submit-btn.button--primary:disabled {
+    opacity: 0.5;
+  }
+
+  .event-waitlist-wr {
+    margin-top: 32px;
+  }
+
+  .waitlist-subtext {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: var(--font-body-family);
+  }
+
+  .waitlist-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .waitlist-input {
+    background: #fff;
+    border: 1px solid #555;
+    color: #111;
+    padding: 14px 16px;
+    font-size: 1.4rem;
+    font-family: var(--font-body-family);
+    line-height: var(--font-body-line-height);
+    width: 100%;
+    box-sizing: border-box;
+    caret-color: #111;
+  }
+
+  .waitlist-input::placeholder {
+    color: #777;
+  }
+
+  .waitlist-input:-webkit-autofill,
+  .waitlist-input:-webkit-autofill:hover,
+  .waitlist-input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #111;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  .waitlist-input:focus {
+    outline: none;
+    border-color: #111;
+    box-shadow: none;
+  }
+
+  .waitlist-submit-btn {
+    margin-top: 4px;
+    width: 100%;
+    padding: 14px;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+  }
+
+  .waitlist-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .waitlist-message {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: var(--font-body-family);
+  }
+
+  .waitlist-message.success {
+    color: #a8d5a2;
+  }
+
+  .waitlist-message.error {
+    color: #e88;
+  }
+
+  a.pd-cta-button.button--primary {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 16px 20px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #000000;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Event main content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "External payment CTA label",
+      "default": "Book Now",
+      "info": "Used when product metafield custom.event_checkout_mode is razorpay, payment_link, or offline."
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "External payment link (Razorpay)",
+      "info": "Paste Razorpay or other payment URL. Used for offline / Razorpay checkout mode on this template."
+    },
+    {
+      "type": "text",
+      "id": "waitlist_sheet_webhook",
+      "label": "Event Google Sheet webhook URL",
+      "info": "Google Apps Script Web App URL. Creates one tab per event title in your Mokae Pro Event spreadsheet (waitlist + checkout attempts)."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

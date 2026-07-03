@@ -1,0 +1,431 @@
+{% comment %}
+  {{ 'component-card.css' | asset_url | stylesheet_tag }}
+  {{ 'component-article-card-row.css' | asset_url | stylesheet_tag }}
+  {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+{% endcomment %}
+
+{% comment %}
+  <script src="{{ 'load-more.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'main-blog-slider.js' | asset_url }}" defer="defer"></script>
+{% endcomment %}
+
+{% style %}
+  #shopify-section-{{ section.id }} .main-blog-slider {
+  	 --blog-slide-overlay : rgba(var(--color-overlay), {{ section.settings.overlay_opacity }}%);
+  }
+{% endstyle %}
+
+{%- paginate blog.articles by 100 -%}
+  <div id="ga-blog-wrap">
+    <div id="ga-blog-list">
+      {% for article in blog.articles %}
+        {% assign featured_image = article.metafields.gax.listing_image | default: article.image %}
+        {% capture fimg %}
+				{{ featured_image
+							| image_url: width: 3840
+							| image_tag:
+								loading: 'lazy',
+								widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+								class: 'motion-reduce',
+								width: featured_image.width,
+								height: featured_image.height}}
+			{% endcapture %}
+        <a class="ga-blog-card" href="{{ article.url }}" aria-label="{{ article.title | escape }}">
+          <div class="ga-bc-left">
+            <div class="ga-bg-media">
+              {{ fimg }}
+            </div>
+          </div>
+          <div class="ga-bc-right">
+            <div class="ga-bg-media is-alt">
+              {{ fimg }}
+              <div class="ga-bg-overlay"></div>
+              <div class="ga-bc-desc">
+                <div class="ga-bg-desc-inner">
+                  <div class="ga-top">
+                    <div class="ga-left">
+                      <h2>{{ article.title }}</h2>
+                      <!--
+                        {% if article.metafields.gax.author !=blank %}
+                        <h3>By {{ article.metafields.gax.author }}</h3>
+                                                    {% endif %}
+                      -->
+                    </div>
+                    <div class="ga-right">
+                      <span> Read </span>
+                    </div>
+                  </div>
+                  <div class="ga-bottom">
+                    <div class="ga-left">
+                      {% if article.metafields.gax.custom_date != blank %}
+                        <h2>{{ article.metafields.gax.custom_date | date: '%a, %b %d' }}</h2>
+                      {% endif %}
+                    </div>
+                    <div class="ga-right">
+                      {{ article.excerpt }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% comment %}
+  <div class="breadcrumb-container {% if section.settings.color_scheme == 'dark' %}theme-light{% elsif section.settings.color_scheme == 'light' %}theme-dark{% endif %} fullscreen-container">
+  	{% if settings.show_breadcrumbs %}
+  		<nav
+  			class="breadcrumb"
+  			role="navigation"
+  			aria-label="breadcrumbs"
+  		>
+  			<a
+  				href="{{ routes.root_url }}"
+  				title="{{ 'general.breadcrumbs.home' | t }}"
+  				class="link-hover-line"
+  			>
+  				{{ 'general.breadcrumbs.home' | t }}
+  			</a>
+  			<div class="breadcrumb__delimiter"></div>
+  			<a
+  				href="{{ blog.url }}"
+  				title="{{ blog.title }}"
+  				class="link-hover-line"
+  			>
+  				{{ blog.title }}
+  			</a>
+  		</nav>
+  	{% endif %}
+
+  </div>
+  {%- paginate blog.articles by 10 -%}
+  	{% if paginate.current_page == 1 %}
+  		{% assign count = 10 %}
+  	{% else %}
+  		{% assign count = 10 %}
+  	{% endif %}
+  {%- endpaginate -%}
+  {%- paginate blog.articles by count -%}
+
+  	<div
+  		id="{{ section.id }}"
+  		class="slideshow main-blog-slider slideshow-data section-{{ section.id }}-padding js-slideshow-container"
+  		data-speed-slideing="{{ section.settings.slideshow_speed }}"
+  		data-delay-slideing="{{ section.settings.slideshow_delay }}"
+  		data-is-autoplay="{{ section.settings.autoplay }}"
+  		data-is-hover-stop-autoplay="{{ section.settings.hover_autoplay_stop }}"
+  	>
+  		<div class="slideshow__container swiper js-slideshow {% if section.settings.color_scheme == 'dark' %}theme-light color-background-1{% elsif section.settings.color_scheme == 'light' %}theme-dark color-background-5{% endif %}{% if section.settings.show_image != true %} btn-border{% endif %}">
+  			<div class="swiper-wrapper slideshow__wrapper">
+  				{% for article in blog.articles %}
+  					{% if paginate.current_page == 1 %}
+  						{% if forloop.index0 > 3 %}
+  							{% break %}
+  						{% endif %}
+  					{% else %}
+  						{% if forloop.index0 > -1 %}
+  							{% break %}
+  						{% endif %}
+  					{% endif %}
+
+  					<div class="swiper-slide slideshow__slide slideshow__slide-{{ section.settings.block_size }}">
+  						<div
+  							class="slideshow__text-block slideshow__text-block-{{ section.settings.content_position }}"
+  						>
+  							<div class="slideshow__main fullscreen-container">
+  								{% render 'article-card-slider-blog',
+  									article: article,
+  									show_image: section.settings.show_image,
+  									show_tags: section.settings.show_tags,
+  									show_date: section.settings.show_date,
+  									show_author: section.settings.show_author,
+  									show_excerpt: section.settings.show_excerpt,
+  									show_btn: section.settings.show_btn,
+  									button_style: section.settings.button_style,
+  									color_scheme: section.settings.color_scheme
+  								%}
+  							</div>
+  						</div>
+  					</div>
+  				{% endfor %}
+  			</div>
+  			<div class="slider-controls {{ section.settings.content_position }}">
+  				<div class="slider-controls-box fullscreen-container">
+  					{% if section.settings.pagination %}
+  						<div
+  							class="swiper-pagination swipe-pagi-style slideshow__pagination"
+  						></div>
+  					{% endif %}
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+
+  	<div class="main-blog fullscreen-container header-color-{{ section.settings.color_scheme }}">
+  		<div class="page-header">
+  			<div class="page-header__inner">
+  				<h2 class="main-page-title page-title title--page">
+  					{{ blog.title | escape }}
+  				</h2>
+  			</div>
+  		</div>
+
+  		<ul class="blog-articles load-more-grid">
+  			{% for article in blog.articles %}
+  				{% if paginate.current_page == 1 %}
+  					{% liquid
+  						if forloop.index < 5
+  							continue
+  						endif
+  					%}
+  				{% else %}
+  					{% liquid
+  						if forloop.index < 0
+  							continue
+  						endif
+  					%}
+  				{% endif %}
+
+  				<li class="blog-articles__article">
+  					{% render 'article-card',
+  						blog: section.settings.blog,
+  						article: article,
+  						show_image: section.settings.show_image,
+  						show_tags: section.settings.show_tags,
+  						show_date: section.settings.show_date,
+  						show_author: section.settings.show_author,
+  						show_excerpt: section.settings.show_excerpt,
+  						show_btn: section.settings.show_btn
+  					%}
+  				</li>
+  			{% endfor %}
+  		</ul>
+
+  		{%- if paginate.pages > 1 -%}
+  			{%- if settings.pagination_type == 'load_more' -%}
+  				{% render 'load-more',
+  					next_url: paginate.next.url,
+  					count_pages: paginate.pages,
+  					current_page: paginate.current_page
+  				%}
+  				<div class="no-js">
+  					{% render 'pagination', paginate: paginate %}
+  				</div>
+  			{%- elsif settings.pagination_type == 'infinite_scroll' -%}
+  				{% render 'infinite-scroll',
+  					next_url: paginate.next.url,
+  					count_pages: paginate.pages,
+  					current_page: paginate.current_page
+  				%}
+  				<div class="no-js">
+  					{% render 'pagination', paginate: paginate %}
+  				</div>
+  			{% else %}
+  				{% render 'pagination', paginate: paginate %}
+  			{%- endif -%}
+  		{%- endif -%}
+  	</div>
+  {%- endpaginate -%}
+{% endcomment %}
+{% comment %}
+  {% javascript %}
+  	const events = [
+  		'shopify:section:reorder',
+  		'shopify:section:deselect',
+  		'shopify:section:select',
+  		'shopify:section:unload',
+  		'shopify:section:load',
+  	];
+
+  	const blog_header_overlay = () => {
+  		let headerOverlay = document.querySelector('.overlay');
+  		let colorScheme = document.querySelector('.header-color-light');
+
+  		if (headerOverlay) {
+  			if (colorScheme) {
+  				headerOverlay.classList.add('theme-dark');
+  				headerOverlay.classList.add('header-color-background-5');
+  			} else {
+  				headerOverlay.classList.remove('theme-dark');
+  				headerOverlay.classList.remove('header-color-background-5');
+  				headerOverlay.classList.add('color-background-1');
+  			}
+  		}
+  	};
+
+  	blog_header_overlay();
+
+  	events.forEach(function (item) {
+  		document.addEventListener(item, function () {
+  			blog_header_overlay();
+  		});
+  	});
+  {% endjavascript %}
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "class": "section-main-blog",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.slider_options.header.content"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "light",
+          "label": "t:sections.all.color_scheme.light.label"
+        },
+        {
+          "value": "dark",
+          "label": "t:sections.all.color_scheme.dark.label"
+        }
+      ],
+      "default": "light",
+      "label": "t:sections.all.color_scheme.label",
+      "info": "t:sections.main-collection-banner.settings.color_scheme.info"
+    },
+    {
+      "type": "select",
+      "id": "block_size",
+      "options": [
+        {
+          "value": "sixteen-by-nine",
+          "label": "t:sections.main-blog.settings.block_size.options__1.label"
+        },
+        {
+          "value": "four-by-three",
+          "label": "t:sections.main-blog.settings.block_size.options__2.label"
+        },
+        {
+          "value": "full-screen",
+          "label": "t:sections.main-blog.settings.block_size.options__3.label"
+        }
+      ],
+      "default": "full-screen",
+      "label": "t:sections.main-blog.settings.block_size.label"
+    },
+    {
+      "type": "range",
+      "id": "slideshow_speed",
+      "min": 0.5,
+      "max": 6,
+      "step": 0.1,
+      "default": 1.1,
+      "unit": "s",
+      "label": "t:sections.main-blog.settings.slideshow_speed.label"
+    },
+    {
+      "type": "range",
+      "id": "slideshow_delay",
+      "min": 0.5,
+      "max": 8,
+      "step": 0.1,
+      "default": 3,
+      "unit": "s",
+      "label": "t:sections.main-blog.settings.slideshow_delay.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "default": true,
+      "label": "t:sections.all.slider_options.slider_is_autoplay.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_autoplay_stop",
+      "default": true,
+      "label": "t:sections.all.slider_options.slider_hover_autoplay_stop.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "pagination",
+      "default": true,
+      "label": "t:sections.all.slider_options.pagination.label"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:sections.all.button.button_style.options__1.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:sections.all.button.button_style.options__2.label"
+        },
+        {
+          "value": "tertiary",
+          "label": "t:sections.all.button.button_style.options__3.label"
+        }
+      ],
+      "default": "secondary",
+      "label": "t:sections.all.button.button_style.label"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "default": 30,
+      "unit": "%",
+      "label": "t:sections.all.overlay.header.content"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-blog.settings.header.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_image.label",
+      "info": "t:sections.main-blog.settings.show_image.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_tags.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_date.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "t:sections.main-blog.settings.show_author.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "default": false,
+      "label": "t:sections.main-blog.settings.show_excerpt.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_btn",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_btn.label"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.main-blog.settings.paragraph.content"
+    }
+  ]
+}
+{% endschema %}

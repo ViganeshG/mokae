@@ -1,0 +1,23 @@
+{%- comment -%}
+  Outputs a video URL from a product metafield (file reference, URL, or text).
+  Usage:
+    {% capture video_url %}{% render 'mokae-metafield-video-url', field: product.metafields.gax.hta %}{% endcapture %}
+{%- endcomment -%}
+
+{%- if field != blank -%}
+  {%- liquid
+    assign resolved_url = ''
+    assign field_raw = field.value | default: field | strip
+
+    if field_raw contains 'http' or field_raw contains 'cdn.shopify.com/videos'
+      assign resolved_url = field_raw
+    elsif field.value.sources != blank
+      assign resolved_url = field.value.sources[0].url
+    elsif field.value.url != blank
+      assign resolved_url = field.value.url
+    else
+      assign resolved_url = field | file_url
+    endif
+  -%}
+  {{- resolved_url | strip -}}
+{%- endif -%}

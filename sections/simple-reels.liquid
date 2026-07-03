@@ -1,0 +1,75 @@
+{%- liquid
+  if template.name == 'product'
+    assign reels = product.metafields.gax.reels.value
+  else
+    assign reels = collection.metafields.gax.reels.value
+  endif
+-%}
+
+{% unless reels == blank %}
+  <div class="simple-reels-wr">
+    <div class="sr-inner">
+      <div class="sr-header-wr">
+        <div class="sr-title">{{ section.settings.title }}</div>
+      </div>
+      <div class="sr-body-wr">
+        <div class="sr-reels-wr">
+          <div class="sr-reels js-reels">
+            {% for reel in reels %}
+              <reel-slide class="sr-reel">
+                <video class="sr-video" muted>
+                  {% for source in reel.sources %}
+                    <source src="{{ source.url }}" type="{{ source.mime_type }}">
+                  {% endfor %}
+                </video>
+              </reel-slide>
+            {% endfor %}
+          </div>
+
+          <button type="button" class="custom-slick-prev">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+          </button>
+          <button type="button" class="custom-slick-next">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endunless %}
+
+{% schema %}
+{
+  "name": "Simple reels",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple reels"
+    }
+  ]
+}
+{% endschema %}

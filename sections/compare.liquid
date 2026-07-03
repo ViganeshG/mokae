@@ -1,0 +1,302 @@
+{{ 'twentytwenty.css' | asset_url | stylesheet_tag }}
+{{ 'section-compare.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'jquery.event.move.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'jquery.twentytwenty.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'compare.js' | asset_url }}" defer="defer"></script>
+
+{% style %}
+	{% render 'spaced-section' %}
+	.section-{{ section.id }}-padding { 
+padding-top:{{ section.settings.padding_top | times: 0.35 | round: 0 }}px;
+ padding-bottom: {{ section.settings.padding_bottom | times: 0.35 | round: 0 }}px; } 
+ @media screen and (min-width: 1560px) { .section-{{ section.id }}-padding { 
+	padding-top:{{ section.settings.padding_top }}px; 
+	padding-bottom: {{ section.settings.padding_bottom }}px; } }
+	
+{% endstyle %}
+
+<div class="compare">
+	<div
+		class="compare__content compare__content color-{{ section.settings.color_scheme_compare }}"
+		{% if section.settings.button_text == blank %}
+			onpointerenter="showTextCompare()"
+			onpointerleave="hideTextCompare()"
+		{% endif %}
+	>
+		<div class="compare__content-top">
+			<span>{{ section.settings.subheading_left_top }}</span>
+			<span>{{ section.settings.subheading_right_top }}</span>
+		</div>
+
+		<div class="compare__content-item section-{{ section.id }}-padding">
+			<h3>{{ section.settings.heading }}</h3>
+			{% if section.settings.button_text != blank %}
+				<a
+					{% if section.settings.button_link.url != blank %}
+						href="{{ section.settings.button_link }}"
+					{% endif %}
+					type="button"
+					{% if section.settings.button_link.url == blank %}
+						aria-disabled="true"
+					{% endif %}
+					class="button button--{{ section.settings.button_style }}"
+				>
+					{{ section.settings.button_text }}
+				</a>
+			{% endif %}
+		</div>
+
+		<div class="compare__content-bottom">
+			{%- for product in section.settings.product_list_compare -%}
+        {% if section.settings.button_text == blank %}
+          <a
+            href="{{ product.url | default: '#' }}"
+            class="link link--overlay card-wrapper__link--overlay card-product__link"
+            aria-label="link"
+          ></a>
+			  {% endif %}
+				<span>
+					<a
+						class="full-unstyled-link line-link"
+						href="{{ product.url | default: '#' }}"
+					>
+						<span>{{ product.title | escape }}</span>
+					</a>
+				</span>
+
+				<span>
+					{%- render 'price', product: product, price_class: '' -%}
+				</span>
+			{%- else -%}
+				<span>
+					{{ 'products.product.product_heading' | t }}
+				</span>
+
+				<span>
+					{% render 'price' %}
+				</span>
+			{%- endfor -%}
+		</div>
+	</div>
+	<div class="compare__slide">
+		{%- if section.settings.image_before != blank
+			and section.settings.image_after != blank
+		-%}
+			<div class="twentytwenty-wrapper twentytwenty-horizontal">
+				<div class="twentytwenty-container">
+					{{
+						section.settings.image_before
+						| image_url: width: 2200
+						| image_tag:
+							loading: 'lazy',
+							widths: '165, 360, 533, 720, 940, 1066, 1360, 1760, 1920, 2200',
+							class: 'motion-reduce',
+							width: section.settings.image_before.width,
+							height: section.settings.image_after.height
+					}}
+					{{
+						section.settings.image_after
+						| image_url: width: 2200
+						| image_tag:
+							loading: 'lazy',
+							widths: '165, 360, 533, 720, 940, 1066, 1360, 1760, 1920, 2200',
+							class: 'motion-reduce',
+							width: section.settings.image_after.width,
+							height: section.settings.image_after.height
+					}}
+				</div>
+			</div>
+	</div>
+	{%- else -%}
+		<div class="compare__default">
+			{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+			{{ 'product-2' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+		</div>
+	{%- endif -%}
+	{% if section.settings.button_text == blank %}
+		<div
+			class="button--with-underline--container color-{{ section.settings.color_scheme_compare }}"
+			sectionId="{{ section.id }}"
+			{{ block.shopify_attributes }}
+		>
+			<a
+				href="{{ product.url | default: '#' }}"
+				class="button--with-underline "
+				aria-label="{{ "accessibility.product_link" | t }}"
+			>
+				{{- 'accessibility.product_link' | t -}}
+			</a>
+		</div>
+	{%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.compare.name",
+  "tag": "section",
+  "class": "product-compare-section section",
+  "enabled_on": {
+    "templates": [
+      "*"
+    ]
+  },
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme_compare",
+      "options": [
+        {
+          "value": "background-1",
+          "label": "t:sections.all.color_scheme.options__1.label"
+        },
+        {
+          "value": "background-2",
+          "label": "t:sections.all.color_scheme.options__2.label"
+        },
+        {
+          "value": "background-3",
+          "label": "t:sections.all.color_scheme.options__3.label"
+        },
+        {
+          "value": "background-4",
+          "label": "t:sections.all.color_scheme.options__4.label"
+        },
+        {
+          "value": "background-5",
+          "label": "t:sections.all.color_scheme.options__5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.color_scheme.options__6.label"
+        }
+      ],
+      "default": "background-2",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_before",
+      "label": "t:sections.compare.settings.image_before.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_after",
+      "label": "t:sections.compare.settings.image_after.label"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list_compare",
+      "label": "Product",
+      "limit": 1
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "t:sections.compare.settings.heading.label",
+      "default": "<p>Your heading text</p>"
+    },
+    {
+      "type": "text",
+      "id": "subheading_left_top",
+      "label": "t:sections.compare.settings.subheading_left_top.label",
+      "default": "Your text"
+    },
+    {
+      "type": "text",
+      "id": "subheading_right_top",
+      "label": "t:sections.compare.settings.subheading_right_top.label",
+      "default": "Your text"
+    },
+   
+    {
+      "type": "header",
+      "content": "t:sections.all.button.header_button.content"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:sections.all.button.button_text.label",
+      "default": "view product"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.all.button.button_link.label"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:sections.all.button.button_style.options__1.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:sections.all.button.button_style.options__2.label"
+        },
+        {
+          "value": "tertiary",
+          "label": "t:sections.all.button.button_style.options__3.label"
+        }
+      ],
+      "default": "primary",
+      "label": "t:sections.all.button.button_style.label"
+    },
+		{
+      "type": "header",
+      "content": "t:sections.all.section-padding.header.content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 300,
+      "step": 10,
+      "default": 130,
+      "unit": "px",
+      "label": "t:sections.all.section-padding.padding_top.label"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 300,
+      "step": 10,
+      "default": 130,
+      "unit": "px",
+      "label": "t:sections.all.section-padding.padding_bottom.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.section-margin.header.content"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 100,
+      "unit": "px",
+      "label": "t:sections.all.section-margin.margin_top.label"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 100,
+      "unit": "px",
+      "label": "t:sections.all.section-margin.margin_bottom.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.compare.name"
+    }
+  ]
+}
+{% endschema %}

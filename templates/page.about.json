@@ -1,0 +1,157 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "about": {
+      "type": "banner-with-text",
+      "settings": {
+        "content_text": "",
+        "text_alignment": "center",
+        "button_label": "",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "image-with-text": {
+      "type": "image-with-text",
+      "settings": {
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column-1": {
+          "type": "column",
+          "settings": {
+            "heading": "Heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        },
+        "column-2": {
+          "type": "column",
+          "settings": {
+            "heading": "Heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        },
+        "column-3": {
+          "type": "column",
+          "settings": {
+            "heading": "Heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column-1",
+        "column-2",
+        "column-3"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "multicolumn_to_show": 3,
+        "horizontal_alignment": "left",
+        "heading_size": "small",
+        "img_size": "icon",
+        "img_ratio": "square",
+        "object_fit": "cover",
+        "swipe_on_mobile": true,
+        "padding_top": 150,
+        "padding_bottom": 150,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "banner-with-text": {
+      "type": "banner-with-text",
+      "settings": {
+        "image_size": "medium",
+        "content_text": "",
+        "text_alignment": "center",
+        "button_label": "",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "heading": "<p>Contact form</p>",
+        "text": "Some text for your contact form. You can use multiple lines of text.",
+        "margin_top": 110
+      }
+    },
+    "501645a1-eb27-49db-9547-a26f4b5e6e28": {
+      "type": "instagram-collage",
+      "blocks": {
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-0": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-1": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-2": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-3": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Some additional information</p>",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-0",
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-1",
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-2",
+        "template--18341209899295__501645a1-eb27-49db-9547-a26f4b5e6e28-16831836006bc1ed4e-3"
+      ],
+      "settings": {
+        "color_scheme": "background-3",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "button_text": "link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 200,
+        "margin_top": 90,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "about",
+    "image-with-text",
+    "multicolumn",
+    "banner-with-text",
+    "form",
+    "501645a1-eb27-49db-9547-a26f4b5e6e28"
+  ]
+}

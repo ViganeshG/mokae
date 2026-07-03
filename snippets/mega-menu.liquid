@@ -1,0 +1,346 @@
+{% comment %} 
+<span
+  class="header__menu-item list-menu__item list-menu__item-first link"
+  {% if link.current %}
+    aria-current="page"
+  {% endif %}
+  aria-label="{{ link.title | escape }}"
+>
+  <span
+    {%- if link.active %}
+      class="header__active-menu-item"
+    {% endif %}
+    title="{{ link.title | escape }}"
+  >
+    <span>{{ link.title | escape }}</span>
+  </span>
+</span>
+
+<div class="header-mega-menu color-background-2">
+
+  {% assign main_metaobject = metaobjects.megamenu['megamenu-op-1'] %}
+
+  {% if main_metaobject %}
+    <div class="mega-menu-new mega-menu-new-2">
+      <div class="mm-container">
+
+
+        <!-- LEFT SIDE LINKS -->
+        <div class="mm-links">
+          <ul>
+            {% for block in main_metaobject.menu_item.value %}
+              <li data-index="{{ forloop.index0 }}">
+                <a href="{{ block.url }}">{{ block.link_lanel }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="mm-shop-all">
+            <a href="/collections/all" class="shop-all-btn">SHOP ALL</a>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE IMAGES -->
+        <div class="mm-hero">
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/pexels-badulescu-badulescu-1138694-2171077_2_1.png?v=1759822351"
+            class="default-mm-img"
+            style="opacity:1;"
+          >
+          <!-- LEFT COLUMN (image 1) -->
+          <div class="mm-hero-half mm-h-l">
+            {% for block in main_metaobject.menu_item.value %}
+              {% if block.images != blank %}
+                <img 
+                  src="{{ block.images | image_url: width:1200 }}" 
+                  class="two-col-img" 
+                  data-index="{{ forloop.index0 }}"
+                  style="opacity:0"
+                >
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- RIGHT COLUMN (image 2) -->
+          <div class="mm-hero-half mm-h-r">
+            {% for block in main_metaobject.menu_item.value %}
+              {% if block.images_2 != blank %}
+                <img 
+                  src="{{ block.images_2 | image_url: width:1200 }}" 
+                  class="two-col-img" 
+                  data-index="{{ forloop.index0 }}"
+                  style="opacity:0"
+                >
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- FULL WIDTH FALLBACK -->
+          {% for block in main_metaobject.menu_item.value %}
+            {% if block.images == blank and block.images_2 == blank and block.full_width_image != blank %}
+              <img
+                src="{{ block.full_width_image | image_url: width:1600 }}"
+                class="full-width-img"
+                data-index="{{ forloop.index0 }}"
+                style="opacity:0"
+              >
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="mega-menu_overflow"></div>
+
+<!-- JS HANDLER -->
+<script>
+{% comment %} document.addEventListener('DOMContentLoaded', () => {
+
+  const items = document.querySelectorAll('.mm-links ul li');
+
+  const leftImgs = document.querySelectorAll('.mm-h-l img');
+  const rightImgs = document.querySelectorAll('.mm-h-r img');
+  const fullImgs = document.querySelectorAll('.full-width-img');
+
+  items.forEach((item) => {
+    const idx = item.dataset.index;
+
+    item.addEventListener('mouseenter', () => {
+
+      // hide everything first
+      [...leftImgs, ...rightImgs, ...fullImgs].forEach(img => img.style.opacity = 0);
+
+      // If two column images exist → show them
+      const leftImg = document.querySelector(`.mm-h-l img[data-index="${idx}"]`);
+      const rightImg = document.querySelector(`.mm-h-r img[data-index="${idx}"]`);
+
+      if (leftImg || rightImg) {
+        if (leftImg) leftImg.style.opacity = 1;
+        if (rightImg) rightImg.style.opacity = 1;
+      } else {
+        // otherwise show full width
+        const fullImg = document.querySelector(`.full-width-img[data-index="${idx}"]`);
+        if (fullImg) fullImg.style.opacity = 1;
+      }
+
+    });
+  });
+}); {% endcomment %}
+document.addEventListener('DOMContentLoaded', () => {
+
+  const items     = document.querySelectorAll('.mm-links li');
+  const leftImgs  = document.querySelectorAll('.mm-h-l img');
+  const rightImgs = document.querySelectorAll('.mm-h-r img');
+  const fullImgs  = document.querySelectorAll('.full-width-img');
+
+  // ★ DEFAULT IMAGE DISPLAY
+  function showDefault() {
+    const firstLeft  = document.querySelector('.mm-h-l img[data-index="0"]');
+    const firstRight = document.querySelector('.mm-h-r img[data-index="0"]');
+    const firstFull  = document.querySelector('.full-width-img[data-index="0"]');
+
+    [...leftImgs, ...rightImgs, ...fullImgs].forEach(img => img.style.opacity = 0);
+
+    if (firstLeft || firstRight) {
+      if (firstLeft) firstLeft.style.opacity = 1;
+      if (firstRight) firstRight.style.opacity = 1;
+    } else if (firstFull) {
+      firstFull.style.opacity = 1;
+    }
+  }
+
+  showDefault(); // ← Menu shows default image on open
+
+  // Hover Swapping
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const index = item.dataset.index;
+
+      [...leftImgs, ...rightImgs, ...fullImgs].forEach(img => img.style.opacity = 0);
+
+      const left  = document.querySelector(`.mm-h-l img[data-index="${index}"]`);
+      const right = document.querySelector(`.mm-h-r img[data-index="${index}"]`);
+      const full  = document.querySelector(`.full-width-img[data-index="${index}"]`);
+
+      if (left || right) {
+        if (left) left.style.opacity = 1;
+        if (right) right.style.opacity = 1;
+      } else if (full) {
+        full.style.opacity = 1;
+      }
+    });
+  });
+});
+
+</script>
+
+https://cdn.shopify.com/s/files/1/0707/6472/4465/files/pexels-badulescu-badulescu-1138694-2171077_2_1.png?v=1759822351 {% endcomment %}
+
+<span
+  class="header__menu-item list-menu__item list-menu__item-first link"
+  {% if link.current %}
+    aria-current="page"
+  {% endif %}
+  aria-label="{{ link.title | escape }}"
+>
+  <span
+    {%- if link.active %}
+      class="header__active-menu-item"
+    {% endif %}
+    title="{{ link.title | escape }}"
+  >
+    <span>{{ link.title | escape }}</span>
+  </span>
+</span>
+
+<div class="header-mega-menu color-background-2">
+
+  {% assign main_metaobject = metaobjects.megamenu['megamenu-op-2'] %}
+
+  {% if link.links.size > 0 or main_metaobject %}
+    <div class="mega-menu-new mega-menu-new-2">
+      <div class="mm-container">
+
+        <!-- LEFT SIDE LINKS -->
+        <div class="mm-links">
+          <ul>
+            {%- if link.links.size > 0 -%}
+              {%- assign mm_link_index = 0 -%}
+              {%- for childlink in link.links -%}
+                {%- assign child_title_downcase = childlink.title | downcase | strip -%}
+                {%- unless child_title_downcase == 'shop all' -%}
+                  <li data-index="{{ mm_link_index }}">
+                    <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+                  </li>
+                  {%- assign mm_link_index = mm_link_index | plus: 1 -%}
+                {%- endunless -%}
+              {%- endfor -%}
+            {%- elsif main_metaobject -%}
+              {%- for block in main_metaobject.menu_item.value -%}
+                <li data-index="{{ forloop.index0 }}">
+                  <a href="{{ block.url }}">{{ block.link_lanel }}</a>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+
+          <div class="mm-shop-all">
+            <a href="/collections/all" class="shop-all-btn" data-index="shopall">SHOP ALL</a>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE IMAGES -->
+        <div class="mm-hero">
+          <!-- DEFAULT fallback image -->
+          <img 
+            src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/Shop_463ab9ef-eadf-4871-8ac8-0841b6877441.png?v=1765796284"
+            class="default-mm-img"
+            style="opacity:1"
+          >
+          <!-- LEFT COLUMN -->
+          <div class="mm-hero-half mm-h-l">
+            {% if main_metaobject %}
+              {% for block in main_metaobject.menu_item.value %}
+                {% if block.images != blank %}
+                  <img 
+                    src="{{ block.images | image_url: width:1200 }}" 
+                    class="two-col-img" 
+                    data-index="{{ forloop.index0 }}"
+                    style="opacity:0"
+                  >
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <!-- RIGHT COLUMN -->
+          <div class="mm-hero-half mm-h-r">
+            {% if main_metaobject %}
+              {% for block in main_metaobject.menu_item.value %}
+                {% if block.images_2 != blank %}
+                  <img 
+                    src="{{ block.images_2 | image_url: width:1200 }}" 
+                    class="two-col-img" 
+                    data-index="{{ forloop.index0 }}"
+                    style="opacity:0"
+                  >
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <!-- FULL WIDTH FALLBACK -->
+          {% if main_metaobject %}
+            {% for block in main_metaobject.menu_item.value %}
+              {% if block.images == blank and block.images_2 == blank and block.full_width_image != blank %}
+                <img
+                  src="{{ block.full_width_image | image_url: width:1600 }}"
+                  class="full-width-img"
+                  data-index="{{ forloop.index0 }}"
+                  style="opacity:0"
+                >
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="mega-menu_overflow"></div>
+
+<!-- JS HANDLER -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const items     = document.querySelectorAll('.mm-links li');
+  const shopAll   = document.querySelector('.shop-all-btn');
+  const leftImgs  = document.querySelectorAll('.mm-h-l img');
+  const rightImgs = document.querySelectorAll('.mm-h-r img');
+  const fullImgs  = document.querySelectorAll('.full-width-img');
+  const defaultImg = document.querySelector('.default-mm-img');
+
+  // Reset all images
+  function hideAll() {
+    [...leftImgs, ...rightImgs, ...fullImgs].forEach(img => img.style.opacity = 0);
+    defaultImg.style.opacity = 0;
+  }
+
+  // DEFAULT ON MENU OPEN
+  function showDefault() {
+    hideAll();
+    defaultImg.style.opacity = 1;
+  }
+
+  showDefault();
+
+  // Hover over regular menu items
+  items.forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const index = item.dataset.index;
+
+      hideAll();
+
+      const left  = document.querySelector(`.mm-h-l img[data-index="${index}"]`);
+      const right = document.querySelector(`.mm-h-r img[data-index="${index}"]`);
+      const full  = document.querySelector(`.full-width-img[data-index="${index}"]`);
+
+      if (left || right) {
+        if (left) left.style.opacity = 1;
+        if (right) right.style.opacity = 1;
+      } else if (full) {
+        full.style.opacity = 1;
+      }
+    });
+  });
+
+  // ★ SHOW DEFAULT IMAGE WHEN HOVER SHOP ALL
+  shopAll.addEventListener('mouseenter', () => {
+    showDefault();
+  });
+
+});
+</script>

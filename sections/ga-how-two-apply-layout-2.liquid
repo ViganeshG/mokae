@@ -1,0 +1,39 @@
+<section class="ga-how-to-apply-seciton-2" data-id="shopify-section-{{ section.id }}">
+    <div class="fullscreen-container">
+        <div class="htu-wrap">
+            <div class="htu-media">
+                <img src="{{ product.metafields.gax.hta_img }}" />
+            </div>
+            <div class="htu-desc">
+                <div class="htu-desc-inner">
+                    <h3> How to use </h3>
+                    {{ product.metafields.gax.how_to_apply | metafield_tag }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% schema %}
+{
+	"name": "GA How to Apply 2",
+	"tag": "section",
+	"class": "ga-slideshow-section-2",
+	"settings": [
+		{
+            "type": "richtext",
+            "id": "desc",
+            "label": "Description"
+        },
+        {
+            "type": "text",
+            "id": "video",
+            "label": "Video"
+        },
+	],
+	"presets": [
+		{
+			"name": "GA How to Apply 2"
+		}
+	]
+}
+{% endschema %} 

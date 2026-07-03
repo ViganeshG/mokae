@@ -1,0 +1,49 @@
+{%- comment -%}
+  Renders an image from a product metafield (file reference or URL string).
+  Accepts:
+  - field: {Object} metafield object
+  - alt: {String}
+  - class: {String}
+  - width: {Number}
+{%- endcomment -%}
+
+{%- if field != blank -%}
+  {%- liquid
+    assign image_width = width | default: 1200
+    assign image_alt = alt | default: ''
+    assign image_class = class | default: ''
+    assign image_src = ''
+
+    assign image_src = field | image_url: width: image_width
+
+    if image_src == blank and field.value != blank
+      if field.value.media_type == 'image' or field.value.preview_image != blank
+        assign image_src = field.value | image_url: width: image_width
+      elsif field.value.url != blank
+        assign image_src = field.value.url
+      endif
+    endif
+
+    if image_src == blank
+      assign image_src = field | file_url
+    endif
+
+    if image_src == blank
+      assign raw_value = field.value | default: field
+      if raw_value contains 'http' or raw_value contains '//' or raw_value contains 'cdn.shopify.com'
+        assign image_src = raw_value
+      endif
+    endif
+  -%}
+
+  {%- if image_src != blank -%}
+    <img
+      src="{{ image_src }}"
+      alt="{{ image_alt | escape }}"
+      class="{{ image_class }}"
+      loading="lazy"
+      width="{{ image_width }}"
+      height="auto"
+    >
+  {%- endif -%}
+{%- endif -%}

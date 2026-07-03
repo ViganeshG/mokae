@@ -1,0 +1,300 @@
+{{ 'customer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'input.js' | asset_url }}" defer="defer"></script>
+
+<div
+	class="login_section color-{{ section.settings.color_scheme_customer }} header-color-{{ section.settings.header_color_scheme }}"
+>
+
+	<div class="customer login fullscreen-container">
+		{% if settings.show_breadcrumbs %}
+			<nav
+				class="breadcrumb"
+				role="navigation"
+				aria-label="breadcrumbs"
+			>
+				<a
+					href="{{ routes.root_url }}"
+					title="{{ 'general.breadcrumbs.home' | t }}"
+					class="link-hover-line"
+				>
+					{{ 'general.breadcrumbs.home' | t }}
+				</a>
+				<div class="breadcrumb__delimiter"></div>
+				<span>{{ page_title }}</span>
+			</nav>
+		{% endif %}
+
+		<div class="login__reset">
+			<div class="page-header" id="recover">
+				<div class="page-header__inner">
+					<h2 class="main-page-title page-title title--page" tabindex="-1">
+						{{ 'customer.recover_password.title' | t }}
+					</h2>
+				</div>
+			</div>
+			<div>
+				<p>
+					{{ 'customer.recover_password.subtext' | t }}
+				</p>
+
+				{%- form 'recover_customer_password' -%}
+					{% assign recover_success = form.posted_successfully? %}
+					<div class="field field--dark">
+						<input
+							type="email"
+							value=""
+							name="email"
+							id="RecoverEmail"
+							autocorrect="off"
+							autocapitalize="off"
+							autocomplete="email"
+							{% if form.errors %}
+								aria-invalid="true"
+								aria-describedby="RecoverEmail-email-error"
+								autofocus
+							{% endif %}
+							placeholder="{{ 'customer.login_page.email' | t }}"
+						>
+						<label
+							for="RecoverEmail"
+							placeholder="{{ 'customer.login_page.email' | t }}"
+						></label>
+					</div>
+
+					<div class="customer__buttons login__buttons">
+						<button class="button button--primary button--arrow login__sign-in">
+							<span>{{ 'customer.login_page.submit' | t }}</span>
+						</button>
+
+						<a
+							class="button button--tertiary login__create-acc login__toggle"
+							href="#login"
+						>
+							<span>{{ 'customer.login_page.cancel' | t }}</span>
+						</a>
+					</div>
+				{%- endform -%}
+			</div>
+		</div>
+		<div class="login__form">
+			<div class="page-header">
+				<div class="page-header__inner">
+					<h2 class="title--page" id="login" tabindex="-1">
+						{{ 'customer.login_page.title' | t }}
+					</h2>
+
+					{% comment %} {%- if section.settings.subtitle != blank -%}
+						<div class="login__subtitle">
+							{{ section.settings.subtitle }}
+						</div>
+					{%- endif -%} {% endcomment %}
+				</div>
+			</div>
+			<div class="login__fields">
+				{%- if recover_success == true -%}
+					<h4 class="form__message" tabindex="-1" autofocus>
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							role="presentation"
+							viewBox="0 0 13 13"
+						>
+							<path d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z" fill="#428445" stroke="white" stroke-width="0.7"/>
+							<path d="M5.53271 8.66357L9.25213 4.68197" stroke="white"/>
+							<path d="M4.10645 6.7688L6.13766 8.62553" stroke="white"/>
+						</svg>
+						{{ 'customer.recover_password.success' | t }}
+					</h4>
+				{%- endif -%}
+				{%- form 'customer_login', novalidate: 'novalidate' -%}
+					<div class="field field--dark login__field">
+						<input
+							type="email"
+							name="customer[email]"
+							class="field__input"
+							id="CustomerEmail"
+							autocomplete="email"
+							autocorrect="off"
+							autocapitalize="off"
+							required
+							{% if form.errors contains 'form' %}
+								aria-invalid="true"
+								aria-describedby="LoginForm-email-error"
+							{% endif %}
+							placeholder="{{ 'customer.login_page.email' | t }}"
+						>
+						<label
+							for="CustomerEmail"
+							placeholder="{{ 'customer.login_page.email' | t }}"
+						></label>
+					</div>
+					{% unless template.name == 'register' %}
+						{{ form.errors | default_errors }}
+					{% endunless %}
+
+					{%- if form.password_needed -%}
+						<div class="field field--dark login__field">
+							<input
+								type="password"
+								value=""
+								name="customer[password]"
+								class="field__input"
+								id="CustomerPassword"
+								autocomplete="current-password"
+								{% if form.errors contains 'form' %}
+									aria-invalid="true"
+								{% endif %}
+								required
+								placeholder="{{ 'customer.login_page.password' | t }}"
+							>
+							<label
+								for="CustomerPassword"
+								placeholder="{{ 'customer.login_page.password' | t }}"
+							></label>
+						</div>
+						{% unless template.name == 'register' %}
+							{{ form.errors | default_errors }}
+						{% endunless %}
+					{%- endif -%}
+
+					<div class="customer__buttons login__buttons">
+						<button class="button button--primary button--arrow login__sign-in">
+							<span>{{ 'customer.login_page.sign_in' | t }}</span>
+						</button>
+
+						<a
+							class="button button--tertiary login__create-acc"
+							href="{{ routes.account_register_url }}"
+						>
+							<span>{{ 'customer.login_page.create_account' | t }}</span>
+						</a>
+					</div>
+					<div class="login__forgot-password">
+						<a
+							class="uppercase button--with-underline login__toggle"
+							href="#recover"
+						>
+							{{- 'customer.login_page.forgot_password' | t -}}
+						</a>
+					</div>
+				{%- endform -%}
+			</div>
+		</div>
+
+		{%- if shop.checkout.guest_login -%}
+			<div>
+				<hr>
+				<h2>{{ 'customer.login_page.guest_title' | t }}</h2>
+
+				{%- form 'guest_login' -%}
+					<button>
+						{{ 'customer.login_page.guest_continue' | t }}
+					</button>
+				{%- endform -%}
+			</div>
+		{%- endif -%}
+	</div>
+</div>
+
+{% javascript %}
+	const events = [
+		'shopify:section:reorder',
+		'shopify:section:deselect',
+		'shopify:section:select',
+		'shopify:section:unload',
+		'shopify:section:load',
+	];
+
+	const account_header_overlay = () => {
+		let headerOverlay = document.querySelector('.overlay');
+		let colorScheme = document.querySelector('.header-color-light');
+
+		if (headerOverlay) {
+			if (colorScheme) {
+				headerOverlay.classList.add('theme-dark');
+				headerOverlay.classList.add('header-color-background-5');
+			} else {
+				headerOverlay.classList.remove('theme-dark');
+				headerOverlay.classList.remove('header-color-background-5');
+				headerOverlay.classList.add('color-background-1');
+			}
+		}
+	};
+
+	account_header_overlay();
+
+	events.forEach(function (item) {
+		document.addEventListener(item, function () {
+			account_header_overlay();
+		});
+	});
+{% endjavascript %}
+
+{% schema %}
+{
+	"name": "t:sections.main-login.name",
+	"tag": "section",
+	"settings": [
+		{
+			"type": "select",
+			"id": "header_color_scheme",
+			"options": [
+				{
+					"value": "light",
+					"label": "t:sections.all.color_scheme.light.label"
+				},
+				{
+					"value": "dark",
+					"label": "t:sections.all.color_scheme.dark.label"
+				}
+			],
+			"default": "dark",
+			"label": "t:sections.all.header_color_scheme.label",
+			"info": "t:sections.all.header_color_scheme.info"
+		},
+		{
+			"type": "select",
+			"id": "color_scheme_customer",
+			"options": [
+				{
+					"value": "background-1",
+					"label": "t:sections.all.color_scheme.options__1.label"
+				},
+				{
+					"value": "background-2",
+					"label": "t:sections.all.color_scheme.options__2.label"
+				},
+				{
+					"value": "background-3",
+					"label": "t:sections.all.color_scheme.options__3.label"
+				},
+				{
+					"value": "background-4",
+					"label": "t:sections.all.color_scheme.options__4.label"
+				},
+				{
+					"value": "background-5",
+					"label": "t:sections.all.color_scheme.options__5.label"
+				},
+				{
+					"value": "inverse",
+					"label": "t:sections.all.color_scheme.options__6.label"
+				}
+			],
+			"default": "background-1",
+			"label": "t:sections.image_with_text.settings.color_scheme.label"
+		},
+		{
+			"type": "textarea",
+			"id": "subtitle",
+			"default": "Some text for section",
+			"label": "t:sections.main-login.settings.text.label"
+		},
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "t:sections.main-login.blocks.settings.image.label"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,110 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "columns_mobile": "1",
+        "enable_filtering": false,
+        "enable_sorting": false,
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_desc": false,
+        "show_sku": false,
+        "article_show_tags": false,
+        "article_show_date": true,
+        "article_show_author": false,
+        "article_show_desc": false
+      }
+    },
+    "dd71de13-1e9b-468a-9b3e-f01190242f6e": {
+      "type": "product-carousel",
+      "disabled": true,
+      "settings": {
+        "heading": "<p>Some heading</p>",
+        "product_list": [],
+        "products_count": 4,
+        "link": "Link label",
+        "button_link": "",
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_desc": true,
+        "show_sku": false,
+        "quickview_show": false,
+        "show_link_carousel": false,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    },
+    "7d270e73-ff23-407e-aa6a-145a1a7c8b65": {
+      "type": "instagram-collage",
+      "blocks": {
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-0": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-1": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-2": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-3": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Women are made to be loved, not understood</p>",
+            "heading_size": "medium",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-0",
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-1",
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-2",
+        "template--17224267202873__7d270e73-ff23-407e-aa6a-145a1a7c8b65-1680785764153eedc1-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "background-3",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "overlay_enable": false,
+        "overlay_opacity": 10,
+        "button_text": "link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 160,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "main",
+    "dd71de13-1e9b-468a-9b3e-f01190242f6e",
+    "7d270e73-ff23-407e-aa6a-145a1a7c8b65"
+  ]
+}

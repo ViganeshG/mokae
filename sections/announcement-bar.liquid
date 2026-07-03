@@ -1,0 +1,96 @@
+<style>
+	:root {
+	   --announcement-height: 40px;
+	}
+   @media screen and (min-width: 576px) {
+	   :root {
+		   --announcement-height: {{ section.settings.height }}px;
+	   }
+   }
+ </style>
+ 
+ <div class="announcement-bar {% if section.settings.color_scheme == 'dark' %} theme-dark color-background-5
+  {% endif %}" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+	<div id="a-slider">
+		
+		{%  for i in (1..2) %}
+			<div class="ab-wrap">
+				{% for j in (1..10)  %}
+					{% for block in section.blocks %}
+						{{ block.settings.desc }} 
+					{% endfor %}	
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+	
+ </div>
+ 
+ {% schema %}
+ {
+	 "name": "t:sections.announcement-bar.name",
+	 "class": "section-announcement",
+	 "limit": 1,
+	 "blocks": [
+		 {
+			 "type": "slide",
+			 "name": "Slide",
+			 "settings": [
+				 {
+					 "type": "richtext",
+					 "id": "desc",
+					 "label": "Message"
+				 }
+			 ]
+		 }
+	 ],
+	 "settings": [
+		 {
+			 "type": "range",
+			 "id": "height",
+			 "min": 40,
+			 "max": 100,
+			 "step": 5,
+			 "default": 40,
+			 "label": "t:sections.announcement-bar.settings.height.label"
+		 },
+		 {
+			 "type": "select",
+			 "id": "color_scheme",
+			 "options": [
+				 {
+					 "value": "dark",
+					 "label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__2.label"
+				 },
+				 {
+					 "value": "light",
+					 "label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__1.label"
+				 }
+			 ],
+			 "default": "light",
+			 "label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.label"
+		 },
+		 {
+			 "type": "richtext",
+			 "id": "text",
+			 "default": "<p>For example, a test of the announcement of some news</p>",
+			 "label": "t:sections.announcement-bar.settings.text.label"
+		 },
+		 {
+			 "type": "image_picker",
+			 "id": "image",
+			 "label": "t:sections.announcement-bar.settings.image.label",
+			 "info": "t:sections.announcement-bar.settings.image.info"
+		 }
+	 ],
+	 "presets": [
+		 {
+			 "name": "t:sections.announcement-bar.presets.name"
+		 }
+	 ],
+	 "enabled_on": {
+	 "groups": ["header"]
+   }
+ }
+ {% endschema %}
+ 

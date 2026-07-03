@@ -1,0 +1,141 @@
+{%- if block.settings.picker_type == 'button' -%}
+	<variant-radios
+		id="variant-radios-{{ section.id }}"
+		class="
+			no-js-hidden 	{% unless product.has_only_default_variant %}
+			borders{% endunless %}
+		"
+		data-section="{{ section.id }}"
+		data-url="{{ product.url }}"
+		{% if update_url == false %}
+			data-update-url="false"
+		{% endif %}
+		{{ block.shopify_attributes }}
+	>
+		{%- unless product.has_only_default_variant -%}
+			{%- for option in product.options_with_values -%}
+				{% assign option_name_downcase = option.name | downcase %}
+				<fieldset
+					class="js product-form__input product-form__input--radios"
+					id="SingleOptionSelector-{{ forloop.index0 }}"
+				>
+					<legend class="product-form__group-name">{{ option.name }}</legend>
+					<div class="form__label product-form__controls-group">
+						{% render 'product-variant-options',
+							product: product,
+							option: option,
+							block: block
+						%}
+					</div>
+				</fieldset>
+				{% if product.handle == 'witching-hour-brow-gel' and option_name_downcase == 'shades' %}
+					<div class="product-shade-help-text">
+						Unsure which Witching Hour shade is yours?<br>
+						We’re here to help. Reach out to us on WhatsApp at
+						<a
+							href="https://wa.me/918433919066?text=Unsure%20of%20my%20Witching%20Hour%20Brow%20Gel%20shade.%20Can%20you%20help%3F"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							+91 8433919066
+						</a>
+						or DM us on
+						<a href="https://www.instagram.com/mokaebeauty/" target="_blank" rel="noopener noreferrer">
+							Instagram @mokaebeauty
+						</a>.
+					</div>
+				{% endif %}
+			{%- endfor -%}
+		{% endunless %}
+
+		<script type="application/json">
+			{{ product.variants | json }}
+		</script>
+	</variant-radios>
+{%- else -%}
+	<variant-selects
+		id="variant-selects-{{ section.id }}"
+		class="
+			no-js-hidden {% unless product.has_only_default_variant %}
+			borders{% endunless %}
+		"
+		data-section="{{ section.id }}"
+		data-url="{{ product.url }}"
+		{{ block.shopify_attributes }}
+	>
+		{%- unless product.has_only_default_variant -%}
+			{%- for option in product.options_with_values -%}
+				<div class="product-form__input product-form__input--dropdown">
+					<label
+						class="form__label"
+						for="Option-{{ section.id }}-{{ forloop.index0 }}"
+					>
+						{{ option.name }}
+					</label>
+					<div class="select about__more-link">
+						<select
+							id="Option-{{ section.id }}-{{ forloop.index0 }}"
+							class="select__select"
+							name="options[{{ option.name | escape }}]"
+							form="{{ product_form_id }}"
+						>
+							{%- for value in option.values -%}
+								<option
+									value="{{ value | escape }}"
+									{% if option.selected_value == value %}
+										selected="selected"
+									{% endif %}
+									{% if product.variant == false %}
+										disabled
+									{% endif %}
+								>
+									{{ value }}
+								</option>
+							{%- endfor -%}
+						</select>
+						{% render 'icon-button-arrow' %}
+					</div>
+				</div>
+			{%- endfor -%}
+		{% endunless %}
+
+		<script type="application/json">
+			{{ product.variants | json }}
+		</script>
+	</variant-selects>
+{%- endif -%}
+
+<noscript class="product-form__noscript-wrapper-{{ section.id }}">
+	<div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
+		<label class="form__label" for="Variants-{{ section.id }}">
+			{{- 'products.product.product_variants' | t -}}
+		</label>
+		<div class="select">
+			<select
+				name="id"
+				id="Variants-{{ section.id }}"
+				class="select__select"
+				form="{{ product_form_id }}"
+			>
+				{%- for variant in product.variants -%}
+					<option
+						{% if variant == product.selected_or_first_available_variant %}
+							selected="selected"
+						{% endif %}
+						{% if variant.available == false %}
+							disabled
+						{% endif %}
+						value="{{ variant.id }}"
+					>
+						{{ variant.title }}
+						- {{ variant.price | money | strip_html }}
+						{%- if variant.available == false %}
+							- {{ 'products.product.sold_out' | t -}}
+						{%- endif %}
+					</option>
+				{%- endfor -%}
+			</select>
+			{% render 'icon-button-arrow' %}
+		</div>
+	</div>
+</noscript>

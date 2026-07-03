@@ -1,0 +1,269 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_ghU3CP": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {}
+        },
+        "custom_liquid_94Dqbz": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "<div class=\"ga-pro-desc\">\n{{ product.description }}\n</div>\n  {% comment %} <h6 style=\"margin-top:35px;margin-bottom:15px;\" >FULL MOON MARKER</h6>\n<div class=\"desc-icon\" style=\"    width: 60px;\n    height: 60px;\">\n<img src=\"https://cdn.shopify.com/s/files/1/0707/6472/4465/files/Full_Moon.png?v=1762330191\" style=\"width:100%; height:100%; margin-bottom:0vw;\" />\n</div>\n<h6 style=\"margin-bottom:15px; margin-top:35px;\" >NEW MOON MARKER</h6>\n<div class=\"desc-icon\" style=\"    width: 60px;\n    height: 60px;\">\n<img src=\"https://cdn.shopify.com/s/files/1/0707/6472/4465/files/New_Moon.png?v=1762330192\" style=\"width:100%; height:100%;\" />\n</div>  {% endcomment %}\n\n<variant-radios id=\"variant-radios-template--19333035589873__main\" class=\"\n\t\t\tno-js-hidden \t\n\t\t\tborders\n\t\t\" data-section=\"template--19333035589873__main\" data-url=\"/products/cosmic-eyes-long-lasting-everyday-kajal\">\n\t\t<fieldset class=\"js product-form__input product-form__input--radios\" id=\"SingleOptionSelector-0\">\n\t\t\t\t\t<legend class=\"product-form__group-name\">Moon Markers</legend>\n\t\t\t\t\t<div class=\"form__label product-form__controls-group\">\n\t\t\t\t\t\t\n\n\n\t\n<input type=\"radio\" id=\"template--19333035589873__main-1-0\" name=\"Moon Markers\" value=\"Full Moon Marker\" form=\"product-form-template--19333035589873__main\">\n          \n\t\t\t<label for=\"template--19333035589873__main-1-0\"  tabindex=\"0\" class=\"moon-selector-label link-hover-line-outer ct-variant-main\" data-variant-img=\"https://cdn.shopify.com/s/files/1/0707/6472/4465/files/full-moon.svg?v=1762418491\"  style=\"background-image: url('https://cdn.shopify.com/s/files/1/0707/6472/4465/files/full-moon.svg?v=1762418491'); background-size: 35px; background-position: center; background-color: transparent !important; background-repeat: no-repeat; height: 45px !important;\n    width: 45px !important; border: none !important\">\n\t\t\t\t<span class=\"uppercase\">Full Moon Marker</span>\n\t\t\t\t<span class=\"visually-hidden\">Variant sold out or unavailable</span>\n\t\t\t</label>\n\n\n\t\n<input type=\"radio\" id=\"template--19333035589873__main-1-1\" name=\"Moon Markers\" value=\"New Moon Marker\" form=\"product-form-template--19333035589873__main\">\n          \n\t\t\t<label for=\"template--19333035589873__main-1-1\" tabindex=\"0\" class=\"moon-selector-label link-hover-line-outer ct-variant-main\" data-variant-img=\"https://cdn.shopify.com/s/files/1/0707/6472/4465/files/new-moon.svg?v=1762418490\"  style=\"background-image: url('https://cdn.shopify.com/s/files/1/0707/6472/4465/files/new-moon.svg?v=1762418490'); background-size: 35px; background-position: center; background-color: transparent !important; background-repeat: no-repeat; height: 45px !important;\n    width: 45px !important;\nborder:none !important;\">\n\t\t\t\t<span class=\"uppercase\">New Moon Marker</span>\n\t\t\t\t<span class=\"visually-hidden\">Variant sold out or unavailable</span>\n\t\t\t</label>\n\n\t\t\t\t\t</div>\n\t\t\t\t</fieldset>\n\n\t\t\n\t</variant-radios>\n<style>\n.moon-selector-label:hover .uppercase{\nopacity: 1 !important;\ntext-align: left !important;\n    background-color: transparent;\n    position: absolute;\n    bottom: 0 !important;\n    width: 250px;\n    left: 0;\n    border: 0px !important;\n    font-size: 14px !important;\n\n}\n\n.product-form__input input[type=radio]:checked+label span {\nopacity: 0;\n}\n.link-hover-line-outer:hover span:after {\n    width: 0%;\n}\n\n@media screen and (max-width: 786px){\n.moon-selector-label:hover .uppercase{\nopacity: 0 !important;\ntext-align: left !important;\n    background-color: transparent;\n    position: absolute;\n    bottom: 0 !important;\n    width:0 !important;\n    left: 0;\n    border: 0px !important;\n    font-size: 14px !important;\n\n}\n.product-form__input input[type=radio]:checked+label span {\nopacity: 1 !important;\nwidth: auto !important;\n}\n\n}\n\n\n {% comment %} \n.moon-selector-label:hover .uppercase:after{\nwidth: max-content !important;}\n{% endcomment %}\n</style>"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          }
+        },
+        "about_1": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Basic Moon Terms to Know",
+            "about_heading_content": "<p>{{ product.metafields.custom.moon_terms_and_meaning | metafield_tag }}</p>",
+            "unescape_content": true
+          }
+        },
+        "about_wcfJai": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "How to Read the Moon Calendar",
+            "about_heading_content": "{{ product.metafields.gax.p_claims | metafield_tag }}",
+            "unescape_content": false
+          }
+        },
+        "about_RNxaUd": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "Full Moon Do’s & Don’ts",
+            "about_heading_content": "{{ product.metafields.gax.how_to_apply | metafield_tag }}",
+            "unescape_content": false
+          }
+        },
+        "about_LnPVpB": {
+          "type": "about",
+          "settings": {
+            "default_open": false,
+            "about_heading": "New Moon Do’s & Don’ts",
+            "about_heading_content": "{{ product.metafields.gax.finish | metafield_tag }}",
+            "unescape_content": false
+          }
+        },
+        "about_VUJeUj": {
+          "type": "about",
+          "disabled": true,
+          "settings": {
+            "default_open": false,
+            "about_heading": "Some title",
+            "about_heading_content": "<p>{{ product.metafields.custom.moon_terms_and_meaning | metafield_tag }}</p>",
+            "unescape_content": false
+          }
+        },
+        "about_GinJVE": {
+          "type": "about",
+          "disabled": true,
+          "settings": {
+            "default_open": false,
+            "about_heading": "Cinical Claims",
+            "about_heading_content": "{{ product.metafields.gax.clinical_cliams | metafield_tag }}",
+            "unescape_content": false
+          }
+        },
+        "about_NhpdPX": {
+          "type": "about",
+          "disabled": true,
+          "settings": {
+            "default_open": false,
+            "about_heading": "Ingredients",
+            "about_heading_content": "{{ product.metafields.gax.ingredients | metafield_tag }}",
+            "unescape_content": false
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "judge_me_reviews_preview_badge_ghU3CP",
+        "custom_liquid_94Dqbz",
+        "variant_picker",
+        "buy_buttons",
+        "about_1",
+        "about_wcfJai",
+        "about_RNxaUd",
+        "about_LnPVpB",
+        "about_VUJeUj",
+        "about_GinJVE",
+        "about_NhpdPX"
+      ],
+      "settings": {
+        "image_gallery_collage": "thumbnail_carousel",
+        "desktop_alignment": "right",
+        "mobile_alignment": "after",
+        "image_fit": "cover",
+        "show_share_facebook": false,
+        "show_share_twitter": false,
+        "show_share_pinterest": false,
+        "show_share_copy": false
+      }
+    },
+    "video_d9FbYe": {
+      "type": "video",
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "height": "adapt",
+        "video_fit": "contain",
+        "subheading": "",
+        "heading": "How to Apply",
+        "cover_image": "shopify://shop_images/insta-bg-pichi.jpg",
+        "opacity_overlay": 0.5,
+        "video": "shopify://files/videos/3971845-hd_1920_1080_25fps.mp4",
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "video_autoplay": true,
+        "video_loop": true,
+        "video_muted": true,
+        "video_controls": false,
+        "description": "",
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
+    "ga_how_two_apply_nhtxGx": {
+      "type": "ga-how-two-apply",
+      "disabled": true,
+      "settings": {
+        "desc": "",
+        "video": ""
+      }
+    },
+    "featured_product_X9YJHE": {
+      "type": "featured-product",
+      "blocks": {
+        "price_Erp6Nx": {
+          "type": "price",
+          "settings": {}
+        },
+        "product_description_hgGJpN": {
+          "type": "product-description",
+          "settings": {}
+        },
+        "share_qPU4Dm": {
+          "type": "share",
+          "disabled": true,
+          "settings": {}
+        },
+        "variant_picker_7tXGEg": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown"
+          }
+        },
+        "buy_buttons_QKxJT9": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "button_link_RiDpaE": {
+          "type": "button_link",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "price_Erp6Nx",
+        "product_description_hgGJpN",
+        "share_qPU4Dm",
+        "variant_picker_7tXGEg",
+        "buy_buttons_QKxJT9",
+        "button_link_RiDpaE"
+      ],
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "product_item": "{{ product.metafields.custom.related_product.value }}",
+        "desktop_alignment": "right",
+        "mobile_alignment": "after",
+        "image_fit": "cover",
+        "show_share_facebook": true,
+        "show_share_twitter": true,
+        "show_share_pinterest": true,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    },
+    "17289737870fd35ed8": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_jtBmQX": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_jtBmQX"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "<p>You May Also Like</p>",
+        "link": "Explore",
+        "button_link": "",
+        "products_limit": 4,
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_desc": false,
+        "show_sku": false,
+        "quickview_show": false,
+        "show_link": true,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "video_d9FbYe",
+    "ga_how_two_apply_nhtxGx",
+    "featured_product_X9YJHE",
+    "17289737870fd35ed8",
+    "product-recommendations"
+  ]
+}

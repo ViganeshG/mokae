@@ -1,0 +1,43 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "mokae-pro-invite",
+      "settings": {}
+    },
+    "mokae_pro_form": {
+      "type": "apps",
+      "blocks": {
+        "powerful_form_builder_app_block": {
+          "type": "shopify://apps/powerful-form-builder/blocks/app-block/e4bcb1eb-35b2-42e6-bc37-bfe0e1542c9d",
+          "settings": {
+            "shortcode": "<div class=\"globo-formbuilder\" data-id=\"MTQ2NzM0\"></div>"
+          }
+        }
+      },
+      "block_order": [
+        "powerful_form_builder_app_block"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "remember": {
+      "type": "mokae-pro-invite-remember",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "mokae_pro_form",
+    "remember"
+  ]
+}

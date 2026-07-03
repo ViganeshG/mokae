@@ -1,0 +1,30 @@
+<style>
+.ct-seo-title{
+    display:none;
+}
+</style>
+{% for seo_heading in section.blocks %}
+  <h1 class="ct-seo-title">{{ seo_heading.settings.title }}</h1>
+{% endfor %}
+{% schema %}
+  {
+    "name": "SEO Tag",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "SEO",
+        "name": "SEO",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "SEO Title"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "SEO Tag"
+    }]
+  }
+{% endschema %}

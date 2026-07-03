@@ -1,0 +1,79 @@
+<section class="ga-testimonials-seciton" data-id="shopify-section-{{ section.id }}">
+    <div class="fullscreen-container ga-tesimonials-wrap">
+		<div class="ga-testimonials-nav">
+			<div class="ga-tn-left">
+				<h2 class="section-title"> Testimonials </h2>
+			</div>
+			<div class="ga-tn-right">
+				<div class="ga-tn-arrows">
+					<div class="ga-tn-arrow ga-tn-prev ga-tn-prev-{{ section.id }}" data-id="{{ section.id }}">
+						<svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M20.4446 25.059L11.5557 16.1701L20.4446 7.28125" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+					<div class="ga-tn-arrow ga-tn-next ga-tn-next-{{ section.id }}" data-id="{{ section.id }}">
+						<svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M11.5557 7.28125L20.4446 16.1701L11.5557 25.059" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div id="ga-testimonials-slider-{{ section.id }}" data-id="{{ section.id }}" class="ga-testimonials-slider">
+			{% for block in section.blocks %}
+			<div class="ga-t-slide">
+				<div class="ga-t-s-block">
+					<div class="ga-t-media">
+						<img src="{{ block.settings.img.src | img_url : '1000x' }}" alt="">
+					</div>
+					<div class="ga-t-desc">
+						<div class="ga-t-content">
+							{{ block.settings.desc }}
+						</div>
+						<h2 class="ga-t-author">
+							{{ block.settings.name }}
+						</h2>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+    </div>
+</section>
+
+{% schema %}
+{
+	"name": "GA Testimonials",
+	"tag": "section",
+	"class": "ga-testimonials-section",
+	"settings": [],
+	"blocks": [
+		{
+			"type": "slide",
+			"name": "Slide",
+			"settings": [
+				{
+					"type": "text",
+					"id": "name",
+					"label": "Name"
+				},
+				{
+					"type": "richtext",
+					"id": "desc",
+					"label": "Description"
+				},
+				{
+					"type": "image_picker",
+					"id": "img",
+					"label": "Image"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "GA Testimonials"
+		}
+	]
+}
+{% endschema %}

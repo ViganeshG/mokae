@@ -1,0 +1,373 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{%- if settings.pagination_type == 'load_more'
+	or settings.pagination_type == 'infinite_scroll'
+-%}
+	<script src="{{ 'load-more.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+	<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+	<script src="{{ 'facets-menu.js' | asset_url }}" defer="defer"></script>
+	{{ 'component-facets.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+<link
+	rel="preload"
+	href="{{ 'component-card.css' | asset_url }}"
+	as="style"
+	onload="this.onload=null;this.rel='stylesheet'"
+>
+<link
+	rel="preload"
+	href="{{ 'component-card-extended.css' | asset_url }}"
+	as="style"
+	onload="this.onload=null;this.rel='stylesheet'"
+>
+<link
+	rel="preload"
+	href="{{ 'component-price.css' | asset_url }}"
+	as="style"
+	onload="this.onload=null;this.rel='stylesheet'"
+>
+<link
+	rel="preload"
+	href="{{ 'component-badge.css' | asset_url }}"
+	as="style"
+	onload="this.onload=null;this.rel='stylesheet'"
+>
+<link
+	rel="preload"
+	href="{{ 'component-rte.css' | asset_url }}"
+	as="style"
+	onload="this.onload=null;this.rel='stylesheet'"
+>
+
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-badge.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- if collection.all_products_count > 0 -%}
+	{%- if section.settings.enable_filtering
+		or section.settings.enable_sorting
+	-%}
+		<div class="facets facets__main ct_page_width_class">
+			{% render 'facets',
+				results: collection,
+				enable_filtering: section.settings.enable_filtering,
+				enable_sorting: section.settings.enable_sorting,
+				image_filter_ratio: section.settings.image_filter_ratio,
+        image_filter_fit: section.settings.image_filter_fit,
+        image_filter_columns: section.settings.image_filter_columns
+			%}
+		</div>
+	{%- endif -%}
+{%- endif -%}
+<div id="ProductGridContainer" class="ct_page_width_class">
+	{%- paginate collection.products by section.settings.products_per_page -%}
+		{%- if collection.products.size == 0 -%}
+			<div
+				class="collection collection-product collection--empty fullscreen-container"
+				id="product-grid"
+				data-id="{{ section.id }}"
+			>
+				<div class="loading-overlay">
+					<div class="loading-overlay__spinner">
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							role="presentation"
+							class="spinner"
+							viewBox="0 0 66 66"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+						</svg>
+					</div>
+				</div>
+
+				<div class="title-wrapper center title-wrapper-empty">
+					<h2 class="title title--primary">
+						{% if collection.all_products_count == 0 %}
+							{{ 'sections.collection_template.empty' | t -}}
+							<br>
+							{{
+								'sections.collection_template.use_fewer_filters_html'
+								| t: link: routes.collections_url, class: 'underlined-link link'
+							}}
+						{% else %}
+							{{ 'sections.collection_template.empty_results' | t -}}
+							<br>
+							{{
+								'sections.collection_template.results_use_fewer_filters_html'
+								| t: link: collection.url, class: 'underlined-link link'
+							}}
+						{% endif %}
+					</h2>
+				</div>
+			</div>
+		{%- else -%}
+			<div class="collection collection-product fullscreen-container">
+				<div class="loading-overlay">
+					<div class="loading-overlay__spinner">
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							role="presentation"
+							class="spinner"
+							viewBox="0 0 66 66"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+						</svg>
+					</div>
+				</div>
+				{% liquid
+					assign card_index = 0
+
+					if section.settings.show_large_card == true
+						if paginate.current_page == 1 or settings.pagination_type == 'pagination'
+							assign card_index = 7
+						endif
+
+						if paginate.page_size == 7 or paginate.page_size == 11 or paginate.page_size == 15 or paginate.page_size == 19
+							if settings.pagination_type == 'load_more' or settings.pagination_type == 'infinite_scroll'
+								assign card_index = 7
+							endif
+						endif
+					endif
+				%}
+
+				<ul
+					id="product-grid"
+					data-id="{{ section.id }}"
+					class="collection-product-list collection-product-list--{{ section.settings.columns_mobile }}-mobile load-more-grid"
+				>
+					{%- for product in collection.products -%}
+						<li
+							class="
+								collection-product-card quickview{%- if settings.quickview_hover -%}--hover{% endif %}
+								{%- if paginate.page_size > 6 -%}
+									{%- if card_index != 0 and forloop.index == card_index -%}
+										collection-product-card--extended collection-product-card--{{- section.settings.image_ratio -}}
+									{%- endif -%}
+								{%- endif -%}
+							"
+						>
+							{% render 'product-card',
+							product_card_product: product,
+							media_size: section.settings.image_ratio,
+							media_fit: section.settings.image_fit,
+							show_secondary_image: section.settings.show_secondary_image,
+							show_vendor: section.settings.show_vendor,
+							show_desc: section.settings.show_desc,
+							show_sku: section.settings.show_sku,
+							quickview_show: section.settings.quickview_show,
+							section_id: section.id,
+							collection_handle: collection.handle
+						%}
+						</li>
+					{%- endfor -%}
+				</ul>
+
+				{%- if paginate.pages > 1 -%}
+					{%- if settings.pagination_type == 'load_more' -%}
+						{% render 'load-more',
+							next_url: paginate.next.url,
+							count_pages: paginate.pages,
+							current_page: paginate.current_page
+						%}
+						<div class="no-js">
+							{% render 'pagination', paginate: paginate %}
+						</div>
+					{%- elsif settings.pagination_type == 'infinite_scroll' -%}
+						{% render 'infinite-scroll',
+							next_url: paginate.next.url,
+							count_pages: paginate.pages,
+							current_page: paginate.current_page
+						%}
+						<div class="no-js">
+							{% render 'pagination', paginate: paginate %}
+						</div>
+					{% else %}
+						{% render 'pagination', paginate: paginate %}
+					{%- endif -%}
+				{%- endif -%}
+			</div>
+		{%- endif -%}
+	{%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.main-collection-product-grid.name",
+	"tag": "section",
+	"class": "collection-grid-section",
+	"settings": [
+		{
+			"type": "range",
+			"id": "products_per_page",
+			"min": 4,
+			"max": 22,
+			"step": 1,
+			"default": 10,
+			"label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+		},
+		{
+			"type": "select",
+			"id": "columns_mobile",
+			"default": "1",
+			"label": "t:sections.main-collection-product-grid.settings.columns_mobile.label",
+			"options": [
+				{
+					"value": "1",
+					"label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__1.label"
+				},
+				{
+					"value": "2",
+					"label": "t:sections.main-collection-product-grid.settings.columns_mobile.options__2.label"
+				}
+			]
+		},
+		{
+			"type": "header",
+			"content": "t:sections.main-collection-product-grid.settings.header__3.content"
+		},
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"options": [
+				{
+					"value": "landscape",
+					"label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+				},
+				{
+					"value": "portrait",
+					"label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+				},
+				{
+					"value": "square",
+					"label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+				}
+			],
+			"default": "portrait",
+			"label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+		},
+		{
+			"type": "select",
+			"id": "image_fit",
+			"label": "t:sections.featured-products.settings.image_fit.label",
+			"options": [
+				{
+					"value": "contain",
+					"label": "t:sections.featured-products.settings.image_fit.options__1.label"
+				},
+				{
+					"value": "cover",
+					"label": "t:sections.featured-products.settings.image_fit.options__2.label"
+				}
+			],
+			"default": "cover"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_secondary_image",
+			"default": false,
+			"label": "t:sections.main-collection-product-grid.settings.show_secondary_image.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_vendor",
+			"default": false,
+			"label": "t:sections.main-collection-product-grid.settings.show_vendor.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_desc",
+			"default": false,
+			"label": "t:sections.main-collection-product-grid.settings.show_desc.label",
+			"info": "t:sections.main-collection-product-grid.settings.show_desc.info"
+		},
+		{
+      "type": "checkbox",
+      "id": "show_sku",
+      "default": false,
+      "label": "t:sections.all.product_card.show_sku.label"
+    },
+		{
+			"type": "checkbox",
+			"id": "quickview_show",
+			"default": true,
+			"label": "t:sections.all.product_card.quickview_show.label"
+		},
+
+		{
+			"type": "header",
+			"content": "t:sections.main-collection-product-grid.settings.header__1.content"
+		},
+		{
+			"type": "checkbox",
+			"id": "enable_filtering",
+			"default": true,
+			"label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+			"info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+		},
+		{
+			"type": "checkbox",
+			"id": "enable_sorting",
+			"default": true,
+			"label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+		},
+		{
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.image_filter.content"
+    },
+    {
+      "type": "select",
+      "id": "image_filter_ratio",
+      "options": [
+        {
+          "value": "3/2",
+          "label": "t:sections.all.card.image_ratio.options__1.label"
+        },
+        {
+          "value": "4/5",
+          "label": "t:sections.all.card.image_ratio.options__2.label"
+        },
+        {
+          "value": "1/1",
+          "label": "t:sections.all.card.image_ratio.options__3.label"
+        }
+      ],
+      "default": "4/5",
+      "label": "t:sections.all.card.image_ratio.label"
+    },
+    {
+      "type": "select",
+      "id": "image_filter_fit",
+      "options": [
+        {
+          "value": "contain",
+          "label": "t:sections.all.card.image_fit.options__1.label"
+        },
+        {
+          "value": "cover",
+          "label": "t:sections.all.card.image_fit.options__2.label"
+        }
+      ],
+      "default": "cover",
+      "label": "t:sections.all.card.image_fit.label"
+    },
+    {
+      "type": "range",
+      "id": "image_filter_columns",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "label": "t:sections.main-collection-product-grid.settings.image_filter_columns.label"
+    }
+	]
+}
+{% endschema %}

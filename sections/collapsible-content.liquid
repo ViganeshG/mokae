@@ -1,0 +1,149 @@
+{{ 'section-collapsible-content.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'collapsible-content.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+	.section-{{ section.id }}-padding {
+		padding-top: {{ section.settings.padding_top | times: 0.25 | round: 0 }}px;
+		padding-bottom: {{ section.settings.padding_bottom | times: 0.25 | round: 0 }}px;
+	}
+
+	@media screen and (min-width: 990px) {
+		.section-{{ section.id }}-padding {
+			padding-top: {{ section.settings.padding_top }}px;
+			padding-bottom: {{ section.settings.padding_bottom }}px;
+		}
+	}
+{%- endstyle -%}
+
+<div class="collapsible-content container section-{{ section.id }}-padding">
+	<div class="collapsible-content__top">
+		{%- if section.settings.heading != blank -%}
+			<h2 class="collapsible-content__heading">
+				{{ section.settings.heading }}
+			</h2>
+		{%- endif -%}
+	</div>
+
+	<div class="collapsible-content__items">
+		{%- for block in section.blocks -%}
+			<div
+				class="collapsible-content__item {% if block.settings.default_open %} active{% endif %}"
+				{{ block.shopify_attributes }}
+			>
+				<div class="collapsible-content__toggle">
+					<div class="collapsible-content__toggle-group">
+						{%- if block.settings.question != blank -%}
+							<h4 class="collapsible-content__question h5">
+								{{ block.settings.question | escape }}
+							</h4>
+						{%- endif -%}
+					</div>
+					<div class="collapsible-content__icon">
+						{% render 'icon-button-arrow' %}
+					</div>
+				</div>
+
+				{%- if block.settings.answer != blank -%}
+					<div
+						class="collapsible-content__answer"
+						{% if block.settings.default_open %}
+							style="display: block;"
+						{% endif %}
+					>
+						<div class="collapsible-content__answer-inner">
+							{{ block.settings.answer }}
+						</div>
+					</div>
+				{%- endif -%}
+			</div>
+		{%- endfor -%}
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.collapsible-content.name",
+	"tag": "section",
+	"class": "collapsible-content-section spaced-section",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"blocks": [
+		{
+			"type": "accordion",
+			"name": "t:sections.collapsible-content.blocks.accordion.name",
+			"limit": 20,
+			"settings": [
+				{
+					"type": "checkbox",
+					"id": "default_open",
+					"default": false,
+					"label": "t:sections.collapsible-content.blocks.default_open.label",
+					"info": "t:sections.collapsible-content.blocks.default_open.info"
+				},
+				{
+					"type": "text",
+					"id": "question",
+					"default": "Some title",
+					"label": "t:sections.collapsible-content.settings.heading.label"
+				},
+				{
+					"type": "richtext",
+					"id": "answer",
+					"default": "<p>Some description</p>",
+					"label": "t:sections.collapsible-content.settings.text.label"
+				}
+			]
+		}
+	],
+	"settings": [
+		{
+			"type": "inline_richtext",
+			"id": "heading",
+			"default": "Some header",
+			"label": "t:sections.collapsible-content.settings.heading.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-padding.header.content"
+		},
+		{
+			"type": "range",
+			"id": "padding_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 160,
+			"unit": "px",
+			"label": "t:sections.all.section-padding.padding_top.label"
+		},
+		{
+			"type": "range",
+			"id": "padding_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 160,
+			"unit": "px",
+			"label": "t:sections.all.section-padding.padding_bottom.label"
+		}
+	],
+	"presets": [
+		{
+			"name": "t:sections.collapsible-content.name",
+			"blocks": [
+				{
+					"type": "accordion"
+				},
+				{
+					"type": "accordion"
+				},
+				{
+					"type": "accordion"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,254 @@
+<section class="store-switcher">
+  <div class="tabs">
+    <button class="tab active" data-tab="online">ONLINE STORES</button>
+    <div class="tab-divider"></div>
+    <button class="tab" data-tab="offline">OFFLINE STORES</button>
+  </div>
+
+  <!-- ONLINE STORES -->
+  <div class="tab-content active" id="online">
+    <div class="online-wrapper">
+      <div class="online-left">
+        <div class="store">
+          <div class="s-content">
+            <h4>AMAZON</h4>
+            <p>www.amazon.com</p>
+          </div>
+
+          <div class="s-cta">
+            <a
+              href="https://www.amazon.in/stores/MOKAE/page/5612EFE4-CEAF-4BEA-88B8-FFFFEBF41B6A?lp_asin=B0FKHFT5BG&ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto"
+              target="_blank"
+              class="btn"
+              >SHOP NOW</a
+            >
+          </div>
+        </div>
+        {% comment %}
+          <div class="store">
+            <div class="s-content">
+              <h4>TATA CLIQ</h4>
+              <p>www.tatacliq.com</p>
+            </div>
+            <div class="s-cta">
+              <a href="https://www.tatacliq.com" target="_blank" class="btn">SHOP NOW</a>
+            </div>
+          </div>
+          <div class="store">
+            <div class="s-content">
+              <h4>MYNTRA</h4>
+              <p>www.myntra.com</p>
+            </div>
+
+            <div class="s-cta">
+              <a href="https://www.myntra.com" target="_blank" class="btn">SHOP NOW</a>
+            </div>
+          </div>
+        {% endcomment %}
+      </div>
+
+      <div class="online-right">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/Render_R4_edit_1.jpg?v=1769672917"
+          alt="Online Stores"
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFLINE STORES -->
+  <div class="tab-content" id="offline">
+    <div class="offline-wrapper">
+      <div class="offline-left">
+        <h4>TWO EXTRA LIVES</h4>
+        <p>
+          CTS NO. F, 111, 562, Dr Ambedkar Rd, beside Whitty Dryers and Dry Cleaners, Pali Gaonthan, Bandra West,
+          Mumbai, Maharashtra 400050
+        </p>
+      </div>
+      <div class="offline-right">
+        <iframe
+          src="https://www.google.com/maps?q=CTS%20NO.%20F,%20111,%20562,%20Dr%20Ambedkar%20Rd,%20Bandra%20West,%20Mumbai%20400050&output=embed"
+          width="100%"
+          height="400"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .store-switcher {
+    background: #fff;
+    color: #111;
+    padding: 50px 95px 50px;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .tab-divider {
+    height: 15px;
+    width: 1px;
+    background-color: #ccc;
+  }
+  .tab {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+  }
+
+  .tab.active {
+    color: #111;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  .tab-content.active {
+    display: block;
+  }
+
+  .online-wrapper {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .offline-wrapper {
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .store {
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .online-left {
+    width: 35%;
+        margin-top: 100px;
+  }
+
+  .online-right {
+    width: 50%;
+  }
+
+  .offline-left {
+    width: 25%;
+    margin-top: 70px;
+  }
+  .offline-left h4 {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+  .offline-left p {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .offline-right {
+    width: 50%;
+  }
+
+  .store h4 {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+
+  .store p {
+    margin-bottom: 12px;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 8px 45px;
+    border: 1px solid #111;
+    color: #111;
+    text-decoration: none;
+    font-size: 9px;
+    font-weight: 600;
+  }
+
+  .online-right img {
+    width: 100%;
+  }
+
+  .offline-right iframe {
+    width: 100%;
+    height: 500px;
+    border: 0;
+  }
+
+  @media (max-width: 768px) {
+    .tabs {
+      margin-bottom: 30px;
+    }
+    .store {
+      margin-bottom: 10px;
+    }
+    .offline-right iframe {
+      width: 100%;
+      height: 300px;
+      border: 0;
+    }
+    .online-wrapper,
+    .offline-wrapper {
+      display: flex;
+      gap: 20px;
+      flex-direction: column-reverse;
+    }
+    .offline-right {
+      width: 100%;
+    }
+    .offline-left {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .online-right {
+      width: 100%;
+    }
+    .online-left {
+      width: 100%;
+    }
+    .store-switcher {
+      background: #fff;
+      color: #111;
+      padding: 100px 20px 50px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.tab').forEach((tab) => {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
+
+      this.classList.add('active');
+      document.getElementById(this.dataset.tab).classList.add('active');
+    });
+  });
+</script>

@@ -1,0 +1,85 @@
+.pagination-wrapper {
+  margin-top: 4rem;
+}
+@media screen and (min-width: 990px) {
+  .pagination-wrapper {
+    margin-top: 6.4rem;
+  }
+}
+.pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+}
+.pagination__item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.6rem;
+  height: 2.6rem;
+  padding: 0;
+  font-size: 1.8rem;
+  color: rgba(var(--color-foreground), 0.5);
+  text-decoration: none;
+  transition: border-bottom var(--duration-default), color var(--duration-default);
+  border-bottom: 0.1rem solid rgb(var(--color-background));
+}
+.pagination__item:not(.pagination__item--current):hover, .pagination__item:focus {
+  border-bottom: 0.1rem solid rgb(var(--color-foreground));
+  color: rgb(var(--color-foreground));
+}
+.pagination__item--current {
+  color: rgb(var(--color-foreground));
+  border-bottom: 0.1rem solid rgb(var(--color-foreground));
+}
+.pagination__item-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.4rem;
+  color: rgb(var(--color-foreground));
+}
+.pagination__item-arrow span {
+  display: flex;
+  align-items: center;
+}
+.pagination__item-arrow .icon {
+  flex: 0 0 auto;
+  width: 1.8rem;
+  color: rgb(var(--color-accent));
+  transition: transform var(--duration-default);
+}
+.pagination__item--prev {
+  width: 2.4rem;
+  pointer-events: none;
+}
+.pagination__item--prev .icon {
+  transform: rotate(90deg);
+  color: rgba(var(--color-accent), 0.3);
+}
+.pagination__item--next {
+  width: 2.4rem;
+  pointer-events: none;
+}
+.pagination__item--next .icon {
+  transform: rotate(-90deg);
+  color: rgba(var(--color-accent), 0.3);
+}
+
+.pagination-active {
+  pointer-events: all;
+}
+.pagination-active .icon {
+  color: rgb(var(--color-accent));
+}
+
+.pagination__item--prev.pagination-active:hover .icon {
+  transform: rotate(90deg) translateY(0.5rem);
+}
+
+.pagination__item--next.pagination-active:hover .icon {
+  transform: rotate(-90deg) translateY(0.5rem);
+}

@@ -1,0 +1,40 @@
+@charset "UTF-8";
+.section-blockquote {
+  display: flex;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+}
+.section-blockquote__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.section-blockquote__container .title {
+  display: block;
+  max-width: 45rem;
+  color: rgba(var(--color-foreground));
+  margin: 0;
+  text-align: center;
+}
+@media (min-width: 750px) {
+  .section-blockquote__container .title {
+    max-width: 90rem;
+  }
+}
+.section-blockquote__container .title h2,
+.section-blockquote__container .title p {
+  margin: 0;
+}
+.section-blockquote__container .title.h2::before {
+  content: "“";
+  font-size: calc(var(--font-heading-h2-size) + 1.6rem);
+}
+.section-blockquote__container .title.h3::before {
+  content: "“";
+  font-size: calc(var(--font-heading-h3-size) + 1.6rem);
+}
+.section-blockquote__container .title.h4::before {
+  content: "“";
+  font-size: calc(var(--font-heading-h4-size) + 1.6rem);
+}

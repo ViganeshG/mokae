@@ -1,0 +1,700 @@
+{{ 'section-product-timer-v2.css' | asset_url | stylesheet_tag }}
+{{ 'component-badge.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-card-horizontal.css' | asset_url | stylesheet_tag }}
+<script
+	src="{{ 'product-timer-slider-v2.js' | asset_url }}"
+	defer="defer"
+></script>
+<script src="{{ 'product-timer-v2.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-ticker-v2.js' | asset_url }}" defer="defer"></script>
+
+{% style %}
+	{% render 'spaced-section' %}
+	{% render 'spaced-section-inner' %}
+{% endstyle %}
+
+{% if section.settings.ticker_font < 21 %}
+	{% style %}
+		#shopify-section-{{ section.id }} .ticker__title {
+			font-size: {{ section.settings.ticker_font }}px;
+			}
+
+			#shopify-section-{{ section.id }} .title--section:after {
+				max-width: 0.4rem;
+				max-height: 0.4rem;
+				width: 0.4rem;
+				height: 0.4rem;
+			}
+	{% endstyle %}
+{% else %}
+	{% style %}
+		#shopify-section-{{ section.id }} .ticker__title {
+			font-size: {{ section.settings.ticker_font | times: 0.5 | round: 0 }}px;
+		}
+		#shopify-section-{{ section.id }} .title--section:after {
+			max-width: {{ section.settings.ticker_font | times: 0.15 | round: 0 }}px;
+			max-height: {{ section.settings.ticker_font | times: 0.15 | round: 0 }}px;
+			width: {{ section.settings.ticker_font | times: 0.15 | round: 0 }}px;
+			height: {{ section.settings.ticker_font | times: 0.15 | round: 0 }}px;
+		}
+		@media screen and (min-width: 576px) {
+			#shopify-section-{{ section.id }} .ticker__title {
+				font-size: {{ section.settings.ticker_font | times: 0.6 | round: 0 }}px;
+			}
+			#shopify-section-{{ section.id }} .title--section:after {
+				max-width: {{ section.settings.ticker_font | times: 0.25 | round: 0 }}px;
+				max-height: {{ section.settings.ticker_font | times: 0.25 | round: 0 }}px;
+				width: {{ section.settings.ticker_font | times: 0.25 | round: 0 }}px;
+				height: {{ section.settings.ticker_font | times: 0.25 | round: 0 }}px;
+			}
+		}
+		@media screen and (min-width: 990px) {
+			#shopify-section-{{ section.id }} .ticker__title {
+				font-size: {{ section.settings.ticker_font | times: 0.8 | round: 0 }}px;
+			}
+			#shopify-section-{{ section.id }} .title--section:after {
+				max-width: {{ section.settings.ticker_font | times: 0.35 | round: 0 }}px;
+				max-height: {{ section.settings.ticker_font | times: 0.35 | round: 0 }}px;
+				width: {{ section.settings.ticker_font | times: 0.35 | round: 0 }}px;
+				height: {{ section.settings.ticker_font | times: 0.35 | round: 0 }}px;
+			}
+		}
+		@media screen and (min-width: 1360px) {
+			#shopify-section-{{ section.id }} .ticker__title {
+				font-size: {{ section.settings.ticker_font }}px;
+			}
+
+			#shopify-section-{{ section.id }} .title--section:after {
+				max-width: {{ section.settings.ticker_font | times: 0.3 | round: 0 }}px;
+				max-height: {{ section.settings.ticker_font | times: 0.3 | round: 0 }}px;
+				width: {{ section.settings.ticker_font | times: 0.3 | round: 0 }}px;
+				height: {{ section.settings.ticker_font | times: 0.3 | round: 0 }}px;
+			}
+		}
+	{% endstyle %}
+{% endif %}
+
+{% liquid
+	assign slideshow_speed = section.settings.slideshow_speed
+	assign autoplay = section.settings.is_autoplay
+	assign stop_autoplay = section.settings.is_hover_stop_autoplay
+	assign slideshow_delay = section.settings.slideshow_delay
+%}
+
+<div
+	class="js-product-timer-slider"
+	data-id="shopify-section-{{ section.id }}"
+	data-autoplay="{{ autoplay }}"
+	data-stop-autoplay="{{ stop_autoplay }}"
+	data-speed="{{ slideshow_speed }}"
+	data-delay="{{ slideshow_delay }}"
+>
+	<section
+		class="product-timer-section section-{{ section.id }}-padding"
+	>
+		<div
+			class="product-timer product-slider-{{ section.settings.row-reverse }}"
+		>
+			<div class="product-timer__right {{ section.settings.color_scheme_left }}">
+				{% comment %} timer ticker text {% endcomment %}
+				<div class="product-timer__content-timer-image">
+					{% if section.settings.product_timer_image != null %}
+						{{
+							section.settings.product_timer_image
+							| image_url: width: 3840
+							| image_tag:
+								loading: 'lazy',
+								widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+						}}
+					{% endif %}
+				</div>
+				<div class="product-timer__content-timer-box">
+					<div class="product-timer__content-ticker-top">
+						<div
+							class="product-ticker product-ticker1"
+							data-date="{{ section.settings.date_picker }}"
+							data-ticker-speed="{{ section.settings.ticker_speed }}"
+							data-ticker-id="{{ section.id }}"
+						>
+							<div
+								class="swiper container product-ticker-js-{{ section.id }}"
+								id="marquee"
+							>
+								<div class="swiper-wrapper">
+									{%- if section.settings.ticker_text != blank -%}
+										{% for i in (1..20) %}
+											<div class="swiper-slide">
+												<div class="product-ticker__title">
+													<p class="ticker__title title--section">
+														{{ section.settings.ticker_text }}
+													</p>
+												</div>
+											</div>
+										{% endfor %}
+									{%- endif -%}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="product-timer__content-timer-middle">
+						{%- if section.settings.subtitle
+							and section.settings.content_heading != blank
+						-%}
+							<div class="product-timer__content-text-box">
+								{%- if section.settings.content_heading != blank -%}
+									<h2
+										class="product-timer__content-text-title h2"
+									>
+										{{ section.settings.content_heading }}
+									</h2>
+								{%- endif -%}
+
+								{%- if section.settings.subtitle != blank -%}
+									<div
+										class="product-timer__content-text-subtitle h6"
+									>
+										{{ section.settings.subtitle }}
+									</div>
+								{%- endif -%}
+							</div>
+						{%- endif -%}
+						<div class="product-timer__content-timer">
+							<div
+								class="product-countdown js-product-countdown js-product-countdown-{{ section.id }}"
+								data-date="{{ section.settings.date_picker }}"
+								data-time="{{ section.settings.time_picker }}"
+								data-completed="{{ section.settings.completed_countdown }}"
+							>
+								<div class="product-countdown__wrapper">
+									{% if section.settings.countdown_heading %}
+										<div class="product-countdown__heading">
+											<h4 class="h4 richtext__content">
+												{{ section.settings.countdown_heading }}
+											</h4>
+										</div>
+									{% endif %}
+									{%- if section.settings.date_picker != blank -%}
+										<div class="product-countdown__body">
+											<div class="product-countdown__main">
+												<div class="product-countdown__block">
+													<div class="product-countdown_block_num richtext__content">
+														<h4
+															class="product-countdown_block_days h1 {% if section.settings.cursive_date %}italic{%- endif -%}"
+														></h4>
+														<p class="product-countdown_block_description {% if section.settings.date_text_uppercase %}date-text-uppercase{%- endif -%}">
+															{{ 'general.countdown.days' | t }}
+														</p>
+													</div>
+												</div>
+												<div class="product-countdown__block">
+													<div class="product-countdown_block_num richtext__content">
+														<h4
+															class="product-countdown_block_hours h1 {% if section.settings.cursive_date %}italic{%- endif -%}"
+														></h4>
+														<p class="product-countdown_block_description {% if section.settings.date_text_uppercase %}date-text-uppercase{%- endif -%}">
+															{{ 'general.countdown.hours' | t }}
+														</p>
+													</div>
+												</div>
+												<div class="product-countdown__block">
+													<div class="product-countdown_block_num richtext__content">
+														<h4
+															class="product-countdown_block_minutes h1 {% if section.settings.cursive_date %}italic{%- endif -%}"
+														></h4>
+														<p class="product-countdown_block_description {% if section.settings.date_text_uppercase %}date-text-uppercase{%- endif -%}">
+															{{ 'general.countdown.minutes' | t }}
+														</p>
+													</div>
+												</div>
+												<div class="product-countdown__block">
+													<div class="product-countdown_block_num richtext__content">
+														<h4
+															class="product-countdown_block_seconds h1 {% if section.settings.cursive_date %}italic{%- endif -%}"
+														></h4>
+														<p class="product-countdown_block_description {% if section.settings.date_text_uppercase %}date-text-uppercase{%- endif -%}">
+															{{ 'general.countdown.seconds' | t }}
+														</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									{%- endif -%}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="product-timer__content-ticker-bottom">
+						<div
+							class="product-ticker product-ticker2"
+							data-date="{{ section.settings.date_picker }}"
+							data-ticker-speed="{{ section.settings.ticker_speed }}"
+							data-ticker-id="{{ section.id }}2"
+							style="padding-top: {{ section.settings.ticker_padding }}px; padding-bottom: {{ section.settings.ticker_padding }}px"
+						>
+							<div
+								class="swiper container product-ticker-js-{{ section.id }}2"
+								id="marquee"
+							>
+								<div class="swiper-wrapper">
+									{%- if section.settings.ticker_text != blank -%}
+										{% for i in (1..20) %}
+											<div class="swiper-slide">
+												<div class="product-ticker__title">
+													<p class="ticker__title title--section">
+														{{ section.settings.ticker_text }}
+													</p>
+												</div>
+											</div>
+										{% endfor %}
+									{%- endif -%}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% comment %} /timer ticker text {% endcomment %}
+			</div>
+			<div
+				class="product-timer__left  {% if section.settings.quickview_show %}quickview-show-btn{% endif %} js-data--product-timer-slider-v1 {{ section.settings.color_scheme_right }}"
+			>
+				{% comment %} product-carousel text {% endcomment %}
+				<section
+					class="section-container section-container__container section-container--product-timer-slider-v1"
+				>
+					<div
+						class="product-slider__swiper-icon-container"
+					>
+						{% if section.settings.navigation %}
+							<button
+								type="button"
+								class="swiper-button-prev product-btn-prev arrow-btn-left"
+								name="previous"
+								aria-label="{{ 'accessibility.previous_slide' | t }}"
+							>
+								{% render 'icon-caret-left' %}
+							</button>
+						{% endif %}
+						<div class="segment segment__container">
+							<div class="product-timer-slider-v1">
+								{%- if section.settings.slider_heading != blank -%}
+									<h4 class="product-timer-slider-v1__text h3">
+										{{ section.settings.slider_heading }}
+									</h4>
+								{%- endif -%}
+
+								<div class="product-timer-slider-v1__right ">
+									<div class="products-place products-place--v1">
+										<div class="products-place-inner swiper-product-slider">
+											<div class="swiper {{ section.settings.image_ratio }} js-product-timer-slider-v1-swiper">
+												<div class="swiper-wrapper">
+													{%- for product in section.settings.collection -%}
+														<div
+															data-type="{{ product.type }}"
+															class="swiper-slide collection-product-card quickview{%- if settings.quickview_hover -%}--hover{% endif %} {% unless product == 0 %} show {% endunless %}"
+															{% if section.settings.show_link_timer %}
+																onpointerenter="showTextTimer()"
+																onpointerleave="hideTextTimer()"
+															{% endif %}
+														>
+															{% render 'product-card',
+																product_card_product: product,
+																media_size: section.settings.image_ratio,
+																media_fit: section.settings.image_fit,
+																show_secondary_image: section.settings.show_secondary_image,
+																show_vendor: section.settings.show_vendor,
+																show_desc: section.settings.show_desc,
+																show_sku: section.settings.show_sku,
+																quickview_show: section.settings.quickview_show,
+																section_id: section.id
+															%}
+														</div>
+													{%- else -%}
+														{%- for i in (1..4) -%}
+															<div class="swiper-slide">
+																{% render 'product-card-placeholder',
+																	media_size: 'portrait'
+																%}
+															</div>
+														{%- endfor -%}
+													{%- endfor -%}
+												</div>
+											</div>
+										</div>
+										<div
+											class="swiper-pagination swipe-pagi-style product-slider__swiper-pagination js-product-slider__swiper-pagination"
+										></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% if section.settings.navigation %}
+							<button
+								type="button"
+								class="swiper-button-next product-btn-next arrow-btn-right"
+								name="next"
+								aria-label="{{ 'accessibility.next_slide' | t }}"
+							>
+								{% render 'icon-caret-right' %}
+							</button>
+						{% endif %}
+					</div>
+				</section>
+			</div>
+			{% comment %} /product-carousel text {% endcomment %}
+		</div>
+		{% if section.settings.show_link_timer %}
+			<div
+				class="button--with-underline--container {{ section.settings.color_scheme_right }}"
+				sectionId="{{ section.id }}"
+				{{ block.shopify_attributes }}
+			>
+				<a
+					href="{{ product.url | default: '#' }}"
+					class="button--with-underline"
+					aria-label="{{ "accessibility.product_link" | t }}"
+				>
+					{{- 'accessibility.product_link' | t -}}
+				</a>
+			</div>
+		{% endif %}
+	</section>
+</div>
+{% schema %}
+{
+	"name": "t:sections.product_timer_v2.name",
+	"class": "product-timer-section",
+	"tag": "section",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"settings": [
+		{
+			"type": "header",
+			"content": "t:sections.product_timer_v2.settings.header_left.content"
+		},
+		{
+			"type": "image_picker",
+			"id": "product_timer_image",
+			"label": "t:sections.all.image.label"
+		},
+		{
+			"type": "richtext",
+			"id": "content_heading",
+			"default": "<p>Heading</p>",
+			"label": "t:sections.all.heading.label"
+		},
+		{
+			"type": "textarea",
+			"id": "subtitle",
+			"default": "Additional text",
+			"label": "t:sections.all.text.label"
+		},
+		{
+			"type": "select",
+			"id": "color_scheme_left",
+			"options": [
+				{
+					"value": "color-background-5",
+					"label": "t:sections.all.color_scheme.dark.label"
+				},
+				{
+					"value": "color-background-1",
+					"label": "t:sections.all.color_scheme.options__1.label"
+				},
+				{
+					"value": "color-background-2",
+					"label": "t:sections.all.color_scheme.options__2.label"
+				},
+				{
+					"value": "color-background-3",
+					"label": "t:sections.all.color_scheme.options__3.label"
+				}
+			],
+			"default": "color-background-5",
+			"label": "t:sections.product_timer_v2.settings.color_scheme_left.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.product_timer_v2.settings.header.content"
+		},
+		{
+			"type": "text",
+			"id": "date_picker",
+			"default": "2024-03-01",
+			"info": "YYYY-MM-DD",
+			"label": "t:sections.product_timer_v2.settings.date_picker.label"
+		},
+		{
+			"type": "text",
+			"id": "time_picker",
+			"default": "00:00",
+			"info": "hh:mm",
+			"label": "t:sections.product_timer_v2.settings.time_picker.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "cursive_date",
+			"label": "t:sections.product_timer_v2.settings.cursive_date.label",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "date_text_uppercase",
+			"label": "t:sections.product_timer_v2.settings.date_text_uppercase.label",
+			"default": false
+		},
+		{
+			"type": "select",
+			"id": "completed_countdown",
+			"options": [
+				{
+					"value": "hide_section",
+					"label": "t:sections.product_timer_v2.settings.completed_countdown.options_1.label"
+				},
+				{
+					"value": "show_text",
+					"label": "t:sections.product_timer_v2.settings.completed_countdown.options_2.label"
+				}
+			],
+			"default": "show_text",
+			"label": "t:sections.product_timer_v2.settings.completed_countdown.label"
+		},
+		{
+			"type": "richtext",
+			"id": "countdown_heading",
+			"default": "<p>Header after countdown</p>",
+			"info": "t:sections.product_timer_v2.settings.countdown_heading.info",
+			"label": "t:sections.all.text.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.product_timer_v2.settings.header_2.content"
+		},
+		{
+			"type": "text",
+			"id": "ticker_text",
+			"default": "Some text",
+			"label": "t:sections.all.text.label"
+		},
+		{
+			"type": "range",
+			"id": "ticker_speed",
+			"min": 0.1,
+			"max": 6,
+			"step": 0.1,
+			"default": 5,
+			"unit": "s",
+			"label": "t:sections.product_timer_v2.settings.ticker_speed.label"
+		},
+		{
+			"type": "range",
+			"id": "ticker_font",
+			"min": 0,
+			"max": 100,
+			"step": 1,
+			"unit": "px",
+			"label": "t:sections.product_timer_v2.settings.ticker_font.label",
+			"default": 14
+		},
+		{
+			"type": "header",
+			"content": "t:sections.product_timer_v2.settings.header_right.content"
+		},
+		{
+			"type": "richtext",
+			"id": "slider_heading",
+			"default": "<p>Heading</p>",
+			"label": "t:sections.all.heading.label"
+		},
+		{
+			"type": "select",
+			"id": "color_scheme_right",
+			"options": [
+				{
+					"value": "theme-dark color-background-5",
+					"label": "t:sections.all.color_scheme.dark.label"
+				},
+				{
+					"value": "theme-light color-background-1",
+					"label": "t:sections.all.color_scheme.options__1.label"
+				},
+				{
+					"value": "theme-light color-background-2",
+					"label": "t:sections.all.color_scheme.options__2.label"
+				},
+				{
+					"value": "theme-light color-background-3",
+					"label": "t:sections.all.color_scheme.options__3.label"
+				}
+			],
+			"default": "theme-dark color-background-5",
+			"label": "t:sections.product_timer_v2.settings.color_scheme_right.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.product_card.header.content"
+		},
+		{
+			"type": "product_list",
+			"id": "collection",
+			"limit": 7,
+			"label": "t:sections.all.product_card.product_list.label"
+		},
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"options": [
+				{
+					"value": "landscape",
+					"label": "t:sections.all.image.ratio.options__1.label"
+				},
+				{
+					"value": "portrait",
+					"label": "t:sections.all.image.ratio.options__2.label"
+				},
+				{
+					"value": "square",
+					"label": "t:sections.all.image.ratio.options__3.label"
+				}
+			],
+			"default": "portrait",
+			"label": "t:sections.all.image.ratio.label"
+		},
+		{
+			"type": "select",
+			"id": "image_fit",
+			"label": "t:sections.all.image.fit.label",
+			"options": [
+				{
+					"value": "contain",
+					"label": "t:sections.all.image.fit.options__1.label"
+				},
+				{
+					"value": "cover",
+					"label": "t:sections.all.image.fit.options__2.label"
+				}
+			],
+			"default": "cover"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_secondary_image",
+			"default": false,
+			"label": "t:sections.all.product_card.show_secondary_image.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_vendor",
+			"default": false,
+			"label": "t:sections.all.product_card.show_vendor.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "show_desc",
+			"default": false,
+			"label": "t:sections.all.product_card.show_description.label"
+		},
+		{
+      "type": "checkbox",
+      "id": "show_sku",
+      "default": false,
+      "label": "t:sections.all.product_card.show_sku.label"
+    },
+		{
+			"type": "checkbox",
+			"id": "show_link_timer",
+			"default": false,
+			"label": "t:sections.all.product_card.show_link.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.product_timer_v2.settings.header__1.content"
+		},
+		{
+			"type": "checkbox",
+			"id": "is_autoplay",
+			"default": false,
+			"label": "t:sections.all.slider_options.slider_is_autoplay.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "is_hover_stop_autoplay",
+			"default": true,
+			"label": "t:sections.all.slider_options.slider_hover_autoplay_stop.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"default": true,
+			"label": "t:sections.all.slider_options.navigation.label"
+		},
+		{
+			"type": "range",
+			"id": "slideshow_speed",
+			"min": 0,
+			"max": 6,
+			"step": 0.1,
+			"default": 1.1,
+			"unit": "s",
+			"label": "t:sections.product_timer_v2.settings.product_slider_speed.label"
+		},
+		{
+			"type": "range",
+			"id": "slideshow_delay",
+			"min": 0,
+			"max": 8,
+			"step": 0.1,
+			"default": 3,
+			"unit": "s",
+			"label": "t:sections.product_timer_v2.settings.product_slider_delay.label"
+		},
+		{
+			"type": "select",
+			"id": "row-reverse",
+			"options": [
+				{
+					"value": "row",
+					"label": "t:sections.all.image.position.left.label"
+				},
+				{
+					"value": "row-reverse",
+					"label": "t:sections.all.image.position.right.label"
+				}
+			],
+			"default": "row",
+			"label": "t:sections.all.image.position.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 0,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 0,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		}
+	],
+	"presets": [
+		{
+			"name": "t:sections.product_timer_v2.name"
+		}
+	]
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+<span
+	class="header__menu-item list-menu__item list-menu__item-first link"
+	{% if link.current %}
+		aria-current="page"
+	{% endif %}
+	aria-label="{{ link.title | escape }}"
+>
+	<span
+		{%- if link.active %}
+			class="header__active-menu-item"
+		{% endif %}
+		title="{{ link.title | escape }}"
+	>
+		<span>
+			{{ link.title | escape }}
+		</span>
+	</span>
+</span>
+<ul
+	class="header__submenu list-menu list-menu--disclosure caption-large motion-reduce"
+	role="list"
+>
+	{%- for childlink in link.links -%}
+		<li class="header__menu-item-second">
+			{%- if childlink.links == blank -%}
+				<a
+					{% if childlink.type == 'http_link' and settings.open_new_tab %}
+						target="_blank"
+					{% endif %}
+					href="{{ childlink.url }}"
+					class="header__menu-item list-menu__item link line-link link--text focus-inset caption-large{% if childlink.current %} header__menu-item--active{% endif %}"
+					{% if childlink.current %}
+						aria-current="page"
+					{% endif %}
+				>
+					<span>
+						{{ childlink.title | escape }}
+					</span>
+				</a>
+			{%- else -%}
+				<span class="header__menu-item link link--text line-link list-menu__item focus-inset caption-large">
+					<span>
+						{{ childlink.title | escape }}
+					</span>
+				</span>
+				<ul
+					class="header__submenu list-menu--disclosure list-menu motion-reduce"
+					tabindex="0"
+				>
+					{%- for grandchildlink in childlink.links -%}
+						<li>
+							<a
+								{% if grandchildlink.type == 'http_link'
+									and settings.open_new_tab
+								%}
+									target="_blank"
+								{% endif %}
+								href="{{ grandchildlink.url }}"
+								class="header__menu-item list-menu__item link link--text line-link focus-inset caption-large{% if grandchildlink.current %} header__menu-item--active{% endif %}"
+								{% if grandchildlink.current %}
+									aria-current="page"
+								{% endif %}
+							>
+								<span>
+									{{ grandchildlink.title | escape }}
+								</span>
+							</a>
+						</li>
+					{%- endfor -%}
+				</ul>
+			{%- endif -%}
+		</li>
+	{%- endfor -%}
+</ul>

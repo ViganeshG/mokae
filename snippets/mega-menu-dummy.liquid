@@ -1,0 +1,358 @@
+ {% comment %} {% comment %}
+  Renders an header mega menu.
+
+  Accepts:
+  - links: {Array} Menu links
+  - block: {Object} Menu Block Object
+  - collection: {Object} Collection Object
+  - collections: {Array} Collections Array
+  - product: {Object} Product Object
+  Usage:
+  if menu type is 'mega_menu_collection' :
+  	{% render 'header-submenu' links: link.links, %}
+  if menu type is 'mega_menu_only_collection' :
+  	{% render 'header-submenu' links: link.links, %}
+  if menu type is 'mega_menu_product' :
+  	{% render 'header-submenu' links: link.links, %}
+{% endcomment %}
+<span
+  class="header__menu-item list-menu__item list-menu__item-first link"
+  {% if link.current %}
+    aria-current="page"
+  {% endif %}
+  aria-label="{{ link.title | escape }}"
+>
+  <span
+    {%- if link.active %}
+      class="header__active-menu-item"
+    {% endif %}
+    title="{{ link.title | escape }}"
+  >
+    <span>
+      {{ link.title | escape }}
+    </span>
+  </span>
+</span>
+<div class="header-mega-menu color-background-1">
+  {% comment %}
+    {% assign main_metaobject = metaobjects.megamenu['megamenu-op-1'] %}
+    {% if main_metaobject %}
+      <div class="mega-menu-new">
+        <div class="mm-container">
+          {% if main_metaobject.menu_item %}
+          <!-- LEFT SIDE: TEXT LINKS -->
+          <div class="mm-links">
+            <ul>
+              {% for block in main_metaobject.menu_item.value %}
+                <li>
+                  <a href="{{ block.url }}"> {{ block.link_lanel }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+
+            <div class="mm-shop-all">
+              <a href="/collections/all" class="shop-all-btn">SHOP ALL</a>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE: HERO IMAGE -->
+          <div class="mm-hero">
+            {% for block in main_metaobject.menu_item.value %}
+              <img
+                src="{{ block.full_width_image  | image_url: width:1200 }}"
+              >
+
+            {% endfor %}
+          </div>
+        {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  {% endcomment %}
+  {% comment %}
+    --------------------------------------------------------------------------------------
+  {% endcomment %}
+  {% assign main_metaobject = metaobjects.megamenu['megamenu-op-1'] %}
+  {% if main_metaobject %}
+    <div class="mega-menu-new mega-menu-new-2">
+      <div class="mm-container">
+        {% if main_metaobject.menu_item %}
+          <!-- LEFT SIDE: TEXT LINKS -->
+          <div class="mm-links">
+            <ul>
+              {% for block in main_metaobject.menu_item.value %}
+                <li>
+                  <a href="{{ block.url }}"> {{ block.link_lanel }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+            <div class="mm-shop-all">
+              <a href="/collections/all" class="shop-all-btn">SHOP ALL</a>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE: HERO IMAGE -->
+
+          <div class="mm-hero">
+            <div class="mm-hero-half mm-h-l">
+              {% for block in main_metaobject.menu_item.value %}
+                <img
+                  src="{{ block.images  | image_url: width:1200 }}"
+                >
+              {% endfor %}
+            </div>
+            <div class="mm-hero-half mm-h-r">
+              {% for block in main_metaobject.menu_item.value %}
+                <img
+                  src="{{ block.images_2  | image_url: width:1200 }}"
+                >
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+  {% comment %}
+    <div class="fullscreen-container">
+      {% if block.type == 'mega_menu_collection' %}
+        <div class="header-mega-menu__wrapper">
+          <ul class="header-mega-menu__have-submenu__list list-unstyled">
+            {%- for childlink in links -%}
+              <li>
+                <span class="mega-menu-childlink">
+                  {{- childlink.title | escape -}}
+                </span>
+                <ul class="header-mega-menu__have-submenu__list-submenu list-unstyled">
+                  {%- for grandchildlink in childlink.links -%}
+                    <li class="{% if grandchildlink.current %}current-link{% endif %}">
+                      <a
+                        {% if grandchildlink.type == 'http_link' and settings.open_new_tab %}
+                          target="_blank"
+                        {% endif %}
+                        href="{{ grandchildlink.url }}"
+                        class="link line-link"
+                      >
+                        <span>{{- grandchildlink.title | escape -}}</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </li>
+            {%- endfor -%}
+          </ul>
+          {% if block.settings.collection != blank %}
+            <div
+              class="header-mega-menu__card   collection-product-card"
+              id="menu__card-{{ block.id }}"
+            >
+              {% if block.type == 'mega_menu_collection' %}
+                {%- for collection in block.settings.collection -%}
+                  <div class="collections-grid__card color-background-4 {% if block.settings.image_ratio == 'portrait' %} collections-grid__card--portrait {% endif %}">
+                    {% render 'collection-card',
+                      block_collection: collection,
+                      media_size: 'square',
+                      url: collection.url,
+                      collection_title: collection.title,
+                      collection_image: collection.image,
+                      per_row: section.settings.per_row,
+                      block_collection_name_show: true,
+                      overlay_enable: true
+                    %}
+                  </div>
+                {%- endfor -%}
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% elsif block.type == 'mega_menu_only_collection' %}
+        {% for collection in block.settings.collection_list %}
+          {% assign count = forloop.length %}
+        {% endfor %}
+        <ul
+          class="header-mega-menu__collection-list list-unstyled mega-menu__collection-{{ count }}"
+          id="menu__card-{{ block.id }}"
+        >
+          {% for collection in block.settings.collection_list %}
+            <li class="collections-grid__card color-background-4 {% if block.settings.image_ratio == 'portrait' %} collections-grid__card--portrait {% endif %}">
+              {% assign gaUrl = collection.url %}
+              {% if collection.metafields.gax.custom_link != blank %}
+                {% assign gaUrl = collection.metafields.gax.custom_link %}
+              {% endif %}
+              {% render 'collection-card',
+                block_collection: collection,
+                media_size: 'square',
+                url: gaUrl,
+                collection_title: collection.title,
+                collection_image: collection.image,
+                per_row: section.settings.per_row,
+                overlay_enable: true
+              %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% endcomment %}
+</div>
+<div class="mega-menu_overflow"></div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebarItems = document.querySelectorAll('.mm-links ul li');
+    console.log(sidebarItems);
+    const heroImages = document.querySelectorAll('.mm-hero img');
+    console.log(sidebarItems);
+    const heroImagesL = document.querySelectorAll('.mm-h-l img');
+    console.log(sidebarItems);
+    const heroImagesR = document.querySelectorAll('.mm-h-r img');
+    console.log(sidebarItems);
+
+    sidebarItems.forEach((item, index) => {
+      item.addEventListener('mouseenter', () => {
+        heroImages.forEach((img) => (img.style.opacity = '0'));
+        heroImages[index].style.opacity = '1';
+      });
+    });
+    // change images on hover
+    sidebarItems.forEach((item, index) => {
+      item.addEventListener('mouseenter', () => {
+        heroImagesL.forEach((img) => (img.style.opacity = '0'));
+        heroImagesL[index].style.opacity = '1';
+      });
+    });
+    sidebarItems.forEach((item, index) => {
+      item.addEventListener('mouseenter', () => {
+        heroImagesR.forEach((img) => (img.style.opacity = '0'));
+        heroImagesR[index].style.opacity = '1';
+      });
+    });
+  });
+</script>
+
+{% comment %} 
+<span
+  class="header__menu-item list-menu__item list-menu__item-first link"
+  {% if link.current %}
+    aria-current="page"
+  {% endif %}
+  aria-label="{{ link.title | escape }}"
+>
+  <span
+    {%- if link.active %}
+      class="header__active-menu-item"
+    {% endif %}
+    title="{{ link.title | escape }}"
+  >
+    <span>{{ link.title | escape }}</span>
+  </span>
+</span>
+
+<div class="header-mega-menu color-background-1">
+
+  {% assign main_metaobject = metaobjects.megamenu['megamenu-op-1'] %}
+
+  {% if main_metaobject %}
+    <div class="mega-menu-new mega-menu-new-2">
+      <div class="mm-container">
+
+        <!-- LEFT SIDE LINKS -->
+        <div class="mm-links">
+          <ul>
+            {% for block in main_metaobject.menu_item.value %}
+              <li data-index="{{ forloop.index0 }}">
+                <a href="{{ block.url }}">{{ block.link_lanel }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="mm-shop-all">
+            <a href="/collections/all" class="shop-all-btn">SHOP ALL</a>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE IMAGES -->
+        <div class="mm-hero">
+
+          <!-- LEFT COLUMN (image 1) -->
+          <div class="mm-hero-half mm-h-l">
+            {% for block in main_metaobject.menu_item.value %}
+              {% if block.images != blank %}
+                <img 
+                  src="{{ block.images | image_url: width:1200 }}" 
+                  class="two-col-img" 
+                  data-index="{{ forloop.index0 }}"
+                  style="opacity:0"
+                >
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- RIGHT COLUMN (image 2) -->
+          <div class="mm-hero-half mm-h-r">
+            {% for block in main_metaobject.menu_item.value %}
+              {% if block.images_2 != blank %}
+                <img 
+                  src="{{ block.images_2 | image_url: width:1200 }}" 
+                  class="two-col-img" 
+                  data-index="{{ forloop.index0 }}"
+                  style="opacity:0"
+                >
+              {% endif %}
+            {% endfor %}
+          </div>
+
+          <!-- FULL WIDTH FALLBACK -->
+          {% for block in main_metaobject.menu_item.value %}
+            {% if block.images == blank and block.images_2 == blank and block.full_width_image != blank %}
+              <img
+                src="{{ block.full_width_image | image_url: width:1600 }}"
+                class="full-width-img"
+                data-index="{{ forloop.index0 }}"
+                style="opacity:0"
+              >
+            {% endif %}
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<div class="mega-menu_overflow"></div>
+
+<!-- JS HANDLER -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const items = document.querySelectorAll('.mm-links ul li');
+
+  const leftImgs = document.querySelectorAll('.mm-h-l img');
+  const rightImgs = document.querySelectorAll('.mm-h-r img');
+  const fullImgs = document.querySelectorAll('.full-width-img');
+
+  items.forEach((item) => {
+    const idx = item.dataset.index;
+
+    item.addEventListener('mouseenter', () => {
+
+      // hide everything first
+      [...leftImgs, ...rightImgs, ...fullImgs].forEach(img => img.style.opacity = 0);
+
+      // If two column images exist → show them
+      const leftImg = document.querySelector(`.mm-h-l img[data-index="${idx}"]`);
+      const rightImg = document.querySelector(`.mm-h-r img[data-index="${idx}"]`);
+
+      if (leftImg || rightImg) {
+        if (leftImg) leftImg.style.opacity = 1;
+        if (rightImg) rightImg.style.opacity = 1;
+      } else {
+        // otherwise show full width
+        const fullImg = document.querySelector(`.full-width-img[data-index="${idx}"]`);
+        if (fullImg) fullImg.style.opacity = 1;
+      }
+
+    });
+  });
+});
+</script> {% endcomment %}
+ {% endcomment %}

@@ -1,0 +1,62 @@
+<section class="ga-text-image-section" data-id="shopify-section-{{ section.id }}">
+	<div class="tm-text">
+        <div class="ga-logo-mark">
+			<img src="https://cdn.shopify.com/s/files/1/0707/6472/4465/files/m-logo-mark-alt.png?v=1730902244" alt="">
+		</div>	
+		<div class="tm-t-top">
+            <h2 class="section-title">{{ section.settings.title   }} </h2>
+        </div>
+        <div class="tm-t-middle">
+            <p class="ga-about-v-alt is-alt">
+              {{  section.settings.desc  }}
+            </p>
+        </div>
+        <div class="tm-t-bottom">
+            <a class="ga-main-button" data-href="{{ section.settings.button_link }}" href="{{ section.settings.button_link }}"> {{  section.settings.button_text }} </a>
+        </div>
+    </div>
+    <div class="tm-media">
+        <img src="{{ section.settings.image | img_url : '1600x' }}" width="{{section.settings.width}}" height="{{section.settings.height}}">
+    </div>
+</section>
+
+{% schema %}
+{
+	"name": "GA Text with Image",
+	"tag": "section",
+	"class": "ga-text-image-section",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "textarea",
+			"id": "desc",
+			"label": "Description"
+		},
+        {
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		},
+		{
+			"type": "text",
+			"id": "button_text",
+			"label": "Button Text"
+		},
+        {
+			"type": "url",
+			"id": "button_link",
+			"label": "Link",
+          
+		},
+	],
+	"presets": [
+		{
+			"name": "GA Text with Image"
+		}
+	]
+}
+{% endschema %}

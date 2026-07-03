@@ -1,0 +1,108 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "color_scheme": "light",
+        "block_size": "full-screen",
+        "slideshow_speed": 1.1,
+        "slideshow_delay": 3,
+        "autoplay": true,
+        "hover_autoplay_stop": true,
+        "pagination": true,
+        "button_style": "secondary",
+        "overlay_opacity": 30,
+        "show_image": true,
+        "show_tags": true,
+        "show_date": false,
+        "show_author": true,
+        "show_excerpt": false,
+        "show_btn": true
+      }
+    },
+    "featured_blog_ENQNxD": {
+      "type": "featured-blog",
+      "settings": {
+        "blog_title": "",
+        "blog": "lab",
+        "post_limit": 4,
+        "show_image": true,
+        "show_tags": false,
+        "show_date": true,
+        "show_author": true,
+        "show_excerpt": true,
+        "show_btn": true,
+        "show_view_all": true,
+        "margin_top": 110,
+        "margin_bottom": 110
+      }
+    },
+    "instagram-collage": {
+      "type": "instagram-collage",
+      "blocks": {
+        "block_insta_1": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "block_insta_2": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "block_insta_3": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "58e7f04e-25a8-43be-8cc3-170d31159749": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Some description</p>",
+            "heading_size": "medium",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "block_insta_1",
+        "block_insta_2",
+        "block_insta_3",
+        "58e7f04e-25a8-43be-8cc3-170d31159749"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "background-2",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "overlay_enable": false,
+        "overlay_opacity": 10,
+        "button_text": "Link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 160,
+        "margin_top": 100,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_blog_ENQNxD",
+    "instagram-collage"
+  ]
+}

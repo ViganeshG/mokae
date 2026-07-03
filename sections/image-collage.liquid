@@ -1,0 +1,157 @@
+{{ "section-image-collage.css" | asset_url | stylesheet_tag }}
+
+<script src="{{ "parallax.js" | asset_url }}" defer="defer"></script>
+<script src="{{ "image-collage.js" | asset_url }}" defer="defer"></script>
+
+<div class="image-collage parallax-img-container image-collage{%- if section.settings.border_top -%}--border{% endif %}">
+	<div class="image-collage__wrapper color-{{- section.settings.color_scheme -}}">
+		<div class="container">
+			<div class="image-collage__item">
+				{%- if section.settings.subheading != blank -%}
+					<div class="subtitle">{{ section.settings.subheading | escape }}</div>
+				{% endif %}
+
+				{%- if section.settings.heading != blank -%}
+					<h2 class="image-collage__title title--section h2">
+						{{ section.settings.heading }}
+					</h2>
+				{% endif %}
+
+				{%- if section.settings.description != blank -%}
+					<div class="rte">{{ section.settings.description }}</div>
+				{% endif %}
+			</div>
+
+			<div class="image-collage__images">
+				<div
+					class="image-collage__main-image js-parallax"
+					data-parallax-property="translateY"
+					data-parallax-property-value="-70"
+					data-parallax-steps="0, 100"
+				>
+					{%- assign image_size = section.settings.main_image.width
+						| append: "x"
+					-%}
+					{%- if section.settings.main_image != blank -%}
+						<img
+							srcset="{{ section.settings.main_image | img_url: image_size }} 1x, {{ section.settings.main_image | img_url: image_size, scale: 2 }} 2x"
+							src="{{ section.settings.main_image | img_url: image_size }}"
+							alt="{{ section.settings.main_image.alt | escape }}"
+							width="{{ section.settings.main_image.width }}"
+							height="{{ section.settings.main_image.height }}"
+							loading="lazy"
+						>
+					{%- else -%}
+						{{ "image" | placeholder_svg_tag }}
+					{%- endif -%}
+				</div>
+				<div class="image-collage__image-list">
+					{%- for block in section.blocks -%}
+						<div
+							class="image-collage__image js-parallax"
+							data-parallax-property="translateY"
+							data-parallax-property-value="-150"
+							data-parallax-steps="0, 100"
+							{{ block.shopify_attributes }}
+						>
+							{%- if block.settings.image != blank -%}
+								{%- assign image_size = block.settings.image.width
+									| append: "x"
+								-%}
+								<img
+									srcset="{{ block.settings.image | img_url: image_size }} 1x, {{ block.settings.image | img_url: image_size, scale: 2 }} 2x"
+									src="{{ block.settings.image | img_url: image_size }}"
+									alt="{{ block.settings.image.alt | escape }}"
+									width="{{ block.settings.image.width }}"
+									height="{{ block.settings.image.height }}"
+									loading="lazy"
+									{{ block.shopify_attributes }}
+								>
+							{%- endif -%}
+						</div>
+					{%- endfor -%}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.image-collage.name",
+	"tag": "section",
+	"class": "image-collage-section spaced-section",
+	"max_blocks": 3,
+	"settings": [
+		{
+			"type": "select",
+			"id": "color_scheme",
+			"options": [
+				{
+					"value": "background-1",
+					"label": "t:sections.image-collage.settings.color_scheme.options__1.label"
+				},
+				{
+					"value": "background-2",
+					"label": "t:sections.image-collage.settings.color_scheme.options__2.label"
+				}
+			],
+			"default": "background-1",
+			"label": "t:sections.image-collage.settings.color_scheme.label"
+		},
+		{
+			"type": "text",
+			"id": "subheading",
+			"default": "SUBHEADING",
+			"label": "t:sections.image-collage.settings.subheading.label"
+		},
+		{
+			"type": "richtext",
+			"id": "heading",
+			"default": "<p>Heading for Image collage</p>",
+			"label": "t:sections.image-collage.settings.heading.label"
+		},
+		{
+			"type": "text",
+			"id": "description",
+			"default": "Description",
+			"label": "t:sections.image-collage.settings.description.label"
+		},
+		{
+			"type": "image_picker",
+			"id": "main_image",
+			"label": "t:sections.image-collage.settings.main_image.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "border_top",
+			"default": false,
+			"label": "t:sections.image-collage.settings.border_top.label"
+		}
+	],
+	"blocks": [
+		{
+			"type": "image-collage_image",
+			"name": "t:sections.image-collage.blocks.image-collage_image.name",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "t:sections.image-collage.blocks.image-collage_image.settings.image.label"
+				},
+				{
+					"type": "range",
+					"id": "image_width",
+					"min": 50,
+					"max": 120,
+					"step": 10,
+					"default": 120,
+					"unit": "t:sections.image-collage.blocks.image-collage_image.settings.image_width.unit",
+					"label": "t:sections.image-collage.blocks.image-collage_image.settings.image_width.label",
+					"info": "t:sections.image-collage.blocks.image-collage_image.settings.image_width.info"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

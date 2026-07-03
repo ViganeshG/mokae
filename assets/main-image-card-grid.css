@@ -1,0 +1,91 @@
+.collection-list {
+  --gap: 0.4rem;
+  --grid-width: calc(100% - (var(--gap) * (1 - 1 / var(--per-row))));
+}
+.collection-list.collection-grid-one {
+  --grid-width: calc(100% - (var(--gap) * (1 - 1 / var(--per-row))));
+}
+@media screen and (min-width: 576px) {
+  .collection-list {
+    --grid-width: calc(50% - (var(--gap) * (1 - 1 / var(--per-row))));
+  }
+}
+@media screen and (min-width: 1200px) {
+  .collection-list {
+    --gap: 0.4rem;
+    --grid-width: calc(
+    	100% / var(--per-row) - (var(--gap) * (1 - 1 / var(--per-row)))
+    );
+  }
+}
+.collection-list .collection-list-container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 183.2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+@media screen and (min-width: 990px) {
+  .collection-list .page-header {
+    padding-top: 3rem;
+    margin-bottom: 4.4rem;
+  }
+}
+.collection-list .collection-product-list {
+  display: flex;
+  gap: var(--gap);
+  row-gap: 2rem;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  align-self: flex-start;
+}
+@media screen and (min-width: 990px) {
+  .collection-list .collection-product-list {
+    row-gap: 3rem;
+  }
+}
+.collection-list .collection-product-list li {
+  width: var(--grid-width);
+  position: relative;
+  z-index: 1;
+}
+.collection-list .collection-product-list li img,
+.collection-list .collection-product-list li svg {
+  transition: transform var(--duration-long) ease;
+}
+.collection-list .collection-product-list li:hover img,
+.collection-list .collection-product-list li:hover svg {
+  transform: scale(1.12);
+}
+@media screen and (min-width: 576px) and (max-width: 1200px) {
+  .collection-list .collection-product-list li:not(.collection-grid-one):not(:nth-child(2n)):not(:last-child) .collection-grid__item {
+    position: relative;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .collection-list .collection-product-list li:not(.hide_border):not(:last-child) .collection-grid__item {
+    position: relative;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .collection-product .pagination-wrapper {
+    margin-top: 11.2rem;
+  }
+}
+
+.card-wrapper__link--overlay {
+  z-index: 2 !important;
+}
+
+.full-unstyled-link p {
+  margin: 0;
+}
+@media screen and (min-width: 750px) {
+  .full-unstyled-link p em {
+    font-size: calc(var(--font-heading-h3-size) + 15px);
+  }
+}

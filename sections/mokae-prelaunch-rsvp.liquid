@@ -1,0 +1,355 @@
+{{ 'section-mokae-prelaunch-rsvp.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  comment
+    Each RSVP page is isolated by page.handle (unique per Shopify page, stable if title changes).
+    Sheet tab resolution order:
+      1. Custom name in theme editor (only when not an auto/default value)
+      2. Legacy tab alias for existing spreadsheets (three launch pages only)
+      3. page.handle (all new/duplicated pages — zero code changes needed)
+  endcomment
+
+  assign rsvp_cap = section.settings.rsvp_cap | default: 10
+  assign form_id = page.handle | default: ''
+  assign sheet_tab_override = section.settings.sheet_tab_name | strip
+  assign legacy_sheet_tab = ''
+
+  case page.handle
+    when 'mokae-pr-launch', 'mokae-pre-launch-pr'
+      assign legacy_sheet_tab = 'Pre-Launch RSVP'
+    when 'mokae-makeup-artists-launch', 'mokae-makeup-artists'
+      assign legacy_sheet_tab = 'Mokae Makeup Artists'
+    when 'mokae-pro-community-launch', 'mokae-pre-launch-pro-community'
+      assign legacy_sheet_tab = 'Mokae Pre Launch Pro Community'
+  endcase
+
+  assign auto_sheet_values = 'Use page handle|Use page title|Pre-Launch RSVP' | split: '|'
+  assign use_custom_sheet_tab = false
+  if sheet_tab_override != blank
+    unless auto_sheet_values contains sheet_tab_override
+      assign use_custom_sheet_tab = true
+    endunless
+  endif
+
+  if use_custom_sheet_tab
+    assign sheet_tab = sheet_tab_override
+  elsif legacy_sheet_tab != blank
+    assign sheet_tab = legacy_sheet_tab
+  elsif form_id != blank
+    assign sheet_tab = form_id
+  else
+    assign sheet_tab = 'RSVP-' | append: section.id
+  endif
+
+  assign event_tag = form_id | default: sheet_tab | handleize
+  assign customer_tag_rsvp = section.settings.customer_tag_rsvp | default: 'prelaunch-rsvp' | strip
+  assign customer_tag_waitlist = section.settings.customer_tag_waitlist | default: 'prelaunch-waitlist' | strip
+  assign mpr_customer_form_id = 'MokaePrelaunchCustomer-' | append: section.id
+-%}
+
+<section
+  class="mokae-prelaunch-rsvp section-{{ section.id }}-padding"
+  id="MokaePrelaunchRsvp-{{ section.id }}"
+  data-mokae-prelaunch-rsvp
+  data-webhook="{{ section.settings.sheet_webhook_url | strip | escape }}"
+  data-sheet="{{ sheet_tab | escape }}"
+  data-form-id="{{ form_id | escape }}"
+  data-page-handle="{{ form_id | escape }}"
+  data-cap="{{ rsvp_cap }}"
+  data-event-tag="{{ event_tag | escape }}"
+  data-customer-tag-rsvp="{{ customer_tag_rsvp | escape }}"
+  data-customer-tag-waitlist="{{ customer_tag_waitlist | escape }}"
+  data-cta-rsvp="{{ section.settings.cta_rsvp | escape }}"
+  data-cta-waitlist="{{ section.settings.cta_waitlist | escape }}"
+  data-success-rsvp="{{ section.settings.success_message_rsvp | escape }}"
+  data-success-waitlist="{{ section.settings.success_message_waitlist | escape }}"
+  data-seats-filled-message="{{ section.settings.seats_filled_message | escape }}"
+>
+  <div class="mpr-hero">
+    <div class="mpr-hero__media" aria-hidden="true">
+      {%- if section.settings.hero_image != blank -%}
+        {{
+          section.settings.hero_image
+          | image_url: width: 2400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '750, 1100, 1500, 2000, 2400',
+            sizes: '100vw',
+            class: 'mpr-hero__image'
+        }}
+      {%- endif -%}
+      <div class="mpr-hero__gradient"></div>
+    </div>
+
+    <div class="mpr-hero__content">
+      {%- if section.settings.hero_headline != blank -%}
+        <h1 class="mpr-hero__headline">{{ section.settings.hero_headline | escape }}</h1>
+      {%- endif -%}
+
+      <div class="mpr-hero__meta">
+        {%- if section.settings.hero_date != blank -%}
+          <p class="mpr-hero__date">{{ section.settings.hero_date | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.hero_venue != blank -%}
+          <p class="mpr-hero__venue">{{ section.settings.hero_venue | escape }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="mpr-body">
+    <div class="mpr-body__inner">
+      {%- if section.settings.description != blank -%}
+        <div class="mpr-intro rte" data-intro>
+          {{ section.settings.description }}
+        </div>
+      {%- endif -%}
+
+      <p class="mpr-status-banner" data-waitlist-banner hidden>
+        <span class="mpr-status-tag" data-waitlist-tag>{{ section.settings.waitlist_tag_label | escape }}</span>
+        <span class="mpr-status-banner__text" data-waitlist-banner-text>
+          {{- section.settings.seats_filled_message | escape -}}
+        </span>
+      </p>
+
+      <p class="mpr-message mpr-message--success" data-success-message hidden></p>
+      <p class="mpr-message mpr-message--error" data-error-message hidden></p>
+
+      <form class="mpr-form" data-rsvp-form novalidate>
+        <input type="hidden" name="type" value="rsvp" data-mode-input>
+
+        <div data-form-fields>
+          <div class="mpr-field">
+            <label for="MokaeRsvpName-{{ section.id }}">full name</label>
+            <input
+              type="text"
+              id="MokaeRsvpName-{{ section.id }}"
+              name="name"
+              autocomplete="name"
+              required
+              placeholder="Your name"
+            >
+          </div>
+
+          <div class="mpr-field">
+            <label for="MokaeRsvpEmail-{{ section.id }}">email ID</label>
+            <input
+              type="email"
+              id="MokaeRsvpEmail-{{ section.id }}"
+              name="email"
+              autocomplete="email"
+              autocapitalize="off"
+              required
+              placeholder="Your email"
+            >
+          </div>
+
+          <div class="mpr-field">
+            <label for="MokaeRsvpPhone-{{ section.id }}">phone no.</label>
+            <input
+              type="tel"
+              id="MokaeRsvpPhone-{{ section.id }}"
+              name="phone"
+              autocomplete="tel"
+              inputmode="numeric"
+              pattern="[0-9+\s\-()]{10,}"
+              minlength="10"
+              maxlength="15"
+              required
+              placeholder="Your phone number"
+            >
+          </div>
+        </div>
+
+        <div class="mpr-submit-anchor" data-submit-anchor>
+          <button type="submit" class="mpr-submit" data-submit-btn>
+            {{ section.settings.cta_rsvp }}
+          </button>
+          <p class="mpr-dress-code">Dress Code: All Black</p>
+        </div>
+      </form>
+
+      {%- form 'customer', id: mpr_customer_form_id, return_to: request.path -%}
+        <div class="mpr-shopify-customer-form" hidden data-shopify-customer-form>
+          <input type="hidden" name="contact[tags]" value="" data-customer-tags-input>
+          <input type="hidden" name="contact[first_name]" value="" data-customer-first-name>
+          <input type="hidden" name="contact[last_name]" value="" data-customer-last-name>
+          <input type="hidden" name="contact[email]" value="" data-customer-email>
+          <input type="hidden" name="contact[phone]" value="" data-customer-phone>
+          <input
+            type="hidden"
+            name="contact[note]"
+            value=""
+            data-customer-note
+          >
+        </div>
+      {%- endform -%}
+
+      {%- if section.settings.show_legal_text and section.settings.legal_text != blank -%}
+        <div class="mpr-legal rte">
+          {{ section.settings.legal_text }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="mpr-sticky-cta" data-sticky-cta>
+    <button type="button" class="mpr-submit mpr-submit--sticky" data-sticky-cta-btn>
+      {{ section.settings.cta_rsvp }}
+    </button>
+  </div>
+</section>
+
+<script src="{{ 'mokae-prelaunch-rsvp.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Pre-Launch RSVP",
+  "tag": "section",
+  "class": "section-mokae-prelaunch-rsvp",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Upload the tweezers / event visual. A blue gradient shows if no image is set."
+    },
+    {
+      "type": "text",
+      "id": "hero_headline",
+      "label": "Hero headline",
+      "default": "YOUR BROW ERA BEGINS"
+    },
+    {
+      "type": "text",
+      "id": "hero_date",
+      "label": "Event date & time",
+      "default": "4 PM, 4th June"
+    },
+    {
+      "type": "text",
+      "id": "hero_venue",
+      "label": "Venue label",
+      "default": "Mokae Labs"
+    },
+    {
+      "type": "header",
+      "content": "Event description"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Join us for an exclusive pre-launch evening as we unveil the Mokae Precision Tweezers before launch day.</p><p>Followed by a brow grooming masterclass with Mokae, led by celebrity makeup artist <strong>Sandhya Shekhar.</strong></p>"
+    },
+    {
+      "type": "header",
+      "content": "RSVP & waitlist"
+    },
+    {
+      "type": "range",
+      "id": "rsvp_cap",
+      "label": "RSVP capacity",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "cta_rsvp",
+      "label": "CTA when spots available",
+      "default": "RSVP"
+    },
+    {
+      "type": "text",
+      "id": "cta_waitlist",
+      "label": "CTA when full (waitlist)",
+      "default": "JOIN THE WAITLIST"
+    },
+    {
+      "type": "text",
+      "id": "waitlist_tag_label",
+      "label": "Waitlist badge label",
+      "default": "Waitlist",
+      "info": "Shown as a tag when RSVP capacity is full. The form stays open and the button switches to the waitlist CTA."
+    },
+    {
+      "type": "textarea",
+      "id": "seats_filled_message",
+      "label": "Message when seats are full",
+      "default": "Sorry, seats are filled. Join the waitlist and we'll reach out in case a spot opens up."
+    },
+    {
+      "type": "header",
+      "content": "Shopify customers"
+    },
+    {
+      "type": "text",
+      "id": "customer_tag_rsvp",
+      "label": "Customer tag (confirmed RSVP)",
+      "default": "prelaunch-rsvp",
+      "info": "Added in Shopify Admin → Customers when a spot is booked. Existing customers with the same email are updated, not duplicated."
+    },
+    {
+      "type": "text",
+      "id": "customer_tag_waitlist",
+      "label": "Customer tag (waitlist)",
+      "default": "prelaunch-waitlist"
+    },
+    {
+      "type": "text",
+      "id": "success_message_rsvp",
+      "label": "Success message (RSVP)",
+      "default": "You're booked! We can't wait to see you at Mokae Labs."
+    },
+    {
+      "type": "text",
+      "id": "success_message_waitlist",
+      "label": "Success message (waitlist)",
+      "default": "You're on the waitlist. We'll reach out if a spot opens up."
+    },
+    {
+      "type": "text",
+      "id": "sheet_tab_name",
+      "label": "Sheet tab name (optional override)",
+      "default": "Use page handle",
+      "info": "Leave as 'Use page handle' — each page is isolated automatically by its URL handle (e.g. mokae-pr-launch). Only type a custom name here to override one specific page. Do not reuse the same name on multiple pages."
+    },
+    {
+      "type": "text",
+      "id": "sheet_webhook_url",
+      "label": "Google Sheet webhook URL",
+      "default": "https://script.google.com/macros/s/AKfycbybdRVhDJMraVFuj_AvK0w_teYi8fHaxTbhKu0f3UZetxRhJTVVZVLEsnvuK_0Vp_jh3w/exec",
+      "info": "Paste your Google Apps Script Web App URL (ends in /exec). Same URL on every RSVP page. Not a page metafield."
+    },
+    {
+      "type": "header",
+      "content": "Legal"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_legal_text",
+      "label": "Show legal disclaimer",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "legal_text",
+      "label": "Legal disclaimer",
+      "default": "<p>By signing up, you agree to receive marketing emails. View our <a href=\"/policies/privacy-policy\">Privacy Policy</a> and <a href=\"/policies/terms-of-service\">Terms and Conditions</a> for more info.</p>",
+      "info": "Edit the full disclaimer text and links. Use the link button to point Privacy Policy and Terms to your store policies."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pre-Launch RSVP"
+    }
+  ]
+}
+{% endschema %}

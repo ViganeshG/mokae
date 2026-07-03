@@ -1,0 +1,34 @@
+<section class="ga-text-block-seciton" data-id="shopify-section-{{ section.id }}">
+	<div class="ga-about-v-alt">
+		<h2 class="section-title"> {{  section.settings.title  }} </h2>
+		<br>
+        <p>
+			{{  section.settings.desc  }}
+        </p>
+    </div>
+</section>
+
+{% schema %}
+{
+	"name": "GA Text Block",
+	"tag": "section",
+	"class": "ga-text-block-section",
+	"settings": [
+		{
+			"type": "text",
+			"id": "title",
+			"label": "Title"
+		},
+		{
+			"type": "textarea",
+			"id": "desc",
+			"label": "Description"
+		},
+	],
+	"presets": [
+		{
+			"name": "GA Text Block"
+		}
+	]
+}
+{% endschema %}

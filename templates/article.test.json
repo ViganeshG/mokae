@@ -1,0 +1,814 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "title": {
+          "type": "article-header",
+          "settings": {
+            "blog_show_tags": false,
+            "blog_show_excerpt": false,
+            "blog_show_date": true,
+            "blog_show_author": true,
+            "image_height": "large",
+            "show_share_facebook": true,
+            "show_share_twitter": true,
+            "show_share_pinterest": true,
+            "show_share_copy": true
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        },
+        "article_footer": {
+          "type": "article-footer",
+          "settings": {
+            "blog_show_date": true,
+            "blog_show_author": true,
+            "show_share_facebook": true,
+            "show_share_twitter": true,
+            "show_share_pinterest": true,
+            "show_share_copy": true
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "content",
+        "article_footer"
+      ],
+      "disabled": true,
+      "settings": {
+        "header_variant": "overlay",
+        "overlay_opacity": 30
+      }
+    },
+    "multicolumn_ExQdnn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_LHFAa8": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Mokae_HolisticBeauty-03.png",
+            "heading": "",
+            "text": "",
+            "button_label": "",
+            "button_link": ""
+          }
+        },
+        "column_HdfBjk": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "heading": "heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        },
+        "column_ENjN3G": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "heading": "heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        },
+        "column_Chn8tM": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "heading": "heading",
+            "text": "Some additional information",
+            "button_label": "Button",
+            "button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_LHFAa8",
+        "column_HdfBjk",
+        "column_ENjN3G",
+        "column_Chn8tM"
+      ],
+      "custom_css": [
+        ".swiper-buttons__wrapper {display: none;}",
+        ".multicolumn-card {padding-bottom: 0;}"
+      ],
+      "settings": {
+        "color_scheme": "background-2",
+        "multicolumn_to_show": 1,
+        "horizontal_alignment": "left",
+        "heading_size": "small",
+        "img_size": "large",
+        "img_ratio": "adapt",
+        "object_fit": "cover",
+        "swipe_on_mobile": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 70,
+        "margin_bottom": 0
+      }
+    },
+    "rich_text_GpQn9y": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_mKRdha": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p><strong>The Power Of Holistic Beauty & Why It Is More Relevant Than Ever</strong></p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_irfNBV": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Beauty, from a 360-degree perspective</p>"
+          }
+        },
+        "subheading_dqcQwE": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "by Tatiana Dias"
+          }
+        }
+      },
+      "block_order": [
+        "heading_mKRdha",
+        "text_irfNBV",
+        "subheading_dqcQwE"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; margin-left: auto; font-size: 21px; line-height: 40px; font-family: poppins; letter-spacing: -2px; word-spacing: 6px; width: 100%; padding: 2px;}",
+        ".h2 {font-weight: bold; margin: auto; width: 70%; font-size: 45px; text-transform: capitalize;}",
+        ".p {font-size: 20px;}",
+        "@media (max-width: 480px) {.h2 {width: 100%; font-size: 30px; margin: auto; } .rich-text__text {overflow: hidden; margin-left: auto; font-size: 20px; line-height: 20px; font-family: poppins; letter-spacing: -2px; word-spacing: 6px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 0,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_Jbey4R": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_NJ7NVX": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "text_aidbng": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>"
+          }
+        },
+        "button_T7qQGU": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_NJ7NVX",
+        "text_aidbng",
+        "button_T7qQGU"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 300; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 13px; width: auto; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 0
+      }
+    },
+    "rich_text_hGpGbp": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_3eggA7": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "text_Ym9Y4w": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>"
+          }
+        },
+        "button_WQaqrp": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_3eggA7",
+        "text_Ym9Y4w",
+        "button_WQaqrp"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 300; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 13px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 30,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_RxAxi8": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_jwL7ty": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "What is Holistic Beauty?"
+          }
+        },
+        "heading_8yVX7x": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_Xe6BXa": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>"
+          }
+        },
+        "button_yhef6g": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_jwL7ty",
+        "heading_8yVX7x",
+        "text_Xe6BXa",
+        "button_yhef6g"
+      ],
+      "custom_css": [
+        ".rich-text__subheading {overflow: hidden; text-transform: lowercase; font-size: 25px; text-align: left; margin: auto; width: 95%;}",
+        ".rich-text__text {overflow: hidden; margin: auto; text-align: left; width: 95%; padding-top: 15px; font-size: 13px;}",
+        "@media (max-width: 480px) {.rich-text__subheading {overflow: hidden; padding-top: 15px; width: 100%; font-size: 19px; } .rich-text__text {overflow: hidden; margin-left: auto; font-size: 14px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 40,
+        "margin_bottom": 30
+      }
+    },
+    "rich_text_4MiaRB": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_M7PAxf": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_T974TY": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_fDhVeU": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical.</p>"
+          }
+        },
+        "button_PNHReM": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_M7PAxf",
+        "heading_T974TY",
+        "text_fDhVeU",
+        "button_PNHReM"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; margin: auto; width: 75%; font-size: 45px; line-height: 55px; font-weight: 400; font-family: poppins;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 24px; width: 100%; line-height: 30px; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 30,
+        "margin_bottom": 30
+      }
+    },
+    "rich_text_YCphBh": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_qn7gqN": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_yCz79H": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_UwMBYA": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>"
+          }
+        },
+        "button_ijyXdz": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_qn7gqN",
+        "heading_yCz79H",
+        "text_UwMBYA",
+        "button_ijyXdz"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 300; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 13px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_9KNxgT": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_nNKJHw": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_RG4Ytz": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_QhrLwT": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The Mind, Body And Soul Connection</p>"
+          }
+        },
+        "button_6kLfnR": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_nNKJHw",
+        "heading_RG4Ytz",
+        "text_QhrLwT",
+        "button_6kLfnR"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 700px; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__subheading {overflow: hidden; padding-top: 15px; width: 100%; font-size: 19px; } .rich-text__text {overflow: hidden; padding-top: 10px; padding-bottom: 10px; margin-left: auto; font-size: 14px; width: 100%; font-weight: bold; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_4x8rKV": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_WNdPxN": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_WgjGYx": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_cqPb7L": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>"
+          }
+        },
+        "button_YdeepX": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_WNdPxN",
+        "heading_WgjGYx",
+        "text_cqPb7L",
+        "button_YdeepX"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 300; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 13px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_W7XRmz": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_r89KqV": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_4wbyLe": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_fW3ktA": {
+          "type": "text",
+          "settings": {
+            "text": "<p>It's relevant in the 21st Century</p>"
+          }
+        },
+        "button_nRNL8E": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_r89KqV",
+        "heading_4wbyLe",
+        "text_fW3ktA",
+        "button_nRNL8E"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 700px; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__subheading {overflow: hidden; padding-top: 15px; width: 100%; font-size: 19px; } .rich-text__text {overflow: hidden; padding-top: 10px; padding-bottom: 10px; margin-left: auto; font-size: 14px; width: 100%; font-weight: bold; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_dXN3Vi": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_GBLLAQ": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_WgD8qB": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_UEaz6f": {
+          "type": "text",
+          "settings": {
+            "text": "<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>"
+          }
+        },
+        "button_QxNVWM": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_GBLLAQ",
+        "heading_WgD8qB",
+        "text_UEaz6f",
+        "button_QxNVWM"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 15px; font-weight: 300; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 13px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 20,
+        "margin_bottom": 20
+      }
+    },
+    "rich_text_iLEGXt": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_CnyFnm": {
+          "type": "subheading",
+          "disabled": true,
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "heading_VTrFpf": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "<p>Heading for your section</p>",
+            "heading_size": "medium"
+          }
+        },
+        "text_9Crcn7": {
+          "type": "text",
+          "settings": {
+            "text": "<p>How to Approach Holistic Beauty</p>"
+          }
+        },
+        "button_zjTRG9": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_CnyFnm",
+        "heading_VTrFpf",
+        "text_9Crcn7",
+        "button_zjTRG9"
+      ],
+      "custom_css": [
+        ".rich-text__text {overflow: hidden; text-align: left; font-family: poppins; font-size: 24px; font-weight: 400px; width: 95%; margin: auto;}",
+        "@media (max-width: 480px) {.rich-text__text {overflow: hidden; margin-left: auto; font-size: 18px; width: 100%; }}"
+      ],
+      "settings": {
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "margin_top": 50,
+        "margin_bottom": 40
+      }
+    },
+    "image_with_text_U4n98G": {
+      "type": "image-with-text",
+      "custom_css": [
+        ".h6 {font-family: poppins; line-height: 50px; margin: auto; font-size: 15px; width: 110%; margin-top: -20%;}",
+        ".image-with-text {margin: auto; width: 70%;}",
+        "@media (max-width: 480px) {.image-with-text {width: 100%; } .image-with-text .h6 {font-size: 13px; width: auto; padding: 10px; margin: 0; } .image-with-text__image img {position: relative; margin: auto; padding-left: 15px; padding-right: 15px; } .frame-text-second {display: none; }}",
+        "@media (max-width: 768px) {.image-with-text .h6 {font-size: 15px; width: auto; padding: 0; margin: 0; }"
+      ],
+      "settings": {
+        "row-reverse": "row",
+        "image": "shopify://shop_images/Mokae_HolisticBeauty-02.png",
+        "image_size": "adapt",
+        "show_frame": false,
+        "color_scheme": "background-1",
+        "frame-text": "",
+        "frame-text-right": "",
+        "color_scheme_2": "background-2",
+        "heading": "",
+        "subheading": "<p><strong>This is a heading</strong></p><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>",
+        "subheading_left_top": "",
+        "subheading_left_bottom": "",
+        "subheading_right_top": "",
+        "subheading_right_bottom": "",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary",
+        "margin_top": 40,
+        "margin_bottom": 40
+      }
+    },
+    "image_with_text_6Kjhmb": {
+      "type": "image-with-text",
+      "custom_css": [
+        ".h6 {justify-content: center; align-items: center; font-family: poppins; line-height: 50px; margin: auto; font-size: 15px; width: 110%; margin-top: -20%;}",
+        ".image-with-text {margin: auto; width: 70%;}",
+        ".image-with-text__image img {height: 600px; width: 600px;}",
+        "@media (max-width: 480px) {.image-with-text {width: 100%; } .image-with-text .h6 {font-size: 13px; width: 100%; padding: 10px; margin: 0; } .image-with-text__image img {position: relative; margin: auto; padding-left: 15px; padding-right: 15px; } .frame-text-second {display: none; }}"
+      ],
+      "settings": {
+        "row-reverse": "row-reverse",
+        "image": "shopify://shop_images/Mokae_HolisticBeauty-02.png",
+        "image_size": "adapt",
+        "show_frame": false,
+        "color_scheme": "background-1",
+        "frame-text": "",
+        "frame-text-right": "",
+        "color_scheme_2": "background-2",
+        "heading": "",
+        "subheading": "<p><strong>This is a heading</strong></p><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>",
+        "subheading_left_top": "",
+        "subheading_left_bottom": "",
+        "subheading_right_top": "",
+        "subheading_right_bottom": "",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary",
+        "margin_top": 0,
+        "margin_bottom": 40
+      }
+    },
+    "image_with_text_Bt7kW3": {
+      "type": "image-with-text",
+      "custom_css": [
+        ".h6 {justify-content: center; align-items: center; font-family: poppins; line-height: 50px; margin: auto; font-size: 15px; width: 110%; margin-top: -20%;}",
+        ".image-with-text {margin: auto; width: 70%;}",
+        ".image-with-text__image img {height: 600px; width: 600px;}",
+        "@media (max-width: 480px) {.image-with-text {width: 100%; } .image-with-text .h6 {font-size: 13px; width: 100%; padding: 10px; margin: 0; } .image-with-text__image img {position: relative; margin: auto; padding-left: 15px; padding-right: 15px; } .frame-text-second {display: none; }}"
+      ],
+      "settings": {
+        "row-reverse": "row",
+        "image": "shopify://shop_images/Mokae_HolisticBeauty-02.png",
+        "image_size": "adapt",
+        "show_frame": false,
+        "color_scheme": "background-1",
+        "frame-text": "",
+        "frame-text-right": "",
+        "color_scheme_2": "background-2",
+        "heading": "",
+        "subheading": "<p><strong>This is a heading</strong></p><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>",
+        "subheading_left_top": "",
+        "subheading_left_bottom": "",
+        "subheading_right_top": "",
+        "subheading_right_bottom": "",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary",
+        "margin_top": 0,
+        "margin_bottom": 40
+      }
+    },
+    "image_with_text_WdRTCW": {
+      "type": "image-with-text",
+      "disabled": true,
+      "settings": {
+        "row-reverse": "row-reverse",
+        "image_size": "small",
+        "show_frame": false,
+        "color_scheme": "background-1",
+        "frame-text": "",
+        "frame-text-right": "",
+        "color_scheme_2": "background-2",
+        "heading": "",
+        "subheading": "",
+        "subheading_left_top": "",
+        "subheading_left_bottom": "",
+        "subheading_right_top": "",
+        "subheading_right_bottom": "",
+        "button_text": "",
+        "button_link": "",
+        "button_style": "primary",
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "main",
+    "multicolumn_ExQdnn",
+    "rich_text_GpQn9y",
+    "rich_text_Jbey4R",
+    "rich_text_hGpGbp",
+    "rich_text_RxAxi8",
+    "rich_text_4MiaRB",
+    "rich_text_YCphBh",
+    "rich_text_9KNxgT",
+    "rich_text_4x8rKV",
+    "rich_text_W7XRmz",
+    "rich_text_dXN3Vi",
+    "rich_text_iLEGXt",
+    "image_with_text_U4n98G",
+    "image_with_text_6Kjhmb",
+    "image_with_text_Bt7kW3",
+    "image_with_text_WdRTCW"
+  ]
+}

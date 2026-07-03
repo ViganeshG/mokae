@@ -1,0 +1,95 @@
+{%- liquid
+  assign key_features = product.metafields.gax.key_features
+  assign product_claims = product.metafields.gax.p_claims
+  assign clinical_claims = product.metafields.custom.clinical_claims
+  if clinical_claims == blank
+    assign clinical_claims = product.metafields.gax.clinical_cliams
+  endif
+  assign finish = product.metafields.gax.finish
+  assign ingredients = product.metafields.gax.ingredients
+
+  assign has_accordions = false
+  if key_features != blank or product_claims != blank or clinical_claims != blank or finish != blank or ingredients != blank
+    assign has_accordions = true
+  endif
+-%}
+
+{%- if has_accordions -%}
+  <div class="about mokae-product-accordions">
+    <div class="about__outer">
+      <div class="about__right">
+        <div class="about__wrapper no-js-hidden">
+          {%- if key_features != blank -%}
+            <div class="about__accordion-item">
+              <h2 class="about__accordion-title">
+                <span>Key Features</span>
+                <div class="about__more-link-wrapper">
+                  <div class="about__more-link">{% render 'icon-button-arrow' %}</div>
+                </div>
+              </h2>
+              <div class="about__accordion-description" style="display: none">
+                {{ key_features | metafield_tag }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if product_claims != blank -%}
+            <div class="about__accordion-item">
+              <h2 class="about__accordion-title">
+                <span>Product Claims</span>
+                <div class="about__more-link-wrapper">
+                  <div class="about__more-link">{% render 'icon-button-arrow' %}</div>
+                </div>
+              </h2>
+              <div class="about__accordion-description" style="display: none">
+                {{ product_claims | metafield_tag }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if clinical_claims != blank -%}
+            <div class="about__accordion-item">
+              <h2 class="about__accordion-title">
+                <span>Clinical Claims</span>
+                <div class="about__more-link-wrapper">
+                  <div class="about__more-link">{% render 'icon-button-arrow' %}</div>
+                </div>
+              </h2>
+              <div class="about__accordion-description" style="display: none">
+                {{ clinical_claims | metafield_tag }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if finish != blank -%}
+            <div class="about__accordion-item">
+              <h2 class="about__accordion-title">
+                <span>Finish</span>
+                <div class="about__more-link-wrapper">
+                  <div class="about__more-link">{% render 'icon-button-arrow' %}</div>
+                </div>
+              </h2>
+              <div class="about__accordion-description" style="display: none">
+                {{ finish | metafield_tag }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if ingredients != blank -%}
+            <div class="about__accordion-item">
+              <h2 class="about__accordion-title">
+                <span>Ingredients</span>
+                <div class="about__more-link-wrapper">
+                  <div class="about__more-link">{% render 'icon-button-arrow' %}</div>
+                </div>
+              </h2>
+              <div class="about__accordion-description" style="display: none">
+                {{ ingredients | metafield_tag }}
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}

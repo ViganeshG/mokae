@@ -1,0 +1,82 @@
+{% if section.settings.show %}
+<style>
+.ct-popular-search-main{
+    width:100%;
+    padding-left: var(--lr-spacing);
+    padding-right: var(--lr-spacing);
+    margin-top:20px;
+}
+.ct-popular-search-main .section-title {
+    font-size: 16px !important;
+}
+.ct-popular-search-main .ct-search-pipe {
+    padding: 0 5px;
+}
+.ct-popular-search-main .ct-search-pipe:last-child {
+    padding: 0px;
+    display: none;
+}  
+.ct-popular-search-main .ct-search-title {
+    font-size: 16px;
+}
+.ct-popular-search-inner{
+    width: 100%;  
+}  
+.ct-popular-search-content {
+    width: 100%;
+    padding: 0 5px;
+}  
+@media(max-width:768px){
+.ct-popular-search-main {
+    padding-left: 20px;
+    padding-right: 20px;
+} 
+.ct-popular-search-main .section-title {
+    padding-bottom: 10px;
+}  
+.ct-popular-search-main .ct-search-title {
+    font-size: 14px;
+}  
+}  
+</style>
+<div class="ct-popular-search-main">
+  <div class="ct-popular-search-heading"><h2 class="section-title">{{ section.settings.heading }}</h2></div>
+  <div class="ct-popular-search-inner">
+    <div class="ct-popular-search-content">
+       {% assign search_terms = section.settings.search | split: '|' %}
+        {% for term in search_terms %}          
+          {% if term != "" %}
+            <span class="ct-search-title">{{ term }}</span>
+            <span class="ct-search-pipe">|</span>            
+          {% endif %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% schema %}
+  {
+    "name": "CT Popular Search",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show",
+        "label": "Show SEO Section",
+        "default":false
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "search",
+        "label": "Search Titles"
+      }
+    ],
+    "presets": [{
+      "name": "CT Popular Search"
+    }]
+  }
+{% endschema %}

@@ -1,0 +1,457 @@
+{{ 'split-screen-slideshow.css' | asset_url | stylesheet_tag }}
+<script
+	src="{{ 'split-screen-slideshow.js' | asset_url }}"
+	defer="defer"
+></script>
+
+{% style %}
+	{% render 'spaced-section' %}
+{% endstyle %}
+
+{% liquid
+	assign slide_effects = section.settings.slide_effects
+	assign parallax = section.settings.parallax
+	assign slideshow_speed = section.settings.slider_speed
+	assign autoplay = section.settings.is_autoplay
+	assign stop_autoplay = section.settings.slider_hover_autoplay_stop
+	assign slideshow_delay = section.settings.slider_delay
+%}
+
+<section
+	class="split-screen-slideshow about-section js-slideshow-get-params section-{{ section.id }}-padding"
+	data-id="shopify-section-{{ section.id }}"
+	data-autoplay="{{ autoplay }}"
+	data-stop-autoplay="{{ stop_autoplay }}"
+	data-speed="{{ slideshow_speed }}"
+	data-delay="{{ slideshow_delay }}"
+	data-parallax="{{ parallax }}"
+	data-effect="{{ slide_effects }}"
+>
+	<div
+		class="about"
+	>
+		<div class="about__right about__right-{{ section.settings.block_size }}">
+			<div class="about__carousel-cell js-about__carousel-cell">
+				<!-- about__carousel -->
+				<div class="split-screen-slideshow__image-swiper swiper about__carousel js-about__carousel">
+					<div class="swiper-wrapper">
+						{%- for block in section.blocks -%}
+							{%- case block.type -%}
+								{%- when 'about_carousel' -%}
+									<div
+										class="
+											swiper-slide {% if block.settings.color_scheme == 'dark' %} theme-dark color-background-5
+											{% elsif block.settings.color_scheme == 'light' %} theme-light color-background-1 {% endif %}
+										"
+										{{ block.shopify_attributes }}
+									>
+										{% if block.settings.about_carousel_image != null %}
+											{{
+												block.settings.about_carousel_image
+												| image_url: width: 3840
+												| image_tag:
+													loading: 'lazy',
+													width: block.settings.about_carousel_image.width,
+													height: block.settings.about_carousel_image.height,
+													sizes: '100vw,(min-width: 1200px) 50vw',
+													widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+											}}
+										{% elsif block.settings.about_carousel_image == null %}
+											{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+											{% render 'empty-image-about',
+												className: 'about__item-empty-img',
+												width: 745
+											%}
+										{% endif %}
+									</div>
+							{% endcase %}
+						{%- else -%}
+							<div class="swiper-slide" {{ block.shopify_attributes }}>
+								{{
+									'collection-1'
+									| placeholder_svg_tag: 'about__item-empty-svg'
+								}}
+								{% render 'empty-image-about',
+									className: 'about__item-empty-img',
+									width: 745
+								%}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				{% render 'empty-image-about-carcass',
+					className: 'empty-image-about-carcass',
+					width: 896,
+					height: 516
+				%}
+			</div>
+		</div>
+		<div class="about__left about__left-{{ section.settings.block_size }}">
+			{% comment %} text-carousel {% endcomment %}
+			<div class="split-screen-slideshow__text-swiper text-carousel swiper">
+				<div class="swiper-wrapper">
+					{%- for block in section.blocks -%}
+						{% liquid
+							case block.settings.color_scheme
+								when 'light'
+									assign slide_color = 'color-background-1'
+								when 'dark'
+									assign slide_color = 'color-background-4'
+							endcase
+						%}
+						{%- case block.type -%}
+							{%- when 'about_carousel' -%}
+								<div
+									class="
+										swiper-slide {% if block.settings.color_scheme == 'dark' %} theme-dark color-background-5
+										{% elsif block.settings.color_scheme == 'light' %} theme-light color-background-1 {% endif %}
+									"
+									data-color-scheme="{{ slide_color }}"
+								>
+									<div
+										class="swiper-slide__box"
+									>
+										{%- if block.settings.heading != blank -%}
+											<h2
+												class="about__section-title h2"
+												data-swiper-parallax="-100"
+											>
+												{{ block.settings.heading }}
+											</h2>
+										{%- endif -%}
+
+										{%- if block.settings.caption != blank -%}
+											<div
+												class="about__section-caption"
+												data-swiper-parallax="-200"
+											>
+												{{ block.settings.caption }}
+											</div>
+										{%- endif -%}
+
+										{% if block.settings.button_text != blank %}
+											<div
+												class="about__button-box"
+												data-swiper-parallax="-300"
+											>
+												<a
+													{% if block.settings.button_link.url != blank %}
+														href="{{ block.settings.button_link }}"
+													{% endif %}
+													type="button"
+													{% if block.settings.button_link.url == blank %}
+														aria-disabled="true"
+													{% endif %}
+													class="button button--{{ block.settings.button_style }}"
+												>
+													{{ block.settings.button_text }}
+												</a>
+											</div>
+										{% endif %}
+									</div>
+								</div>
+						{% endcase %}
+					{%- else -%}
+						<div
+							class="swiper-slide theme-light"
+						>
+							<div
+								class="swiper-slide__box"
+							>
+								<h2
+									class="about__section-title h2"
+									data-swiper-parallax="-100"
+								>
+									{{- 'split_screen_slideshow.heading' | t -}}
+								</h2>
+
+								<div
+									class="about__section-caption"
+									data-swiper-parallax="-200"
+								>
+									{{- 'split_screen_slideshow.some_add_info' | t -}}
+								</div>
+
+								<a
+									href="{{ block.settings.button_link }}"
+									type="button"
+									aria-disabled="true"
+									class="button button--primary"
+									data-swiper-parallax="-300"
+								>
+									{{- 'split_screen_slideshow.button_label' | t -}}
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			{% comment %} /text-carousel {% endcomment %}
+
+			<!-- buttons -->
+			{% if section.settings.navigation %}
+				<div class="swiper-buttons swip-btns no-js-hidden">
+					<button
+						type="button"
+						class="swiper-button-prev spit-btn-prev arrow-btn-left"
+						name="previous"
+						aria-label="{{ 'accessibility.previous_slide' | t }}"
+					>
+						{% render 'icon-caret-left' %}
+					</button>
+					<button
+						type="button"
+						class="swiper-button-next spit-btn-next arrow-btn-right"
+						name="next"
+						aria-label="{{ 'accessibility.next_slide' | t }}"
+					>
+						{% render 'icon-caret-right' %}
+					</button>
+				</div>
+			{% endif %}
+			<!-- /about__carousel -->
+			{% if section.settings.pagination %}
+				<div
+					class="swiper-pagination swipe-pagi-style about__swiper-pagination js-about__swiper-pagination"
+				></div>
+			{% endif %}
+		</div>
+	</div>
+</section>
+{% schema %}
+{
+	"name": "t:sections.split_screen_slideshow.name",
+	"class": "split-screen-slideshow__section",
+	"tag": "section",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"settings": [
+		{
+			"type": "select",
+			"id": "block_size",
+			"options": [
+				{
+					"value": "twenty-one-by-nine",
+					"label": "t:sections.all.block_size.options__1.label"
+				},
+				{
+					"value": "sixteen-by-nine",
+					"label": "t:sections.all.block_size.options__2.label"
+				},
+				{
+					"value": "four-by-three",
+					"label": "t:sections.all.block_size.options__3.label"
+				},
+				{
+					"value": "full-screen",
+					"label": "t:sections.all.block_size.options__4.label"
+				}
+			],
+			"default": "full-screen",
+			"label": "t:sections.all.block_size.label"
+		},
+		{
+			"type": "range",
+			"id": "slider_speed",
+			"min": 0,
+			"max": 6,
+			"step": 0.1,
+			"default": 1.1,
+			"unit": "s",
+			"label": "t:sections.split_screen_slideshow.settings.slider_speed.label"
+		},
+		{
+			"type": "range",
+			"id": "slider_delay",
+			"min": 0,
+			"max": 8,
+			"step": 0.1,
+			"default": 3,
+			"unit": "s",
+			"label": "t:sections.split_screen_slideshow.settings.slider_delay.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "slider_hover_autoplay_stop",
+			"default": true,
+			"label": "t:sections.all.slider_options.slider_hover_autoplay_stop.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "is_autoplay",
+			"default": true,
+			"label": "t:sections.all.slider_options.slider_is_autoplay.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "navigation",
+			"default": true,
+			"label": "t:sections.all.slider_options.navigation.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "pagination",
+			"default": true,
+			"label": "t:sections.all.slider_options.pagination.label"
+		},
+		{
+			"type": "select",
+			"id": "slide_effects",
+			"options": [
+				{
+					"value": "slide",
+					"label": "t:sections.all.slider_options.effects.options.options__1.label"
+				},
+				{
+					"value": "fade",
+					"label": "t:sections.all.slider_options.effects.options.options__2.label"
+				},
+				{
+					"value": "coverflow",
+					"label": "t:sections.all.slider_options.effects.options.options__3.label"
+				},
+				{
+					"value": "creative",
+					"label": "t:sections.all.slider_options.effects.options.options__4.label"
+				},
+				{
+					"value": "flip",
+					"label": "t:sections.all.slider_options.effects.options.options__5.label"
+				}
+			],
+			"default": "slide",
+			"label": "t:sections.all.slider_options.effects.label"
+		},
+		{
+			"type": "checkbox",
+			"id": "parallax",
+			"default": true,
+			"label": "t:sections.all.slider_options.parallax.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 0,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 0,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		}
+	],
+	"blocks": [
+		{
+			"type": "about_carousel",
+			"name": "t:sections.split_screen_slideshow.blocks.name",
+			"limit": 8,
+			"settings": [
+				{
+					"type": "select",
+					"id": "color_scheme",
+					"options": [
+						{
+							"value": "dark",
+							"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__2.label"
+						},
+						{
+							"value": "light",
+							"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__1.label"
+						}
+					],
+					"default": "dark",
+					"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.label"
+				},
+				{
+					"type": "image_picker",
+					"id": "about_carousel_image",
+					"label": "t:sections.split_screen_slideshow.blocks.settings.image.label"
+				},
+				{
+					"type": "richtext",
+					"id": "heading",
+					"default": "<p>Heading</p>",
+					"label": "t:sections.split_screen_slideshow.blocks.settings.heading.label"
+				},
+				{
+					"type": "textarea",
+					"id": "caption",
+					"default": "Additional text",
+					"label": "t:sections.split_screen_slideshow.blocks.settings.caption.label"
+				},
+				{
+					"type": "header",
+					"content": "t:sections.all.button.header_button.content"
+				},
+				{
+					"type": "text",
+					"id": "button_text",
+					"label": "t:sections.all.button.button_text.label",
+					"default": "Explore"
+				},
+				{
+					"type": "url",
+					"id": "button_link",
+					"label": "t:sections.all.button.button_link.label"
+				},
+				{
+					"type": "select",
+					"id": "button_style",
+					"options": [
+						{
+							"value": "primary",
+							"label": "t:sections.all.button.button_style.options__1.label"
+						},
+						{
+							"value": "secondary",
+							"label": "t:sections.all.button.button_style.options__2.label"
+						},
+						{
+							"value": "tertiary",
+							"label": "t:sections.all.button.button_style.options__3.label"
+						}
+					],
+					"default": "primary",
+					"label": "t:sections.all.button.button_style.label"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "t:sections.split_screen_slideshow.name",
+			"blocks": [
+				{
+					"type": "about_carousel"
+				},
+				{
+					"type": "about_carousel"
+				},
+				{
+					"type": "about_carousel"
+				},
+				{
+					"type": "about_carousel"
+				},
+				{
+					"type": "about_carousel"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

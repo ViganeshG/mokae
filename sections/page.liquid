@@ -1,0 +1,86 @@
+<link
+	rel="stylesheet"
+	href="{{ 'component-rte.css' | asset_url }}"
+	media="print"
+	onload="this.media='all'"
+>
+<link
+	rel="stylesheet"
+	href="{{ 'section-main-page.css' | asset_url }}"
+	media="print"
+	onload="this.media='all'"
+>
+
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- style -%}
+	{% render 'spaced-section' %}
+{%- endstyle -%}
+
+<div class="container page-width--narrow">
+	<h2 class="page-title title--page">
+		{%- if section.settings.page.title != blank -%}
+			{{ section.settings.page.title | escape }}
+		{%- else -%}
+			Page title
+		{%- endif -%}
+	</h2>
+	<div class="rte">
+		{%- if section.settings.page.content != blank -%}
+			{{ section.settings.page.content }}
+		{%- else -%}
+			<div class="page-placeholder-wrapper placeholder">
+				{{ 'page' | placeholder_svg_tag: 'page-placeholder' }}
+			</div>
+		{%- endif -%}
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.page.name",
+	"tag": "section",
+	"class": "page-section",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"settings": [
+		{
+			"type": "page",
+			"id": "page",
+			"label": "t:sections.page.settings.page.label",
+			"info": "t:sections.page.settings.page.info"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		}
+	],
+	"presets": [
+		{
+			"name": "t:sections.page.presets.name"
+		}
+	]
+}
+{% endschema %}

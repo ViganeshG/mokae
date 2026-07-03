@@ -1,0 +1,285 @@
+<link
+	rel="stylesheet"
+	href="{{ 'main-lookbook.css' | asset_url }}"
+	media="print"
+	onload="this.media='all'"
+>
+
+<noscript>
+	{{- 'main-lookbook.css' | asset_url | stylesheet_tag -}}
+</noscript>
+
+{% style %}
+	{% render 'spaced-section' %}
+	#shopify-section-{{ section.id }} {
+		--per-row : {{ section.settings.per_row }}
+	}
+{% endstyle %}
+
+{% liquid
+	if section.settings.per_row == 1
+		assign collection_class = 'collection-grid-one'
+	else
+		assign collection_class = ''
+	endif
+%}
+
+<div class="collection-list {{ collection_class }}">
+	<div class="fullscreen-container">
+		<div class="page-header">
+			<div class="page-header__inner">
+				<h2 class="main-page-title title--page">
+					{{ section.settings.title }}
+				</h2>
+			</div>
+		</div>
+
+		<ul class="collection-product-list collections-grid" role="list">
+			{%- for block in section.blocks -%}
+				{%- case block.type -%}
+					{%- when 'about_blocks' -%}
+						{% liquid
+							assign condition = forloop.index | modulo: section.settings.per_row
+							if condition == 0
+								assign block_class = 'hide_border'
+							else
+								assign block_class = ''
+							endif
+						%}
+						<li class="collections-grid__card color-background-2 color-border-1 {{ block_class }} {{ collection_class }} {% if section.settings.image_ratio == 'portrait' or section.settings.image_ratio == 'portrait' %} collections-grid__card--portrait {% endif %}">
+							{{ 'component-collection-card.css' | asset_url | stylesheet_tag }}
+
+							{% liquid
+								case section.settings.image_ratio
+									when 'landscape'
+										assign section_size = '56.25%'
+									when 'portrait'
+										assign section_size = '134.54%'
+									when 'square'
+										assign section_size = '100%'
+									else
+										assign section_size = '100%'
+								endcase
+							%}
+
+							{% style %}
+								.collection-grid__image-block::before {
+									padding-bottom: {{ section_size }};
+								}
+							{% endstyle %}
+							{% if block.settings.heading_link != blank %}
+								<a
+									class="card-wrapper__link--overlay collection-grid__link"
+									{% if block.settings.heading != blank %}
+										href="{{ block.settings.heading_link }}"
+									{% endif %}
+								></a>
+							{% endif %}
+							<div class="collection-grid__item">
+								<div class="collection-grid__image-wrapper">
+									<div class="collection-grid__image-block">
+										{%- if block.settings.heading != blank -%}
+											<h4
+												class="
+													collection-grid__title {% if section.settings.per_row >= 4 %}h5 collection-grid__small-pad{% endif %}{% if block.settings.color_scheme == 'dark' %} theme-dark
+													{% elsif block.settings.color_scheme == 'light' %} theme-light {% endif %}
+												"
+											>
+												{{ block.settings.heading }}
+											</h4>
+										{%- endif -%}
+
+										<div class="collection-grid__image-item">
+											{% if block.settings.block_image != blank %}
+												{% liquid
+													if block.settings.block_image != blank
+														assign blockImg = block.settings.block_image
+													endif
+													assign image_height = blockImg.width | divided_by: blockImg.aspect_ratio
+													assign image_width = blockImg.width
+													assign sizes = '100vw'
+												%}
+												{% assign image_style = 'object-fit: cover;' %}
+												{{
+													blockImg
+													| image_url: width: 3840
+													| image_tag:
+														loading: 'lazy',
+														width: image_width,
+														height: image_height,
+														sizes: sizes,
+														widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+														style: image_style
+												}}
+											{%- else -%}
+												{{
+													'collection-1'
+													| placeholder_svg_tag: 'placeholder-svg'
+												}}
+											{% endif %}
+											{%- if block.settings.overlay_enable -%}
+												<span
+													class="collection-card__overlay"
+													style="background-color: rgba(var(--color-overlay), {{ block.settings.overlay_opacity }}%);"
+												>
+												</span>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+				{% endcase %}
+			{%- endfor -%}
+		</ul>
+
+		{%- if paginate.pages > 1 -%}
+			{% render 'pagination', paginate: paginate %}
+		{%- endif -%}
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.main-lookbook.name",
+	"tag": "section",
+	"class": "section-lookbook",
+	"enabled_on": {
+		"templates": ["*"]
+	},
+	"settings": [
+		{
+			"type": "richtext",
+			"id": "title",
+			"label": "t:sections.all.heading.label",
+			"default": "<p>Heading</p>"
+		},
+		{
+			"type": "range",
+			"id": "per_row",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"default": 2,
+			"label": "t:sections.all.column_per_row.label",
+			"info": "t:sections.all.column_per_row.info"
+		},
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"options": [
+				{
+					"value": "landscape",
+					"label": "t:sections.all.image.ratio.options__1.label"
+				},
+				{
+					"value": "portrait",
+					"label": "t:sections.all.image.ratio.options__2.label"
+				},
+				{
+					"value": "square",
+					"label": "t:sections.all.image.ratio.options__3.label"
+				}
+			],
+			"default": "square",
+			"label": "t:sections.all.image.ratio.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		}
+	],
+	"blocks": [
+		{
+			"type": "about_blocks",
+			"name": "t:sections.main-lookbook.blocks.categories.name",
+			"settings": [
+				{
+					"type": "select",
+					"id": "color_scheme",
+					"options": [
+						{
+							"value": "dark",
+							"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__2.label"
+						},
+						{
+							"value": "light",
+							"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.options__1.label"
+						}
+					],
+					"default": "light",
+					"label": "t:sections.split_screen_slideshow.blocks.settings.color_scheme.label"
+				},
+				{
+					"type": "richtext",
+					"id": "heading",
+					"default": "<p>Heading</p>",
+					"label": "t:sections.all.text.label"
+				},
+				{
+					"type": "url",
+					"id": "heading_link",
+					"label": "t:sections.main-lookbook.blocks.heading_link.label"
+				},
+				{
+					"type": "image_picker",
+					"id": "block_image",
+					"label": "t:sections.all.image.label"
+				},
+				{
+					"type": "header",
+					"content": "t:sections.all.overlay.header.content"
+				},
+				{
+					"type": "checkbox",
+					"id": "overlay_enable",
+					"default": true,
+					"label": "t:sections.all.overlay.overlay_enable.label"
+				},
+				{
+					"type": "range",
+					"id": "overlay_opacity",
+					"min": 10,
+					"max": 90,
+					"default": 10,
+					"unit": "%",
+					"label": "t:sections.all.overlay.overlay_opacity.label"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name": "t:sections.main-lookbook.name",
+			"blocks": [
+				{
+					"type": "about_blocks"
+				},
+				{
+					"type": "about_blocks"
+				}
+			]
+		}
+	]
+}
+{% endschema %}

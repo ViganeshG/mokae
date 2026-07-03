@@ -1,0 +1,112 @@
+{% style %}
+	.header__offcanvas-top .header__menu-item h2 {
+	  font-size: {{ heading_font }}px;
+	}
+
+	.header__offcanvas-top .header__menu-item h2 em{
+	  font-size: {{ heading_font }}px;
+	}
+
+	.header__offcanvas-top .main-item li a{
+	  font-size: {{ menu_font }}px;
+	}
+
+	.header__offcanvas-top .main-item li span{
+	  font-size: {{ menu_font }}px;
+	}
+
+	@media (max-width: 1360px) {
+		.header__offcanvas-top .header__menu-item h2 {
+	  	font-size: 4.8rem;
+		}
+		.header__offcanvas-top .header__menu-item h2 em {
+				font-size: 4.8rem;
+		}
+
+		.header__offcanvas-top .main-item li a{
+			font-size: 2rem;
+		}
+
+		.header__offcanvas-top .main-item li span{
+			font-size: 2rem;
+		}
+
+	}
+{% endstyle %}
+<span class="header__menu-item list-menu__item">
+	<a
+		href="{{ link.url }}"
+		{% if link.type == 'http_link' and settings.open_new_tab %}
+			target="_blank"
+		{% endif %}
+		class="{%- if link.active %} header__active-menu-item	{% endif %} link line-link link--text h2"
+		{% if link.current %}
+			aria-current="page"
+		{% endif %}
+	>
+		{%- if italic %}
+			<em>
+				{{ link.title | escape }}
+			</em>
+		{% else %}
+			{{ link.title | escape }}
+		{% endif %}
+	</a>
+</span>
+<ul
+	class="main-item list-menu list-menu--disclosure  motion-reduce"
+	role="list"
+>
+	{%- for childlink in link.links -%}
+		<li class="header__menu-item-second">
+			{%- if childlink.links == blank -%}
+				<a
+					href="{{ childlink.url }}"
+					{% if childlink.type == 'http_link' and settings.open_new_tab %}
+						target="_blank"
+					{% endif %}
+					class="header__menu-item list-menu__item link line-link link--text focus-inset {% if childlink.current %} header__menu-item--active{% endif %}"
+					{% if childlink.current %}
+						aria-current="page"
+					{% endif %}
+				>
+					<span>
+						{{ childlink.title | escape }}
+					</span>
+				</a>
+			{%- else -%}
+				<span class="header__menu-item link link--text line-link list-menu__item focus-inset ">
+					<span>
+						{{ childlink.title | escape }}
+					</span>
+					{% render 'icon-button-arrow' -%}
+				</span>
+				<ul
+					class="header__submenu list-menu--disclosure submainitem list-menu motion-reduce"
+					tabindex="0"
+				>
+					{%- for grandchildlink in childlink.links -%}
+						<li>
+							<a
+								href="{{ grandchildlink.url }}"
+								{% if grandchildlink.type == 'http_link'
+									and settings.open_new_tab
+								%}
+									target="_blank"
+								{% endif %}
+								class="header__menu-item list-menu__item link link--text line-link focus-inset {% if grandchildlink.current %} header__menu-item--active{% endif %}"
+								{% if grandchildlink.current %}
+									aria-current="page"
+								{% endif %}
+							>
+								<span>
+									{{ grandchildlink.title | escape }}
+								</span>
+							</a>
+						</li>
+					{%- endfor -%}
+				</ul>
+			{%- endif -%}
+		</li>
+	{%- endfor -%}
+</ul>

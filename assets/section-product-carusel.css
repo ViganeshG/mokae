@@ -1,0 +1,106 @@
+.product-carousel .collection-popular-card {
+  display: none;
+  width: 100%;
+  transition: opacity var(--duration-default);
+}
+@media (min-width: 750px) {
+  .product-carousel .collection-popular-card {
+    width: calc(50% - 1.2rem);
+  }
+}
+@media (min-width: 1200px) {
+  .product-carousel .collection-popular-card {
+    width: calc(25% - 1.8rem);
+  }
+}
+@media (min-width: 1360px) {
+  .product-carousel .collection-popular-card {
+    width: calc(25% - 4.2rem);
+  }
+}
+.product-carousel .collection-popular-card.show, .product-carousel .collection-popular-card--placeholder {
+  /*position: static;*/
+  opacity: 1;
+  display: block;
+  opacity: 1;
+}
+.product-carousel__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+.product-carousel__top--border {
+  padding-top: 4rem;
+  border-top: 0.1rem solid rgb(var(--color-border));
+}
+.product-carousel__heading {
+  margin: 0;
+}
+.product-carousel__heading p {
+  margin: 0;
+}
+.product-carousel__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2.4rem 0 0;
+  padding: 0;
+  column-gap: 2.4rem;
+  row-gap: 4.8rem;
+}
+@media (min-width: 1360px) {
+  .product-carousel__wrapper {
+    gap: 5.6rem;
+  }
+}
+.product-carousel__link {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.075em;
+  color: rgb(var(--color-base-text));
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.product-carousel__link:hover {
+  color: rgba(var(--color-base-text), 0.6);
+}
+.product-carousel__filters-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-top: 2.4rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.filters__item {
+  display: block;
+  padding: 0.5em 1rem;
+  font-size: 1.2rem;
+  line-height: var(--font-body-line-height);
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+  border-radius: 10rem;
+  border: 0.1rem solid rgb(var(--color-border));
+  transition: border-color var(--duration-default);
+}
+.filters__item_active {
+  color: rgb(var(--color-button-text));
+  background-color: rgb(var(--color-button));
+  border-color: rgb(var(--color-button));
+}
+.filters__item:hover {
+  border-color: rgb(var(--color-button));
+}

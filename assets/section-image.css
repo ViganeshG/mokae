@@ -1,0 +1,26 @@
+.image-section {
+  text-align: center;
+}
+.image-section .spaced-section {
+  padding-top: 9.3rem;
+}
+
+.image-section__title {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 92.4rem;
+}
+.image-section__title p {
+  margin: 0;
+}
+
+.image-section__text {
+  margin: 0 auto;
+  margin-top: 2.4rem;
+  max-width: 40.6rem;
+}
+
+.image-section__button {
+  margin-top: 5.6rem;
+  padding: 2rem -5rem;
+}

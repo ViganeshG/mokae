@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "prelaunch_rsvp": {
+      "type": "mokae-prelaunch-rsvp",
+      "settings": {
+        "hero_image": "shopify://shop_images/51aa8eda-f0c6-4c22-8ea0-1811ca0abea1.png",
+        "hero_headline": "YOUR BROW ERA BEGINS",
+        "hero_date": "3:30 PM, 19th June",
+        "hero_venue": "Mokae Lab",
+        "description": "<p>Something special has arrived at <strong>Mokae</strong>, and we’d love for you to be among the first to experience it.<br/><br/>Join us for an intimate launch event at <strong>Mokae Lab</strong>, an afternoon of beauty, artistry and conversations.</p>",
+        "rsvp_cap": 10,
+        "cta_rsvp": "RSVP",
+        "cta_waitlist": "JOIN THE WAITLIST",
+        "waitlist_tag_label": "Waitlist",
+        "seats_filled_message": "Sorry, seats are filled. Join the waitlist and we'll reach out in case a spot opens up.",
+        "customer_tag_rsvp": "prelaunch-rsvp",
+        "customer_tag_waitlist": "prelaunch-waitlist",
+        "success_message_rsvp": "You're booked! We can't wait to see you at Mokae Labs.",
+        "success_message_waitlist": "You're on the waitlist. We'll reach out if a spot opens up.",
+        "sheet_tab_name": "Use page handle",
+        "sheet_webhook_url": "https://script.google.com/macros/s/AKfycbybdRVhDJMraVFuj_AvK0w_teYi8fHaxTbhKu0f3UZetxRhJTVVZVLEsnvuK_0Vp_jh3w/exec",
+        "show_legal_text": true,
+        "legal_text": "<p>Limited seats available. RSVP mandatory.<br/>Can’t make it after RSVPing? Just give us a heads-up so we can share your spot with someone else. <br/>Repeated no-shows may impact future invitations.</p>"
+      }
+    }
+  },
+  "order": [
+    "prelaunch_rsvp"
+  ]
+}

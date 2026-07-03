@@ -1,0 +1,33 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "event-main",
+      "blocks": {
+        "restock_alert_waitlist_mini_mini_add_block_JUcUHN": {
+          "type": "shopify://apps/mini-waitlist/blocks/mini_add_block/01004166-ff91-4d61-a580-355decef49d6",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "restock_alert_waitlist_mini_mini_add_block_JUcUHN"
+      ],
+      "settings": {
+        "cta_button_text": "Buy Now",
+        "cta_button_link": "https://rzp.io/rzp/wp3eJWJt",
+        "waitlist_sheet_webhook": "https://script.google.com/macros/s/AKfycby9DWgdhsJ0YCbzid595jE0QbZXxSlwPDbC7zKWA7NP39YZUTcS_gwcR1S3OWUzYpafbQ/exec"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

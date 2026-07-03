@@ -1,0 +1,391 @@
+.section-instagram-collage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "overflow";
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  min-height: 60vh;
+  z-index: 0;
+}
+.section-instagram-collage__container {
+  width: 100%;
+  grid-area: overflow;
+  max-width: 1792px;
+}
+@media (min-width: 1760px) and (max-width: 1910px) {
+  .section-instagram-collage__container {
+    max-width: 1610px;
+  }
+}
+@media (min-width: 1560px) and (max-width: 1760px) {
+  .section-instagram-collage__container {
+    max-width: 1430px;
+  }
+}
+@media (min-width: 1350px) and (max-width: 1560px) {
+  .section-instagram-collage__container {
+    max-width: 1210px;
+  }
+}
+@media (min-width: 1120px) and (max-width: 1350px) {
+  .section-instagram-collage__container {
+    max-width: 990px;
+  }
+}
+@media (min-width: 840px) and (max-width: 1120px) {
+  .section-instagram-collage__container {
+    max-width: 812px;
+  }
+}
+@media (min-width: 500px) and (max-width: 840px) {
+  .section-instagram-collage__container {
+    max-width: 407px;
+  }
+}
+@media (max-width: 540px) {
+  .section-instagram-collage__container {
+    max-width: 300px;
+  }
+}
+.section-instagram-collage__text-block {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 2rem;
+}
+@media (max-width: 840px) {
+  .section-instagram-collage__text-block {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+}
+.section-instagram-collage__text-block .button-container {
+  flex: 1;
+}
+.section-instagram-collage__text-block .header-container {
+  flex: 1;
+  text-align: center;
+}
+.section-instagram-collage__text-block .header-container .full-unstyled-link {
+  width: max-content;
+  margin: auto;
+}
+@media (max-width: 1120px) {
+  .section-instagram-collage__text-block .header-container .full-unstyled-link {
+    font-size: 4rem;
+  }
+  .section-instagram-collage__text-block .header-container .full-unstyled-link em {
+    font-size: calc(4rem * var(--font-heading-italic-interval));
+  }
+}
+.section-instagram-collage__text-block .header-container p {
+  margin: 0;
+}
+.section-instagram-collage__text-block .text-container {
+  flex: 1;
+}
+.section-instagram-collage__text-block .text-container p {
+  font-size: var(--font-body-size);
+}
+.section-instagram-collage__text-block .button--with-underline {
+  text-align: start;
+  font-size: var(--font-subtitle-size);
+}
+.section-instagram-collage__text-block h2 {
+  margin: 0;
+  text-align: center;
+  line-height: calc(var(--font-heading-line-height) + 0.025);
+}
+.section-instagram-collage__text-block h2 p {
+  margin: 0;
+}
+.section-instagram-collage__text-block .text-container p {
+  text-align: end;
+  flex: 1;
+  margin: 0;
+  letter-spacing: 0;
+  text-transform: capitalize;
+}
+.section-instagram-collage__cards-block {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  width: 100%;
+  gap: 0.4rem;
+  padding-top: 3.2rem;
+}
+@media (min-width: 750px) {
+  .section-instagram-collage__cards-block {
+    justify-content: left;
+    padding-top: 6rem;
+  }
+}
+@media (min-width: 841px) {
+  .section-instagram-collage__cards-block {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (min-width: 990px) {
+  .section-instagram-collage__cards-block {
+    flex-wrap: nowrap;
+  }
+}
+.section-instagram-collage .card-img,
+.section-instagram-collage svg,
+.section-instagram-collage .card-img svg {
+  position: relative;
+  max-width: 445px;
+  max-height: 445px;
+  width: 100%;
+}
+@media (min-width: 1760px) and (max-width: 1910px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+@media (min-width: 1560px) and (max-width: 1760px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 355px;
+    max-height: 355px;
+  }
+}
+@media (min-width: 1350px) and (max-width: 1560px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+@media (min-width: 1120px) and (max-width: 1350px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 245px;
+    max-height: 245px;
+  }
+}
+@media (min-width: 540px) and (max-width: 1120px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+@media (max-width: 540px) {
+  .section-instagram-collage .card-img,
+  .section-instagram-collage svg,
+  .section-instagram-collage .card-img svg {
+    max-width: 145px;
+    max-height: 145px;
+  }
+}
+.section-instagram-collage .card-img img,
+.section-instagram-collage .card-img svg,
+.section-instagram-collage svg img,
+.section-instagram-collage svg svg,
+.section-instagram-collage .card-img svg img,
+.section-instagram-collage .card-img svg svg {
+  width: 100%;
+  height: 100%;
+  flex: 0 0 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.section-instagram-collage .card-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+  width: 445px;
+  height: 445px;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.section-instagram-collage .card-text::-webkit-scrollbar {
+  width: 1.6rem;
+}
+.section-instagram-collage .card-text::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+.section-instagram-collage .card-text::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-border), 0.3);
+  border: 0.6rem solid rgb(var(--color-background));
+  border-radius: 0.8rem;
+  transition: all var(--duration--default);
+}
+.section-instagram-collage .card-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-border), 0.8);
+}
+.section-instagram-collage .card-text--end {
+  align-content: flex-end;
+  overflow-y: auto;
+}
+.section-instagram-collage .card-text--center {
+  align-content: center;
+}
+.section-instagram-collage .card-text--start {
+  align-content: flex-start;
+}
+@media (min-width: 1760px) and (max-width: 1910px) {
+  .section-instagram-collage .card-text {
+    max-width: 400px;
+    max-height: 400px;
+  }
+}
+@media (min-width: 1560px) and (max-width: 1760px) {
+  .section-instagram-collage .card-text {
+    max-width: 355px;
+    max-height: 355px;
+  }
+}
+@media (min-width: 1350px) and (max-width: 1560px) {
+  .section-instagram-collage .card-text {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+@media (min-width: 1120px) and (max-width: 1350px) {
+  .section-instagram-collage .card-text {
+    max-width: 245px;
+    max-height: 245px;
+  }
+}
+@media (max-width: 1120px) {
+  .section-instagram-collage .card-text {
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+@media (max-width: 540px) {
+  .section-instagram-collage .card-text {
+    max-width: 145px;
+    max-height: 145px;
+  }
+}
+.section-instagram-collage .card-text__description {
+  font-weight: 300;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 100%;
+}
+.section-instagram-collage .card-text__description em {
+  line-height: 0;
+}
+.section-instagram-collage .card-text__description h5 {
+  display: flex;
+}
+.section-instagram-collage .card-text__description::-webkit-scrollbar {
+  width: 1.6rem;
+}
+.section-instagram-collage .card-text__description::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+.section-instagram-collage .card-text__description::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-border), 0.3);
+  border: 0.6rem solid rgb(var(--color-background));
+  border-radius: 0.8rem;
+  transition: all var(--duration--default);
+}
+.section-instagram-collage .card-text__description::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--color-border), 0.8);
+}
+.section-instagram-collage .card-text__description p {
+  margin: 0;
+  padding: 2rem;
+}
+@media (min-width: 990px) {
+  .section-instagram-collage .card-text__description p {
+    padding: 4rem;
+  }
+}
+.section-instagram-collage .card-text__description--left {
+  text-align: left;
+}
+.section-instagram-collage .card-text__description--center {
+  text-align: center;
+}
+.section-instagram-collage .card-text__description--right {
+  text-align: right;
+}
+.section-instagram-collage .card-text__description.h5, .section-instagram-collage .card-text__description.h4 {
+  line-height: 112%;
+}
+@media (max-width: 1560px) {
+  .section-instagram-collage .card-text__description.h5, .section-instagram-collage .card-text__description.h4 {
+    font-size: 25px;
+    line-height: 36px;
+  }
+  .section-instagram-collage .card-text__description.h5 em, .section-instagram-collage .card-text__description.h4 em {
+    font-size: calc(25px * var(--font-heading-italic-interval));
+  }
+}
+@media (max-width: 1350px) {
+  .section-instagram-collage .card-text__description.h5, .section-instagram-collage .card-text__description.h4 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .section-instagram-collage .card-text__description.h5 em, .section-instagram-collage .card-text__description.h4 em {
+    font-size: calc(20px * var(--font-heading-italic-interval));
+  }
+}
+@media (max-width: 540px) {
+  .section-instagram-collage .card-text__description.h5, .section-instagram-collage .card-text__description.h4 {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .section-instagram-collage .card-text__description.h5 em, .section-instagram-collage .card-text__description.h4 em {
+    font-size: calc(12px * var(--font-heading-italic-interval));
+  }
+}
+.section-instagram-collage .card-text__description.h6 {
+  line-height: 140%;
+}
+@media (max-width: 540px) {
+  .section-instagram-collage .card-text__description.h6 {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .section-instagram-collage .card-text__description.h6 em {
+    font-size: calc(10px * var(--font-heading-italic-interval));
+  }
+}
+.section-instagram-collage__background-block {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  grid-area: overflow;
+}
+.section-instagram-collage__background-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+}
+.section-instagram-collage .instagram-collage__overlay {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

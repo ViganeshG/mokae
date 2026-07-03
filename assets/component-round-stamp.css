@@ -1,0 +1,41 @@
+@media screen and (max-width: 749px) {
+  .round-stamp {
+    width: 80px !important;
+    height: 80px !important;
+  }
+}
+.round-stamp {
+  position: relative;
+}
+
+.round-stamp svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  fill: rgb(var(--color-button));
+}
+
+.round-stamp .round-stamp-animate {
+  transform-origin: 50% 50%;
+  animation: textRotate 20s infinite linear;
+}
+
+.round-stamp svg text {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@keyframes textRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

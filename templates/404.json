@@ -1,0 +1,92 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+      }
+    },
+    "ab4c94bb-9439-4eac-a89e-9cf8bd181431": {
+      "type": "product-carousel",
+      "settings": {
+        "heading": "<p>Some heading</p>",
+        "products_count": 4,
+        "link": "Link label",
+        "button_link": "",
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_desc": true,
+        "quickview_show": false,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    },
+    "28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d": {
+      "type": "instagram-collage",
+      "blocks": {
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-0": {
+          "type": "card",
+          "settings": {
+            "card_img": "shopify://shop_images/lola-rose-alK2k8nA_Ek-unsplash.jpg",
+            "button_link": "shopify://products/polo-sweatshirt"
+          }
+        },
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-1": {
+          "type": "card",
+          "settings": {
+            "card_img": "shopify://shop_images/lola-rose-VI0xdB7C1HI-unsplash_1.jpg",
+            "button_link": "shopify://products/capri"
+          }
+        },
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-2": {
+          "type": "card",
+          "settings": {
+            "card_img": "shopify://shop_images/lola-rose-s2Bk_mzrdRE-unsplash.jpg",
+            "button_link": ""
+          }
+        },
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-3": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Women are made to be loved, not understood</p>",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-0",
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-1",
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-2",
+        "template--17224267137337__28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d-1680689203588ac5d9-3"
+      ],
+      "settings": {
+        "color_scheme": "background-3",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "button_text": "link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 160,
+        "margin_top": 100,
+        "margin_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "main",
+    "ab4c94bb-9439-4eac-a89e-9cf8bd181431",
+    "28909f5b-b7b4-47e7-8aa7-eb5abdf21b7d"
+  ]
+}

@@ -1,0 +1,98 @@
+{% comment %}
+		Renders an article card for a given blog with settings to either show the image or not.
+
+		Accepts:
+		- blog: {Object} Blog object
+		- article: {Object} Article object
+		- show_image: {String} The setting either show the article image or not. If it's not included it will show the image by default
+		- show_date: {String} The setting either show the article date or not. If it's not included it will not show the image by default
+		- show_author: {String} The setting either show the article author or not. If it's not included it will not show the author by default
+
+		Usage:
+	{% render 'article-card' blog: blog, article: article, show_image: section.settings.show_image %}
+{% endcomment %}
+
+<article
+	class="article-card-row{% if article.image == blank or show_image == false %} article-card--no-image{% endif %}"
+	aria-labelledby="Article-{{ article.id }}"
+>
+	<div class="article-card-row__content motion-reduce">
+		<div class="article-card-row__info">
+			{%- if show_tags and article.tags != blank -%}
+				<ul class="article-card-row__tags">
+					{% for tag in article.tags %}
+						<li class="article-card-row__tag">
+							<a href="{{ blog.url }}/tagged/{{ tag | handle }}">
+								<span title="{{ tag }}">{{ tag }}</span>
+								{% render 'icon-button-arrow' %}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{%- endif -%}
+			<header class="article-card-row__header">
+				<h2 class="article-card-row__title h4" id="Article-{{ article.id }}">
+					<a href="{{ article.url }}" class="link-hover-arrow">
+						{{ article.title | escape }}
+						{% render 'icon-button-arrow' %}
+					</a>
+				</h2>
+				<div class="article-card-row__meta">
+					{%- if show_date -%}
+						<span class="line-divider">
+							{{- article.published_at | time_tag: '%B %d, %Y' -}}
+						</span>
+					{%- endif -%}
+					{%- if show_author -%}
+						<span class="article-card-row__author line-divider"
+							>by<span>{{- article.author -}}</span></span
+						>
+					{%- endif -%}
+
+					{%- if article.comments_count > 0 and blog.comments_enabled? -%}
+						<span>
+							{{-
+								'blogs.article.comments'
+								| t: count: article.comments_count
+							-}}
+						</span>
+					{%- endif -%}
+				</div>
+			</header>
+			{%- if show_excerpt and article.excerpt_or_content.size > 0 -%}
+				<p class="article-card-row__excerpt">
+					{{ article.excerpt_or_content | strip_html | truncate: 70 }}
+				</p>
+			{%- endif -%}
+		</div>
+		<a
+			class="article-card-row__link"
+			href="{{ article.url }}"
+			aria-label="{{ "accessibility.article_link" | t }}"
+		></a>
+	</div>
+
+	<div class="article-card-row__image-wrapper">
+		{%- if show_image == true and article.image -%}
+			<div class="article-card-row__image media media--landscape">
+				<img
+					srcset="
+						{%- if article.image.src.width >= 165 -%}{{ article.image.src | img_url: '165x' }} 165w,{%- endif -%}
+						{%- if article.image.src.width >= 360 -%}{{ article.image.src | img_url: '360x' }} 360w,{%- endif -%}
+						{%- if article.image.src.width >= 533 -%}{{ article.image.src | img_url: '533x' }} 533w,{%- endif -%}
+						{%- if article.image.src.width >= 720 -%}{{ article.image.src | img_url: '720x' }} 720w,{%- endif -%}
+						{%- if article.image.src.width >= 940 -%}{{ article.image.src | img_url: '940x' }} 940w,{%- endif -%}
+						{%- if article.image.src.width >= 1066 -%}{{ article.image.src | img_url: '1066x' }} 1066w{%- endif -%}
+					"
+					src="{{ article.image.src | img_url: '533x' }}"
+					sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+					alt="{{ article.image.src.alt | escape }}"
+					width="{{ article.image.width }}"
+					height="{{ article.image.height }}"
+					loading="lazy"
+					class="motion-reduce"
+				>
+			</div>
+		{%- endif -%}
+	</div>
+</article>

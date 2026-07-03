@@ -1,0 +1,68 @@
+{{ 'component-search.css' | asset_url | stylesheet_tag }}
+{{ 'template-search.css' | asset_url | stylesheet_tag }}
+
+<div class="template-404">
+	<div class="fullscreen-container">
+		{% if settings.show_breadcrumbs %}
+			<nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+				<a
+					href="{{ routes.root_url }}"
+					title="{{ 'general.breadcrumbs.home' | t }}"
+					class="link-hover-line"
+				>
+					{{ 'general.breadcrumbs.home' | t }}
+				</a>
+				<div class="breadcrumb__delimiter"></div>
+				<span>{{ page_title }}</span>
+			</nav>
+		{% endif %}
+		
+		<div class="page-header">
+			<div class="page-header__inner">
+				<h2
+					class="main-page-title page-title title--page"
+				>
+					{{ 'templates.404.subtext' | t }}. {{ 'templates.404.title' | t }}
+				</h2>
+			</div>
+		</div>
+		<div class="search-wrapper">
+			<form
+				action="{{ routes.search_url }}"
+				method="get"
+				role="search"
+				class="search search__form"
+			>
+				<p class="search__form-text">
+					{{ 'templates.404.text' | t }}
+				</p>
+				<div class="search__form-inner">
+					<div class="field">
+						<input
+							class="search__input field__input"
+							id="Search-In-Modal"
+							type="search"
+							name="q"
+							value="{{ search.terms | escape }}"
+							placeholder="{{ 'general.search.placeholder' | t }}"
+						>
+						<label
+							class="field__label"
+							for="Search-In-Modal"
+							placeholder="{{ 'general.search.placeholder' | t }}"
+						></label>
+						<input type="hidden" name="options[prefix]" value="last">
+					</div>
+					<button
+						class="search__button button button--primary"
+						aria-label="{{ 'general.search.search' | t }}"
+					>
+						<span>
+							{{ 'general.search.search' | t }}
+						</span>
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

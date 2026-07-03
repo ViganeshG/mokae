@@ -1,0 +1,73 @@
+<section class="ga-slideshow-seciton" data-id="shopify-section-{{ section.id }}">
+    <div class="ga-s-wrap">
+		<div class="ga-s-content">
+			<div class="ga-s-content-inner">
+				 <div class="ga-s-logo">
+					<svg width="1801" height="417" viewBox="0 0 1801 417" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<g clip-path="url(#clip0_234_64)">
+						<path d="M0 5.55533H117.317L201.278 122.311L288.577 5.55533H399.779V411.445H283.559V192.383L201.278 303.583L116.22 189.605V411.445H0V5.55533ZM409.256 208.512C409.256 93.4136 499.893 0 616.649 0C733.406 0 824.604 93.4136 824.604 208.512C824.604 323.61 733.966 417.023 616.649 417.023C499.332 417.023 409.256 324.17 409.256 208.512ZM706.166 208.512C706.166 157.347 669.472 114.538 616.649 114.538C563.826 114.538 527.693 157.347 527.693 208.512C527.693 259.677 562.169 302.485 616.649 302.485C671.13 302.485 706.166 259.677 706.166 208.512ZM975.3 257.996L951.397 293.592V411.468H834.641V5.55533H951.397V131.764L1038.7 5.55533H1173.8L1058.7 166.8L1181.57 411.445H1052.02L975.3 257.996ZM1316.14 5.55533H1425.12L1559.13 411.445H1442.93L1427.92 363.081H1312.26L1297.26 411.445H1181.6L1316.14 5.55533ZM1370.64 176.814L1343.96 260.774H1396.23L1370.64 176.814ZM1560.25 5.55533H1801V112.32H1675.89V154.009H1801V260.774H1675.89V305.263H1801V411.468H1560.25V5.55533Z" fill="white"/>
+						</g>
+						<defs>
+						<clipPath id="clip0_234_64">
+						<rect width="1801" height="417" fill="white"/>
+						</clipPath>
+						</defs>
+					</svg>
+				</div> 
+				<div class="ga-s-desc">
+					<p>There’s a universe inside you.</p>
+				</div>
+			</div>
+		</div>
+        <div class="ga-slideshow">
+			{% for block in section.blocks  %} 
+			<div class="ga-slide">
+				<div class="ga-slide-media">
+					{{  block.settings.video.url  }}
+					{% if block.settings.video != blank  %}
+						<video src="{{ block.settings.video }}" playsinline muted autoplay loop></video>
+					{% else %}
+						<img src="{{  block.settings.image | img_url :'1600x'  }}" data-src="{{  block.settings.image | img_url :'10x'  }}" class="lazyload"/>
+					{%  endif  %}
+				</div>
+			</div>
+			{% endfor %}
+	
+		</div>
+    </div>
+</section>
+
+{% schema %}
+{
+	"name": "GA Slideshow",
+	"tag": "section",
+	"class": "ga-slideshow-section",
+	"blocks": [
+			{
+			  "type": "slide",
+			  "name": "Slide",
+			  "limit": 4,
+			  "settings": [
+				{
+					"type":"image_picker",
+					"id":"image",
+					"label":"Image"
+				},
+				{
+					"type":"text",
+					"id":"video",
+					"label":"Video"
+				}
+			  ]
+			},
+	],
+	"settings": [
+		
+	],
+	"presets": [
+		{
+			"name": "GA Slideshow"
+		}
+	]
+}
+{% endschema %}

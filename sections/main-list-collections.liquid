@@ -1,0 +1,200 @@
+<link
+	rel="stylesheet"
+	href="{{ 'main-list-template-collection.css' | asset_url }}"
+	media="print"
+	onload="this.media='all'"
+>
+
+<noscript>
+	{{- 'main-list-template-collection.css' | asset_url | stylesheet_tag -}}
+</noscript>
+
+{% style %}
+	{% render 'spaced-section' %}
+	#shopify-section-{{ section.id }} {
+		--per-row : {{ section.settings.per_row }}
+	}
+{% endstyle %}
+
+{% liquid
+	if section.settings.per_row == 1
+		assign collection_class = 'collection-grid-one'
+	else
+		assign collection_class = ''
+	endif
+%}
+
+<div class="collection-list {{ collection_class }} section-{{ section.id }}-padding">
+	<div class="fullscreen-container">
+		<div class="page-header">
+			<div class="page-header__inner">
+				<h2 class="main-page-title title--page">
+					{{ section.settings.title }}
+				</h2>
+			</div>
+		</div>
+
+		{%- liquid
+			case section.settings.sort
+				when 'products_high', 'products_low'
+					assign collections = collections | sort: 'all_products_count'
+				when 'date', 'date_reversed'
+					assign collections = collections | sort: 'published_at'
+			endcase
+
+			if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alpha_reversed'
+				assign collections = collections | reverse
+			endif
+		-%}
+
+		<ul class="collection-product-list collections-grid" role="list">
+			{%- for collection in collections -%}
+				{% liquid
+					assign condition = forloop.index | modulo: section.settings.per_row
+					if condition == 0
+						assign block_class = 'hide_border'
+					else
+						assign block_class = ''
+					endif
+				%}
+				<li class="collections-grid__card color-background-4 color-border-1 {{ block_class }} {{ collection_class }} {% if section.settings.image_ratio == 'portrait' or section.settings.image_ratio == 'portrait' %} collections-grid__card--portrait {% endif %}">
+					{% render 'collection-card',
+						block_collection: collection,
+						media_size: section.settings.image_ratio,
+						url: collection.url,
+						collection_title: collection.title,
+						collection_image: collection.image,
+						per_row: section.settings.per_row
+					%}
+				</li>
+			{%- endfor -%}
+		</ul>
+
+		{%- if paginate.pages > 1 -%}
+			{% render 'pagination', paginate: paginate %}
+		{%- endif -%}
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.main-list-collections.name",
+	"tag": "section",
+	"class": "section-list-collections",
+	"settings": [
+		{
+			"type": "richtext",
+			"id": "title",
+			"label": "t:sections.all.heading.label",
+			"default": "<p>Our <em>Collections</em></p>"
+		},
+		{
+			"type": "range",
+			"id": "per_row",
+			"min": 1,
+			"max": 6,
+			"step": 1,
+			"default": 3,
+			"label": "t:sections.all.column_per_row.label",
+			"info": "t:sections.all.column_per_row.info"
+		},
+		{
+			"type": "select",
+			"id": "sort",
+			"options": [
+				{
+					"value": "alphabetical",
+					"label": "t:sections.main-list-collections.settings.sort.options__1.label"
+				},
+				{
+					"value": "alpha_reversed",
+					"label": "t:sections.main-list-collections.settings.sort.options__2.label"
+				},
+				{
+					"value": "date_reversed",
+					"label": "t:sections.main-list-collections.settings.sort.options__3.label"
+				},
+				{
+					"value": "date",
+					"label": "t:sections.main-list-collections.settings.sort.options__4.label"
+				},
+				{
+					"value": "products_high",
+					"label": "t:sections.main-list-collections.settings.sort.options__5.label"
+				},
+				{
+					"value": "products_low",
+					"label": "t:sections.main-list-collections.settings.sort.options__6.label"
+				}
+			],
+			"default": "alphabetical",
+			"label": "t:sections.main-list-collections.settings.sort.label"
+		},
+
+		{
+			"type": "select",
+			"id": "image_ratio",
+			"options": [
+				{
+					"value": "landscape",
+					"label": "t:sections.all.image.ratio.options__1.label"
+				},
+				{
+					"value": "portrait",
+					"label": "t:sections.all.image.ratio.options__2.label"
+				},
+				{
+					"value": "square",
+					"label": "t:sections.all.image.ratio.options__3.label"
+				}
+			],
+			"default": "portrait",
+			"label": "t:sections.all.image.ratio.label",
+			"info": "t:sections.main-list-collections.settings.image_ratio.info"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.overlay.header.content"
+		},
+		{
+			"type": "checkbox",
+			"id": "overlay_enable",
+			"default": false,
+			"label": "t:sections.all.overlay.overlay_enable.label"
+		},
+		{
+			"type": "range",
+			"id": "overlay_opacity",
+			"min": 10,
+			"max": 90,
+			"default": 10,
+			"unit": "%",
+			"label": "t:sections.all.overlay.overlay_opacity.label"
+		},
+		{
+			"type": "header",
+			"content": "t:sections.all.section-margin.header.content"
+		},
+		{
+			"type": "range",
+			"id": "margin_top",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_top.label"
+		},
+		{
+			"type": "range",
+			"id": "margin_bottom",
+			"min": 0,
+			"max": 200,
+			"step": 10,
+			"default": 20,
+			"unit": "px",
+			"label": "t:sections.all.section-margin.margin_bottom.label"
+		}
+	]
+}
+{% endschema %}

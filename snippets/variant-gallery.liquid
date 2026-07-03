@@ -1,0 +1,237 @@
+{% for variant in product.variants %}
+  {%- liquid
+    assign media_list = variant.metafields.gax.media.value
+    assign shade_value = ''
+    assign shade_option_index = 0
+
+    for option in product.options_with_values
+      assign name_downcase = option.name | downcase
+      if name_downcase == 'shades'
+        assign shade_option_index = option.position | minus: 1
+        assign shade_value = variant.options[shade_option_index]
+        break
+      endif
+    endfor
+  -%}
+  {% if media_list != blank %}
+    <div
+      class="product-media-gallery-wr js-variant-media-gallery-wr hidden"
+      {% if shade_value != blank %}
+        data-shade="{{ shade_value | escape }}"
+        data-shade-option-index="{{ shade_option_index | escape }}"
+      {% endif %}
+    >
+      <div
+        class="product-media-gallery--thumb swiper js-product-media-gallery--thumb"
+        id="swiper-thumb-{{ variant.id }}"
+      >
+        <div class="swiper-wrapper">
+          {%- for media_item in media_list -%}
+            <div class="swiper-slide pdt-slide">
+              {%- if media_item.media_type == 'video' or media_item.sources != blank -%}
+                {%- if media_item.preview_image != blank -%}
+                  {{ media_item.preview_image | image_url: width: 320 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  <span class="product__media-icon motion-reduce">{% render 'icon-play' %}</span>
+                  <div class="product__media-placeholder" style="aspect-ratio: 1; background: rgba(var(--color-foreground), 0.05);"></div>
+                {%- endif -%}
+              {%- elsif media_item.url != blank -%}
+                {%- assign url_lower = media_item.url | downcase -%}
+                {%- if url_lower contains '.mp4' or url_lower contains '.webm' or url_lower contains '.mov' or media_item.content_type contains 'video' -%}
+                  <span class="product__media-icon motion-reduce">{% render 'icon-play' %}</span>
+                  <div class="product__media-placeholder" style="aspect-ratio: 1; background: rgba(var(--color-foreground), 0.05);"></div>
+                {%- else -%}
+                  {{ media_item | image_url: width: 320 | image_tag: loading: 'lazy' }}
+                {%- endif -%}
+              {%- else -%}
+                {{ media_item | image_url: width: 320 | image_tag: loading: 'lazy' }}
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="product-media-gallery js-product-media-gallery swiper" data-thumb-id="{{ variant.id }}">
+        <div class="swiper-wrapper">
+          {%- for media_item in media_list -%}
+            <div class="swiper-slide pdt-slide">
+              {%- assign is_video = false -%}
+              {%- assign video_url = '' -%}
+              {%- assign poster_image = nil -%}
+              {%- if media_item.media_type == 'video' or media_item.sources != blank -%}
+                {%- assign is_video = true -%}
+                {%- if media_item.sources != blank -%}
+                  {%- assign video_url = media_item.sources[0].url -%}
+                {%- endif -%}
+                {%- if media_item.preview_image != blank -%}
+                  {%- assign poster_image = media_item.preview_image -%}
+                {%- endif -%}
+              {%- elsif media_item.url != blank -%}
+                {%- assign url_lower = media_item.url | downcase -%}
+                {%- if url_lower contains '.mp4' or url_lower contains '.webm' or url_lower contains '.mov' or media_item.content_type contains 'video' -%}
+                  {%- assign is_video = true -%}
+                  {%- assign video_url = media_item.url -%}
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if is_video and video_url != blank -%}
+                <div class="product__media product__media--video">
+                  <video
+                    class="variant-gallery-video"
+                    controls
+                    playsinline
+                    preload="auto"
+                    {% if poster_image != blank %}poster="{{ poster_image | image_url: width: 2048 }}"{% endif %}
+                  >
+                    {%- if media_item.sources != blank -%}
+                      {%- comment -%} Output MP4 sources first for better quality in most browsers {%- endcomment -%}
+                      {%- for source in media_item.sources -%}
+                        {%- assign src_format = source.format | default: '' | downcase -%}
+                        {%- assign src_mime = source.mime_type | default: '' | downcase -%}
+                        {%- if src_format == 'mp4' or src_mime contains 'mp4' -%}
+                          <source src="{{ source.url }}" type="{{ source.mime_type | default: 'video/mp4' }}">
+                        {%- endif -%}
+                      {%- endfor -%}
+                      {%- for source in media_item.sources -%}
+                        {%- assign src_format = source.format | default: '' | downcase -%}
+                        {%- assign src_mime = source.mime_type | default: '' | downcase -%}
+                        {%- unless src_format == 'mp4' or src_mime contains 'mp4' -%}
+                          <source src="{{ source.url }}" type="{{ source.mime_type | default: 'video/mp4' }}">
+                        {%- endunless -%}
+                      {%- endfor -%}
+                    {%- else -%}
+                      <source src="{{ video_url }}" type="video/mp4">
+                    {%- endif -%}
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              {%- else -%}
+                <modal-opener
+                  class="product__modal-opener product__modal-opener--image no-js-hidden"
+                  data-modal="#ProductModal-{{ variant.id }}"
+                >
+                  <span class="product__media-icon motion-reduce" aria-hidden="true">
+                    {%- render 'icon-resize' -%}
+                  </span>
+                  <div class="product__media">
+                    {{ media_item | image_url: width: 1946 | image_tag: loading: 'lazy' }}
+                  </div>
+                  <button
+                    class="product__media-toggle"
+                    type="button"
+                    aria-haspopup="dialog"
+                    data-media-id="{{ media_item.id }}"
+                  >
+                    <span class="visually-hidden"> Open media in gallery view </span>
+                  </button>
+                </modal-opener>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="swiper-button-next ga-no-select">
+          {{ 'chevron-right.svg' | inline_asset_content }}
+        </div>
+        <div class="swiper-button-prev ga-no-select">
+          {{ 'chevron-left.svg' | inline_asset_content }}
+        </div>
+      </div>
+    </div>
+    <product-modal style="min-width: 0;" id="ProductModal-{{ variant.id }}" class="product-media-modal">
+      <div
+        class="product-media-modal__dialog"
+        role="dialog"
+        aria-label="{{ 'products.modal.label' | t }}"
+        aria-modal="true"
+        tabindex="-1"
+      >
+        <button
+          id="ModalClose-{{ variant.id }}"
+          type="button"
+          class="product-media-modal__toggle modal-close-button"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          {% render 'icon-close' %}
+        </button>
+        <div
+          class="product-media-modal__content product-media-modal__content--"
+          role="document"
+          aria-label="{{ 'products.modal.label' | t }}"
+          tabindex="0"
+        >
+          <div class="swiper swiper-container" id="product-page-swiper">
+            <div class="swiper-wrapper">
+              {% for media_item in media_list %}
+                {%- assign is_video_modal = false -%}
+                {%- assign video_url_modal = '' -%}
+                {%- assign poster_modal = nil -%}
+                {%- if media_item.media_type == 'video' or media_item.sources != blank -%}
+                  {%- assign is_video_modal = true -%}
+                  {%- if media_item.sources != blank -%}
+                    {%- assign video_url_modal = media_item.sources[0].url -%}
+                  {%- endif -%}
+                  {%- if media_item.preview_image != blank -%}
+                    {%- assign poster_modal = media_item.preview_image -%}
+                  {%- endif -%}
+                {%- elsif media_item.url != blank -%}
+                  {%- assign url_lower_m = media_item.url | downcase -%}
+                  {%- if url_lower_m contains '.mp4' or url_lower_m contains '.webm' or url_lower_m contains '.mov' or media_item.content_type contains 'video' -%}
+                    {%- assign is_video_modal = true -%}
+                    {%- assign video_url_modal = media_item.url -%}
+                  {%- endif -%}
+                {%- endif -%}
+                <div class="swiper-slide" data-media-id="{{ media_item.id }}">
+                  <div class="swiper-zoom-container">
+                    {%- if is_video_modal and video_url_modal != blank -%}
+                      <video
+                        class="variant-gallery-video variant-gallery-video--modal"
+                        controls
+                        playsinline
+                        preload="auto"
+                        {% if poster_modal != blank %}poster="{{ poster_modal | image_url: width: 4096 }}"{% endif %}
+                      >
+                        {%- if media_item.sources != blank -%}
+                          {%- for source in media_item.sources -%}
+                            {%- assign src_f = source.format | default: '' | downcase -%}
+                            {%- assign src_m = source.mime_type | default: '' | downcase -%}
+                            {%- if src_f == 'mp4' or src_m contains 'mp4' -%}
+                              <source src="{{ source.url }}" type="{{ source.mime_type | default: 'video/mp4' }}">
+                            {%- endif -%}
+                          {%- endfor -%}
+                          {%- for source in media_item.sources -%}
+                            {%- assign src_f = source.format | default: '' | downcase -%}
+                            {%- assign src_m = source.mime_type | default: '' | downcase -%}
+                            {%- unless src_f == 'mp4' or src_m contains 'mp4' -%}
+                              <source src="{{ source.url }}" type="{{ source.mime_type | default: 'video/mp4' }}">
+                            {%- endunless -%}
+                          {%- endfor -%}
+                        {%- else -%}
+                          <source src="{{ video_url_modal }}" type="video/mp4">
+                        {%- endif -%}
+                        Your browser does not support the video tag.
+                      </video>
+                    {%- else -%}
+                      {{
+                        media_item
+                        | image_url: width: 4096
+                        | image_tag:
+                          loading: 'lazy',
+                          sizes: '100vw',
+                          widths: '550, 750, 1100, 1445, 1680, 2048, 2890, 4096',
+                          class: 'motion-reduce',
+                          width: media_item.width,
+                          height: media_item.height
+                      }}
+                    {%- endif -%}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="swiper-button-next swiper-button-next-prod-page">{% render 'icon-caret-right' %}</div>
+        <div class="swiper-button-prev swiper-button-prev-prod-page">{% render 'icon-caret-left' %}</div>
+        <div class="swiper-pagination swiper-pagination-product-page swipe-pagi-style"></div>
+      </div>
+    </product-modal>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,147 @@
+
+<div class="events-banner-wr">
+  <div class="eb-inner">
+    <div class="eb-content">
+      <div class="eb-title">{{ collection.title }}</div>
+      <div class="eb-description">{{ collection.description }}</div>
+    </div>
+  </div>
+</div>
+
+{% if collection.products != empty %}
+  <div class="upcoming-events-wr ga-section-container">
+    <div class="ue-title">events</div>
+    <ul class="ue-list">
+      {% for product in collection.products %}
+        {% unless product.tags contains 'test-event' %}
+        {%- liquid
+          assign host = product.metafields.gax.event_host
+          assign weekly_event = product.metafields.gax.weekly_event | strip | downcase
+          assign event_date = product.metafields.gax.event_date
+          assign excerpt = product.metafields.gax.excerpt | metafield_tag
+          assign join_event_label = product.metafields.gax.join_event_label | default: 'book now'
+          assign pdt_price = product.price | money
+          assign event_details = product.metafields.gax.event_details | replace_first: '$price', pdt_price | newline_to_br
+          assign tbc_event = false
+
+          if event_date == blank and weekly_event == blank
+            assign tbc_event = true
+          endif
+        -%}
+        {% capture pdt_content %}
+          <li class="ue-item">
+            <div class="ue-image-wr">
+              <a href="{{ product.url }}">
+                {{ product.featured_image |  image_url: width: 1000  |  image_tag: class: 'ue-image', loading: 'lazy'}}
+              </a>
+            </div>
+      
+            <div class="ue-item-title">
+              <a href="{{ product.url }}">
+                <span>{{ product.title }}</span> <br>
+                <span class="ue-item-host">{{ host }}</span>
+              </a>
+            </div>
+            <div class="ue-item-action">
+                <a href="{{ product.url }}" class="ue-item-button">{{ join_event_label }}</a>
+                {% comment %} <a 
+                  href="{{routes.cart_url}}/{{ product.selected_or_first_available_variant.id }}:1" 
+                  class="ue-item-button"
+                >
+                  {{ join_event_label }}
+                </a> {% endcomment %}
+            </div>
+            {% unless tbc_event %}
+              <div class="ue-item-info">
+                {% if weekly_event != blank %}
+                 every {{ weekly_event }} <br/>
+                {% elsif event_date %}
+                  {{ event_date | date: '%a, %d %b' }} <br>
+                {% endif %}
+                {{ event_details }}
+              </div>
+            {% endunless %}
+            {% comment %} <div class="ue-item-desc">
+              <p> 
+                {{ excerpt |  truncatewords: 25 }}
+              </p>
+              <a class="ue-item-readmore-link" href="{{ product.url }}">read more</a>
+            </div> {% endcomment %}
+          </li>
+        {% endcapture %}
+        {% assign assign event_date = product.metafields.gax.event_date %}
+        {% if event_date != blank %}
+          {%- liquid
+            assign input_date = event_date | date: '%s'
+            assign current_date = 'now' | date: '%s'
+          -%}
+          {% if input_date < current_date %}
+            <li class="ue-item past-event">
+              <div class="ue-image-wr">
+                {{ product.featured_image | image_url: width: 1000 | image_tag: class: 'ue-image', loading: 'lazy' }}
+              </div>
+
+              <div class="ue-item-title">
+                <span>{{ product.title }}</span> <br>
+                <span class="ue-item-host">{{ host }}</span>
+              </div>
+              <div class="ue-item-action">
+                {% comment %} <a href="{{ product.url }}" class="ue-item-button">view event</a> {% endcomment %}
+              </div>
+              <div class="ue-item-info">
+                {% comment %}
+                  {{ event_date | date: '%a, %d %b' -}}
+                  <br>
+                  {{ event_details }}
+                {% endcomment %}
+              </div>
+              <div class="ue-item-desc">
+                <p>
+                  {{ excerpt }}
+                </p>
+              </div>
+            </li>
+          {% else %}
+            {{ pdt_content }}
+          {% endif %}
+        {% else %}
+          {{ pdt_content }}
+        {% endif %}
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+{% comment %}
+  <div class="how-get-wr ga-section-container">
+    <div class="hg-content">
+      <div class="hg-content-left">
+        <div class="hg-title">how to get there</div>
+        <div class="hg-info">
+          <p>
+            Our Address: <br>
+            <br>
+            306, Kamla Spaces, Swami Vivekananda Rd, above Kohinoor Electronics, near Khira Nagar, Hasmukh Nagar,
+            Santacruz (West), Mumbai, Maharashtra 400054 <br>
+            <br>
+            Contact: <br>
+            <br>
+            <a href="tel:+918433919066">+91 8433919066</a>
+          </p>
+        </div>
+      </div>
+      <div class="hg-content-right">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d477.8891957266676!2d72.83748686991487!3d19.0865362812793!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9416f82eaff%3A0xdf7e864b60bc064!2sMokae%20Lab!5e0!3m2!1sen!2sin!4v1751985447904!5m2!1sen!2sin"
+          width="600"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+{% endcomment %}

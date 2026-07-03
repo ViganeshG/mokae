@@ -1,0 +1,221 @@
+<div class="ga-image-slider fullscreen-container" id="ga-image-slider-{{ section.id }}">
+  <div class="ga-image-slider-content swiper">
+    <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        <div class="ga-image-slide swiper-slide">
+          <div class="ga-image-slide-wr">
+            <a href="{{ block.settings.button_url }}" class="ga-image-slide-image-wr">
+              <img
+                src="{{ block.settings.image |  image_url: width: 1000 }}"
+                alt=""
+                class="ga-image-slide-image"
+                loading="lazy"
+              >
+              <div class="ga-image-slide-caption">{{ block.settings.caption }}</div>
+            </a>
+            <div class="ga-image-slide-footer">
+              <a href="{{ block.settings.button_url }}" class="ga-image-slide-button">
+                {{- block.settings.button_label -}}
+              </a>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="swiper-button-prev">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      </svg>
+    </div>
+    <div class="swiper-button-next">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-6"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+      </svg>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ga-image-slider {
+    padding-block: 1vw;
+  }
+  .ga-image-slider .ga-image-slide {
+    position: relative;
+  }
+  .ga-image-slider .ga-image-slide-image-wr {
+    text-decoration: none;
+  }
+  .ga-image-slider .ga-image-slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .ga-image-slider .ga-image-slide-caption {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 21px;
+  }
+  .ga-image-slider .ga-image-slide-footer {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  .ga-image-slider .ga-image-slide-button {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    font-family: ss !important;
+    font-style: var(--font-button-style);
+    letter-spacing: 0.1em;
+    padding: 0.5vw 1vw !important;
+    text-decoration: none;
+  }
+  .ga-image-slider .ga-image-slide-image {
+    min-height: 476px;
+  }
+
+  @media (max-width: 639px) {
+    .ga-image-slider .swiper-button-next,
+    .ga-image-slider .swiper-button-prev {
+      position: absolute;
+      top: 0;
+    }
+    .ga-image-slider .swiper-button-next {
+      right: 0;
+    }
+    .ga-image-slider .swiper-button-prev {
+      left: auto;
+      right: 36px;
+    }
+    .ga-image-slider .swiper-wrapper {
+      padding-top: 42px;
+    }
+    .ga-image-slider .swiper-button-next svg,
+    .ga-image-slider .swiper-button-prev svg {
+      width: 24px;
+    }
+
+    .ga-image-slider .ga-image-slide-button {
+      background: #000 !important;
+      color: #fff !important;
+      border: 1px solid #000 !important;
+    }
+
+    .ga-image-slide-button .ga-image-slide-button {
+      padding: 6px 16px !important;
+    }
+  }
+
+  /* Highest specificity + !important — wins over ga.css / custom.css load order on mobile & desktop */
+  body.template-index #MainContent .ga-image-slider .ga-image-slide-footer a.ga-image-slide-button,
+  body.template-index .ga-image-slider .ga-image-slide-footer a.ga-image-slide-button {
+    background-color: #000 !important;
+    background: #000 !important;
+    color: #fff !important;
+    border: 1px solid #000 !important;
+    border-color: #000 !important;
+    -webkit-text-fill-color: #fff !important;
+  }
+
+  @media (max-width: 900px) {
+    body.template-index #MainContent .ga-image-slider .ga-image-slide-footer a.ga-image-slide-button,
+    body.template-index .ga-image-slider .ga-image-slide-footer a.ga-image-slide-button {
+      background-color: #000 !important;
+      background: #000 !important;
+      color: #fff !important;
+      border: 1px solid #000 !important;
+      border-color: #000 !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const swiper = new Swiper('#ga-image-slider-{{ section.id }} .swiper', {
+      slidesPerView: 1.1,
+      spaceBetween: 6,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 2,
+          spaceBetween: 8,
+          navigation: { enabled: false },
+        },
+        999: {
+          slidesPerView: 4,
+          spaceBetween: 12,
+          navigation: { enabled: false },
+        },
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Image slider",
+  "tag": "section",
+  "class": "ga-image-slider-section",
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "id": "image",
+          "type": "image_picker",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Slider"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,38 @@
+.ticker {
+  position: relative;
+  overflow: hidden;
+}
+.ticker .swiper-wrapper {
+  width: auto !important;
+  transition-timing-function: linear !important;
+}
+.ticker .swiper-slide {
+  width: auto !important;
+  flex-shrink: 1;
+  display: inline-flex;
+}
+.ticker__title {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  padding-left: 2.4rem;
+}
+.ticker .title--section {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.ticker .title--section::after {
+  content: "";
+  margin-left: 2.4rem;
+  display: inline-block;
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: 50%;
+  max-width: 8px;
+  max-height: 8px;
+  background: rgb(var(--color-foreground-title));
+}

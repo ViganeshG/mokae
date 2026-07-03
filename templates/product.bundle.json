@@ -1,0 +1,74 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "custom_liquid_94Dqbz": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% case product.id %}\n{% when 9455319056625 %}\n<mbc-bundles-widget data-bundle-id=\"118054\"></mbc-bundles-widget>\n{% else %}\n{% endcase %}"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          }
+        }
+      },
+      "block_order": [
+        "price",
+        "custom_liquid_94Dqbz",
+        "buy_buttons"
+      ],
+      "settings": {
+        "image_gallery_collage": "thumbnail_carousel",
+        "desktop_alignment": "right",
+        "mobile_alignment": "after",
+        "image_fit": "cover",
+        "show_share_facebook": false,
+        "show_share_twitter": false,
+        "show_share_pinterest": false,
+        "show_share_copy": false
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "disabled": true,
+      "settings": {
+        "heading": "<p>You May Also Like</p>",
+        "link": "Explore",
+        "button_link": "",
+        "products_limit": 4,
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_desc": false,
+        "show_sku": false,
+        "quickview_show": false,
+        "show_link": true,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-recommendations"
+  ]
+}

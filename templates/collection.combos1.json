@@ -1,0 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "header_color_scheme": "light",
+        "add_word": "Collection",
+        "show_word": false,
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "overlay_enable": true,
+        "overlay_opacity": 30
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "custom_css": [
+        ".collection-product-list{column-gap: 5px; row-gap: 5px;}"
+      ],
+      "settings": {
+        "products_per_page": 12,
+        "columns_mobile": "1",
+        "image_ratio": "portrait",
+        "image_fit": "cover",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_desc": false,
+        "show_sku": false,
+        "quickview_show": false,
+        "enable_filtering": false,
+        "enable_sorting": true,
+        "image_filter_ratio": "4/5",
+        "image_filter_fit": "cover",
+        "image_filter_columns": 3
+      }
+    },
+    "a91f1c94-4f13-416c-9819-38a04cea844e": {
+      "type": "instagram-collage",
+      "blocks": {
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-0": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-1": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-2": {
+          "type": "card",
+          "settings": {
+            "button_link": ""
+          }
+        },
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-3": {
+          "type": "card-text",
+          "settings": {
+            "card-text_description": "<p>Some additional information</p>",
+            "heading_size": "medium",
+            "vertical_settings": "end",
+            "horizontal_settings": "left",
+            "color_scheme_2": "background-5"
+          }
+        }
+      },
+      "block_order": [
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-0",
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-1",
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-2",
+        "template--18341209932063__a91f1c94-4f13-416c-9819-38a04cea844e-1683101997a3342a69-3"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme": "background-3",
+        "title": "<p>Heading</p>",
+        "text": "Your text",
+        "overlay_enable": false,
+        "overlay_opacity": 10,
+        "button_text": "link label",
+        "button_link": "",
+        "padding_top": 130,
+        "padding_bottom": 160,
+        "margin_top": 140,
+        "margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "product-grid",
+    "a91f1c94-4f13-416c-9819-38a04cea844e"
+  ]
+}

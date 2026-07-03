@@ -1,0 +1,22 @@
+<a
+	href="{{ link.url }}"
+	{% if link.type == 'http_link' and settings.open_new_tab %}
+		target="_blank" 
+	{% endif %}
+	class="header__menu-item list-menu__item list-menu__item-first link"
+	{% if link.current %}
+		aria-current="page"
+	{% endif %}
+	aria-label="{{ link.title | escape }}"
+>
+	<span
+		{%- if link.active %}
+			class="header__active-menu-item"
+		{% endif %}
+		title="{{ link.title | escape }}"
+	>
+		<span>
+			{{ link.title | escape }}
+		</span>
+	</span>
+</a>
